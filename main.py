@@ -1,0 +1,4 @@
+import Kinematics as k
+
+if __name__ == "__main__":
+    print('main')
