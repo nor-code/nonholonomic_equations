@@ -1,5 +1,8 @@
 from sympy import Symbol, Matrix
 
+# ускорение свободного падения
+g = Symbol('g')
+
 # радиус сферической оболочки
 R = Symbol('R')
 

@@ -87,12 +87,12 @@ def build_row(link):
     return row
 
 def build_matrix():
-    B = Matrix([range(size_generic_vars)])
+    B = Matrix([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]])
 
     for link in nonholonomic_links:
         row = build_row(link)
         print(row)
-        B.row_insert(nonholonomic_links.index(link, 0, size_nonholonomic_links) + 1, row)
+        B = B.row_insert(nonholonomic_links.index(link, 0, size_nonholonomic_links) + 1, row)
 
     B.row_del(0)
     return B
