@@ -1,6 +1,6 @@
 from sympy import diff, expand, sin, cos, trigsimp, collect
-from generic_coordinates import *
-from constants import *
+from definitions.generic_coordinates import *
+from definitions.constants import *
 
 # список обобщённых координат
 generic_vars = [x, y, x1, x2, x3, x4, x5, x6, x7, x8]

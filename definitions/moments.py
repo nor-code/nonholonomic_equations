@@ -1,5 +1,5 @@
 from sympy import Function, Symbol
-from generic_coordinates import t
+from definitions.generic_coordinates import t
 
 M_ψ = Symbol('M_ψ')
 M_ψ = Function('M_ψ')(t)

@@ -1,6 +1,6 @@
 from Kinematics import *
-from moments import *
-from lagrangian_multipliers import *
+from definitions.moments import *
+from definitions.lagrangian_multipliers import *
 
 # кинетическая энергия сферической оболочки
 T_s = 1/2 * M * V_O.T * V_O + 1/2 * (J_s * Matrix([[p_s], [q_s], [r_s]])).T * Matrix([[p_s], [q_s], [r_s]])
