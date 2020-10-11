@@ -1,45 +1,6 @@
-from sympy import *
-
-# время
-t = Symbol('t')
-
-# радиус сферической оболочки
-R = Symbol('R')
-
-# радиус колесика
-r = Symbol('r')
-
-# координаты центра сферической оболочки
-x, y = symbols('x y')
-x = Function('x')(t)
-y = Function('y')(t)
-
-# углы Крылова для платформы
-x1 = Symbol('α')
-x1 = Function('α')(t)
-
-x2 = Symbol('β')
-x2 = Function('β')(t)
-
-x3 = Symbol('γ')
-x3 = Function('γ')(t)
-
-# углы поворота колеса относительно с.к. связанной с платформой
-x4 = Symbol('φ')
-x4 = Function('φ')(t)
-
-x5 = Symbol('ψ')
-x5 = Function('ψ')(t)
-
-# углы Крылова для сферической оболочки
-x6 = Symbol('δ')
-x6 = Function('δ')(t)
-
-x7 = Symbol('ε')
-x7 = Function('ε')(t)
-
-x8 = Symbol('τ')
-x8 = Function('τ')(t)
+from sympy import diff, expand, sin, cos, trigsimp, collect
+from generic_coordinates import *
+from constants import *
 
 # список обобщённых координат
 generic_vars = [x, y, x1, x2, x3, x4, x5, x6, x7, x8]
@@ -51,9 +12,9 @@ q_p = diff(x1, t) * sin(x2) + diff(x3, t)
 r_p = diff(x2, t) * sin(x3) + diff(x1, t) * cos(x3) * sin(x2)
 
 # абсолютные угловые скорости колеса в проекциях на подвижные оси связанные с платформой
-p_k = p_p + diff(x4, t) * cos(x5)
-q_k = q_p + diff(x4, t) * sin(x5)
-r_k = r_p + diff(x5, t)
+p_w = p_p + diff(x4, t) * cos(x5)
+q_w = q_p + diff(x4, t) * sin(x5)
+r_w = r_p + diff(x5, t)
 
 # абсолютные угловые скорости сферы в проекции на подвижные оси
 p_s = diff(x7, t) * cos(x8) - diff(x6, t) * sin(x8) * cos(x7)
@@ -88,6 +49,15 @@ R_s = P_x_X * Matrix([[0], [0], [-R]])
 V_T_s = Matrix([[Omega_S[1] * R_s[2] - Omega_S[2] * R_s[1]],
                 [- (Omega_S[0] * R_s[2] - Omega_S[2] * R_s[0])],
                 [Omega_S[0] * R_s[1] - Omega_S[1] * R_s[0]]])
+
+# скорость т.O (абсолютная угловая скорость цетра сферической оболочки) в проекции на с.к. CXYZ
+V_O = diff(x, t) * Matrix([[1], [0], [0]]) + diff(y, t) * Matrix([[0], [1], [0]])
+
+# скорость центра масс платформы в проекции на неподвижные оси, т.е. в с.к. СXYZ
+V_C = V_O + P_x_X * Matrix([[q_p], [p_p], [r_p]]).cross(R_cm_p)
+
+# скорость центра масс колеса, т.е. скорость т. B в проекции на неподвижные оси, т.е. в с.к. СXYZ
+V_B = V_O + P_x_X * Matrix([[p_w], [q_w], [r_w]]).cross(Matrix([[0], [0], [-(R-r)]]))
 
 # условия равенства скоростей V_T_w = V_T_s
 # колесо движется без проскальзывания по сферической оболочке
