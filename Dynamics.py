@@ -2,6 +2,9 @@ from Kinematics import *
 from definitions.moments import *
 from definitions.lagrangian_multipliers import *
 
+# вторые производные обобщённых координат
+second_diff_generic_coord = [diff(diff(var, t), t) for var in generic_vars]
+
 # кинетическая энергия сферической оболочки
 T_s = 1/2 * M * V_O.T * V_O + 1/2 * (J_s * Matrix([[p_s], [q_s], [r_s]])).T * Matrix([[p_s], [q_s], [r_s]])
 
@@ -23,7 +26,6 @@ U_p = M_p * g * P_x_X * Matrix([[C_mx], [C_my], [C_mz]])
 # обобщённые силы
 Q_x = 0
 Q_y = 0
-Q_α = diff(U_w, x) + diff(U_p, x)
 Q_α = diff(U_w, x1) + diff(U_p, x1)
 Q_β = diff(U_w, x2) + diff(U_p, x2)
 Q_γ = diff(U_w, x3) + diff(U_p, x3)
@@ -47,3 +49,33 @@ Eq7 = diff(diff(T, x5), diff(x5, t))[0] - diff(T, x5)[0] - Q_ψ - (B.row(6) * λ
 Eq8 = diff(diff(T, x6), diff(x6, t))[0] - diff(T, x6)[0] - Q_δ[0] - (B.row(7) * λ)[0]
 Eq9 = diff(diff(T, x7), diff(x7, t))[0] - diff(T, x7)[0] - Q_ε[0] - (B.row(8) * λ)[0]
 Eq10 = diff(diff(T, x8), diff(x8, t))[0] - diff(T, x8)[0] - Q_τ[0] - (B.row(9) * λ)[0]
+
+equations = [Eq1, Eq2, Eq3, Eq4, Eq5, Eq6, Eq7, Eq8, Eq9, Eq10]
+
+def get_row_coef_before_second_diff(equation):
+    row = Matrix([range(size_generic_vars)])
+    for second_diff in second_diff_generic_coord:
+        coeff = trigsimp(
+            collect(
+                expand(equation), second_diff
+            ).coeff(second_diff)
+        )
+        position = second_diff_generic_coord.index(second_diff, 0, len(second_diff_generic_coord))
+
+        print(str(second_diff) + ": " + str(coeff))
+        row[position] = coeff
+    return row
+
+def build_Matrix(equations):
+    A = Matrix([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]])
+
+    i = 0
+    for equation in equations:
+        i = i + 1
+        print("equation #" + str(i))
+        row = get_row_coef_before_second_diff(equation)
+        A = A.row_insert(equations.index(equation, 0, len(equations)) + 1, row)
+        print("--------------------")
+    A.row_del(0)
+    return A
+
