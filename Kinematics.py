@@ -1,9 +1,7 @@
-from sympy import diff, expand, sin, cos, trigsimp, collect
+from sympy import expand, sin, cos, trigsimp, collect
 from definitions.generic_coordinates import *
 from definitions.constants import *
 
-# список обобщённых координат
-generic_vars = [x, y, x1, x2, x3, x4, x5, x6, x7, x8]
 size_generic_vars = len(generic_vars)
 
 # абсолютные угловые скорости платформы в проекциях на подвижные оси
@@ -57,7 +55,7 @@ V_O = diff(x, t) * Matrix([[1], [0], [0]]) + diff(y, t) * Matrix([[0], [1], [0]]
 V_C = V_O + P_x_X * Matrix([[q_p], [p_p], [r_p]]).cross(R_cm_p)
 
 # скорость центра масс колеса, т.е. скорость т. B в проекции на неподвижные оси, т.е. в с.к. СXYZ
-V_B = V_O + P_x_X * Matrix([[p_w], [q_w], [r_w]]).cross(Matrix([[0], [0], [-(R-r)]]))
+V_B = V_O + P_x_X * Matrix([[p_w], [q_w], [r_w]]).cross(R_cm_w)
 
 # условия равенства скоростей V_T_w = V_T_s
 # колесо движется без проскальзывания по сферической оболочке
