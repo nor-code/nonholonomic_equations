@@ -4,7 +4,7 @@ from sympy import Symbol, Matrix
 g = Symbol('g')
 
 # радиус сферической оболочки
-R = Symbol('R')
+R = Symbol('R') # 16.2 cm diametr
 
 # радиус колесика
 r = Symbol('r')
@@ -13,10 +13,10 @@ r = Symbol('r')
 l: Symbol = Symbol('l')
 
 # масса сферической оболочки
-M = Symbol('M')
+M = Symbol('M') # 137.5 g ()
 
 # масса платформы с установленными на ней приборами
-M_p = Symbol('M_p')
+M_p = Symbol('M_p') # 656 g
 
 # масса колеса
 m = Symbol('m')
