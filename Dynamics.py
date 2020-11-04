@@ -84,5 +84,3 @@ def get_row_coeff_diff_mixed_coef(equation):
             ).coeff(mixed_diff)
         )
         print(str(mixed_diff) + ": " + str(coeff))
-
-get_row_coeff_diff_mixed_coef(Eq10)

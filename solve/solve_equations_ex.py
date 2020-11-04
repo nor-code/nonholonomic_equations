@@ -15,19 +15,18 @@ x2 = Function('x2')(q)
 l1 = Function('l1')(q)
 l2 = Function('l2')(q)
 
-print(k)
-
 x_ = lambdify(q, x)
 x1_ = lambdify(q, x1)
 y_ = lambdify(q, y)
 x2_ = lambdify(q, x2)
 l1_ = lambdify(q, l1)
 l2_ = lambdify(q, l2)
+dx2 = lambdify(q, diff(x2, q))
 
 def system_eq(y1, t, x, x1, y, x2, l1, l2):
     (x, x1, y, x2, l1, l2) = y1
     dy1dx = [x1,
-             5 * x1 * x2 - 2 * l1 - 9 * l2,
+             5 * x1 * x2 + dx2 + 2 * l1 - 9 * l2,
              x2,
              7 * x1 * x2 - 4 * l1 + 8 * l2,
              -2 * x1 - 4 * x2,
