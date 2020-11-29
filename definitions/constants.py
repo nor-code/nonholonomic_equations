@@ -4,22 +4,22 @@ from sympy import Symbol, Matrix
 g = Symbol('g')
 
 # радиус сферической оболочки
-R = Symbol('R') # 16.2 cm diametr
+R = 0.081 #Symbol('R') # 16.2 cm diametr
 
 # радиус колесика
-r = Symbol('r')
+r = 0.02 #Symbol('r')
 
 # расстояние от т.O до т.B
 l: Symbol = Symbol('l')
 
 # масса сферической оболочки
-M = Symbol('M') # 137.5 g ()
+M = 0.137 #Symbol('M') # 137.5 g ()
 
 # масса платформы с установленными на ней приборами
-M_p = Symbol('M_p') # 656 g
+M_p = 0.65 #Symbol('M_p') # 656 g
 
 # масса колеса
-m = Symbol('m')
+m = 0.05 #Symbol('m')
 
 # координаты ц.м. платформы по оси O_x1 , O_x2 и O_x3
 C_Mx = Symbol('C_Mx')
@@ -32,24 +32,24 @@ C_my = Symbol('C_my')
 C_mz = Symbol('C_mz')
 
 # радиус-вектор центра масс платформы в с.к. C_x1_x2_x3
-R_cm_p = Matrix([[C_Mx],
-                 [C_My],
-                 [C_Mz]])
+R_cm_p = Matrix([[0],
+                 [0],
+                 [-0.03]])
 
 # радиус-вектор центра масс колеса в с.к. C_x1_x2_x3
-R_cm_w = Matrix([[C_mx],
-                 [C_my],
-                 [C_mz]])
+R_cm_w = Matrix([[0],
+                 [0],
+                 [-0.04]])
 
 # моменты инерции платформы относитльно главных осей инерции
-J_px = Symbol('J_px')
-J_py = Symbol('J_py')
-J_pz = Symbol('J_pz')
+J_px = (M_p * 0.05**2)/4 + M_p * 0.03**2  #Symbol('J_px')
+J_py = (M_p * 0.05**2)/4 + M_p * 0.03**2  #Symbol('J_py')
+J_pz = (M_p * 0.05**2)/2 #Symbol('J_pz')
 
 # моменты инерции колеса относитльно главных осей инерции
-J_wx = Symbol('J_wx')
-J_wy = Symbol('J_wy')
-J_wz = Symbol('J_wz')
+J_wx = (m * r**2)/4 + m*r**2 #Symbol('J_wx')
+J_wy = (m * r**2)/4 + m*r**2 #Symbol('J_wy')
+J_wz = (m * r**2)/2   #Symbol('J_wz')
 
 # тензор инерции для сферической оболочки
 J_s = Matrix([[2/3 * M * R**2,   0,              0],
