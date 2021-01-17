@@ -139,3 +139,6 @@ print('nds', '=', 'NDSolve[{eq1 == 0, eq2 == 0, eq3 == 0, eq4 == 0, eq5 == 0,',
           ' {t, 0, 5}]')
 
 print('Plot[{x[t], x\'[t]} /. nds, {t, 0, 5}, PlotStyle -> {Thickness[0.001], RGBColor[0, 0, 0]}]')
+print('ParametricPlot[Evaluate[{x[t], y[t]} /. nds], {t, 0, 5}, PlotRange -> All]')
+print('Plot[Evaluate[{x[t]} /. nds], {t, 0, 5}, PlotRange -> All]')
+print('Plot[Evaluate[{y[t]} /. nds], {t, 0, 5}, PlotRange -> All]')
