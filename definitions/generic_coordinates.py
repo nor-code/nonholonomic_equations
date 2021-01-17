@@ -27,6 +27,8 @@ x8 = Function('τ')(t)
 generic_vars = [x, y, x1, x2, x3, x4, x5, x6, x7, x8]
 
 first_diff_generic_vars = [diff(var, t) for var in generic_vars]
+
+
 # попарные произведения первых производных координат
 def build_mixed_diff():
     i = 0
@@ -39,6 +41,7 @@ def build_mixed_diff():
         list.insert(i, var)
         i = i + 1
     return list
+
 
 mixed_diff_of_generic_coordinates = build_mixed_diff()
 
