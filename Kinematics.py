@@ -1,6 +1,13 @@
-from sympy import expand, sin, cos, trigsimp, collect
+from sympy import expand, sin, cos, trigsimp, collect, symbols
+from sympy.polys.polyoptions import Symbols
+from sympy.solvers.ode.systems import linear_ode_to_matrix
+
 from definitions.generic_coordinates import *
 from definitions.constants import *
+from utils.Wolfram import Wolfram
+from sympy.solvers.solveset import linsolve, linear_eq_to_matrix
+from sympy import Derivative
+import sympy as sym
 
 size_generic_vars = len(generic_vars)
 
@@ -37,7 +44,9 @@ P_y_Y = Matrix([[cos(x6) * cos(x8) - sin(x6) * sin(x7) * sin(x8), -sin(x6) * cos
 # x'e_x + y'e_y не учитывается т.к. все равно сократится
 e_x1 = Matrix([[1], [0], [0]])
 e_x2 = Matrix([[0], [1], [0]])
-V_T_w = P_x_X * ((-R * q_p - r * diff(x4, t) * sin(x5)) * e_x1 + (p_s * R + r * diff(x4, t) * cos(x5)) * e_x2)
+e_x3 = Matrix([[0], [0], [1]])
+V_T_w = P_x_X * ((-R * q_p - r * diff(x4, t) * sin(x5)) * e_x1 + (p_p * R + r * diff(x4, t) * cos(x5)) * e_x2)
+# P_x_X * ((-(R-r) * q_p - r * diff(x4, t) * sin(x5)) * e_x1 + (p_p * (R-r) + r * diff(x4, t) * cos(x5)) * e_x2)
 
 # скорость точки касания колеса и сферической оболочки (принадлежащей сферической оболочке) в с.к. СXYZ
 # x'e_x + y'e_y не учитывается т.к. все равно сократится
@@ -69,30 +78,72 @@ V_Z = expand(V_T_w[2] - V_T_s[2])
 V_S_X = expand(diff(x, t) - R * q_s)
 V_S_Y = expand(diff(y, t) - R * p_s)
 
+# угловая скорость колеса = угловой скорости оболочки TODO пока не вводим эту гипотезу
+# sphere_angular_velocity = P_y_Y * (r_s * e_x3)
+# wheel_angular_velocity = P_x_X * (r_w * e_x3)
+# A_X = expand(sphere_angular_velocity[0] - wheel_angular_velocity[0])
+# A_Y = expand(sphere_angular_velocity[1] - wheel_angular_velocity[1])
+# A_Z = expand(sphere_angular_velocity[2] - wheel_angular_velocity[2])
 # список неголономных связей
 nonholonomic_links = [V_S_X, V_S_Y, V_X, V_Y, V_Z]
 size_nonholonomic_links = len(nonholonomic_links)
 
+
 def group_by_coordinate(var, expression):
     return collect(expression, diff(var, t)).coeff(diff(var, t))
 
-def build_row(link):
+
+def build_row(link, parser):
     row = Matrix([range(size_generic_vars)])
 
     for coordinate in generic_vars:
         coefficient = trigsimp(group_by_coordinate(coordinate, link))
+        print(coordinate, ": ", parser.transformForWolframMathematica(str(coefficient)))
         position = generic_vars.index(coordinate, 0, size_generic_vars)
         row[position] = coefficient
 
     return row
 
+
 def build_matrix():
     B = Matrix([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]])
+    parser = Wolfram()
 
+    print("___________NONHOLONOMIC__LINKS__MATRIX___________")
+
+    count = 0
     for link in nonholonomic_links:
-        row = build_row(link)
+        print("link #", count, ": ", link)
+        count += 1
+        print("\nrow number ", count)
+        row = build_row(link, parser)
         print(row)
         B = B.row_insert(nonholonomic_links.index(link, 0, size_nonholonomic_links) + 1, row)
 
     B.row_del(0)
+    print("ранг матрицы B = ", B.rank(), " количество строк = ", B.rows)
+    B.row_del(4)
     return B
+
+
+def get_dot_phi_delta_eps_tau():
+    # A0 = 0, A1 != 0, b != 0
+    (A0, A1), b = linear_ode_to_matrix(
+        [nonholonomic_links[0], nonholonomic_links[1], nonholonomic_links[2], nonholonomic_links[4]],
+        [Derivative(x4, t), Derivative(x6, t), Derivative(x7, t), Derivative(x8, t)],
+        t, 1
+    )
+
+    print("A1 = ", A1)
+    A1 = sym.simplify(A1)
+    print("symplified = ", A1)
+
+    A1_inv = A1.inv()
+    print("inv A1 = ", A1_inv)
+
+    solution = A1_inv * b
+    print("phi ", solution.row(0)[0])
+    print("del ", solution.row(1)[0])
+    print("eps ", solution.row(2)[0])
+    print("tau ", solution.row(3)[0])
+    return solution.row(0)[0], solution.row(1)[0], solution.row(2)[0], solution.row(3)[0]
