@@ -142,8 +142,8 @@ def get_dot_phi_delta_eps_tau():
     print("inv A1 = ", A1_inv)
 
     solution = A1_inv * b
-    print("phi ", solution.row(0)[0])
-    print("del ", solution.row(1)[0])
-    print("eps ", solution.row(2)[0])
-    print("tau ", solution.row(3)[0])
+    print("d_phi ", solution.row(0)[0])
+    print("d_del ", solution.row(1)[0])
+    print("d_eps ", solution.row(2)[0])
+    print("d_tau ", solution.row(3)[0])
     return solution.row(0)[0], solution.row(1)[0], solution.row(2)[0], solution.row(3)[0]
