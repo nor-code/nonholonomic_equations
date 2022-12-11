@@ -3,6 +3,7 @@ from definitions.constants import *
 from definitions.generic_coordinates import *
 from definitions.lagrangian_multipliers import *
 from definitions.moments import *
+import time
 
 """ упрощаем в предположении, что (β) τ и γ мал """
 def simplification_expression(expression):
@@ -51,6 +52,7 @@ def _add_simplify(coefficient, var):
 
 
 def expand_and_collect_term_before_derivatives_and_lambda(expression):
+    bedin = time.time()
     expression = nsimplify(simplification_expression(expand(expression)), rational=True)
     print(expression)
     print("begin ", len(str(expression)))
@@ -64,17 +66,21 @@ def expand_and_collect_term_before_derivatives_and_lambda(expression):
             expression = sympify(expression - expand(Mul(before_second_diff * d_d_var)))
             simplified = Add(simplified, _add_simplify(before_second_diff, d_d_var))
 
+    print("time collect second derivatives ", round((time.time() - bedin) / 60, 2))
     print("middle1 ", len(str(expression)))
 
     # коэффициенты перед diff(var_i, t) * diff(var_j, t)
     for d_one_d_another in mixed_diff_of_generic_coordinates:
         before_mixed_diff = collect(expression, d_one_d_another, exact=True).coeff(d_one_d_another)
         if not before_mixed_diff._eval_is_zero():
-            expression = sympify(expression - expand(Mul(before_mixed_diff * d_one_d_another)))
+            expression = sympify(expression - expand(Mul(before_mixed_diff, d_one_d_another)))
             sss = _add_simplify(before_mixed_diff, d_one_d_another)
             simplified = Add(simplified, sss)
+            print("done collect before: ", d_one_d_another)
 
+    print("time collect mixed first derivatives ", round((time.time() - bedin) / 60, 2))
     print("middle2 ", len(str(expression)))
+
     # коэффициенты перед λ_i
     for λ_i in λ:
         before_lambda = collect(expression, λ_i).coeff(λ_i)
@@ -89,6 +95,9 @@ def expand_and_collect_term_before_derivatives_and_lambda(expression):
     free_term = simplify(trigsimp(expand(expression))) # simplification_expression(simplify(expression - trigsimp(expand(simplified))))
     print("free ", free_term)
     simplified = Add(simplified, free_term)
+
+    end = time.time()
+    print("total time ", round((end - bedin) / 60, 2))
     return simplified
 
 
