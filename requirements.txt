@@ -1,0 +1,7 @@
+sympy~=1.11.1
+aesara~=2.8.9
+
+ngsolve
+
+tqdm
+redis[hiredis]

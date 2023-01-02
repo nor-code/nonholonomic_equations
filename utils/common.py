@@ -5,6 +5,7 @@ from definitions.lagrangian_multipliers import *
 from definitions.moments import *
 import time
 
+
 """ упрощаем в предположении, что (β) τ и γ мал """
 def simplification_expression(expression):
     simpl_raw = expression.subs(cos(x8), 1)
