@@ -1,9 +1,11 @@
 import json
-from multiprocessing import Process, Lock, Array
+import multiprocessing as mp
+from multiprocessing import Process, Lock
 from typing import *
 import redis
 import pickle
 from Subs_kinematic import *
+from utils.to_sympy_expression import transform_to_simpy
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--n', type=int)
@@ -53,15 +55,22 @@ coeff_dict = dict(
 )
 coeff_dict["free"] = 0
 
-selected_term_indx = MutableDenseNDimArray([0] * len(coeff_dict.values()))
+selected_term_indx = mp.Array('i', [0] * len(dict_expression.keys()), lock=True)
+
+
+def get_result_from_redis(coeff_dict, redis_client):
+    for key in coeff_dict.keys():
+        value = redis_client.get(str(args.n) + key)
+        if value is not None:
+            coeff_dict[key] = value.decode('utf-8')
 
 
 def get_free_term(_coeff_dict, _selected_term_indx, _dict_expression):
     free_term = 0
-    for index, term in _dict_expression.items():
-        if index not in selected_term_indx:
-            free_term = Add(free_term, term)
-    _coeff_dict["free"] = str(free_term)
+    for index in range(len(_dict_expression.keys())):
+        if _selected_term_indx[index] != 1:
+            free_term = Add(free_term, _dict_expression[index])
+    _coeff_dict["free"] = transform_to_simpy(str(free_term))
 
 
 def time_benchmark(function):
@@ -71,15 +80,16 @@ def time_benchmark(function):
         t2 = time.time()
         if len(args) == 4:
             _, one, _, two = args
-            print("\nfor collect before %s * %s time execution: %.2f [s]" % (one, two, t2 - t1))
+            print("for collect before %s * %s time execution: %.2f [s]" % (one, two, t2 - t1))
         else:
             _, one, _ = args
-            print("\nfor collect before %s time execution: %.2f [s]" % (one, t2 - t1))
+            print("for collect before %s time execution: %.2f [s]" % (one, t2 - t1))
     return wrapper
+
 
 @time_benchmark
 def processing(arr, d_one: Derivative, is_mixed, d_two: Optional[Derivative] = None):
-    global dict_expression, selected_term_indx, coeff_dict, lock
+    global dict_expression, coeff_dict, lock, args
 
     result_expression = 0
     first, second = False, False
@@ -111,11 +121,12 @@ def processing(arr, d_one: Derivative, is_mixed, d_two: Optional[Derivative] = N
 
         result_expression = Mul(simpl_coeff, syms)
 
-    coeff_dict[str(d_one) if not is_mixed else str(d_one * d_two)] = str(result_expression)
+    client.set(str(args.n) + str(d_one) if not is_mixed else str(args.n) + str(d_one * d_two),
+               transform_to_simpy(str(result_expression)))
 
     if len(indexes) != 0:
         lock.acquire()
-        print("thread selected ", indexes)
+        print("\nthread selected from common dictionary indexes = ", indexes)
         for i in indexes:
             arr[i] = 1
         lock.release()
@@ -127,19 +138,20 @@ for dd_var in second_derivatives:
     task.start()
     tasks.append(task)
 
-# for d_one, d_two in itertools.combinations([diff(var, t) for var in final_independent_coordinates], 2):
-#     task = Process(target=processing, args=(selected_term_indx, d_one, True, d_two))
-#     task.start()
-#     tasks.append(task)
-#
-# for d_var in list(diff(var, t) for var in final_independent_coordinates):
-#     task = Process(target=processing, args=(selected_term_indx, d_var * d_var, False))
-#     task.start()
-#     tasks.append(task)
+for d_one, d_two in itertools.combinations([diff(var, t) for var in final_independent_coordinates], 2):
+    task = Process(target=processing, args=(selected_term_indx, d_one, True, d_two))
+    task.start()
+    tasks.append(task)
+
+for d_var in list(diff(var, t) for var in final_independent_coordinates):
+    task = Process(target=processing, args=(selected_term_indx, d_var * d_var, False))
+    task.start()
+    tasks.append(task)
 
 for task in tasks:
     task.join()
 
+get_result_from_redis(coeff_dict, client)
 get_free_term(coeff_dict, selected_term_indx, dict_expression)
 
 for k, v in coeff_dict.items():
@@ -148,8 +160,6 @@ for k, v in coeff_dict.items():
 with open('./out' + str(args.n) + '.json', 'w') as out:
     out.write(json.dumps(coeff_dict))
 
-for k, v in coeff_dict.items():
-    print(k, " : ", v)
-print("selected = ", sorted(selected_term_indx))
+print("selected = ", selected_term_indx[:])
 
 

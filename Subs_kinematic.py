@@ -49,7 +49,7 @@ def subs_kinematic(equation, val_d_phi, val_d_delta, val_d_eps, val_d_tau,
     equation = simplification_expression(equation)
     print("::::end substitution d_tau::::")
 
-    print("total time subs kinematic = %.2f" % ((time.time() - begin)/60))
+    print("total time subs kinematic = %.2f [m]" % ((time.time() - begin)/60))
     return equation
 
 

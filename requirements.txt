@@ -5,3 +5,4 @@ ngsolve
 
 tqdm
 redis[hiredis]
+serialized-redis-interface
