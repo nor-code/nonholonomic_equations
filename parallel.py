@@ -32,6 +32,7 @@ print("_____finished subs kinematic's expression for eq_№ ", args.n, "_____")
 eq_top, eq_bot = fraction(together(eq))
 
 print("_____expand all parentheses in eq_№ ", args.n, "_____")
+#TODO сделать это тоже параллельно
 expression = expand(eq_top)
 
 print("_____begin collecting coefficient_____")
