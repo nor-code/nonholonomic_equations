@@ -7,6 +7,12 @@ import pickle
 from Subs_kinematic import *
 from utils.to_sympy_expression import transform_to_simpy
 from sympy.parsing.sympy_parser import parse_expr
+from .parallel.expression7 import eq7
+from .parallel.expression5 import eq5
+from .parallel.expression4 import eq4
+from .parallel.expression3 import eq3
+from .parallel.expression2 import eq2
+from .parallel.expression1 import eq1
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--n', type=int)
@@ -15,26 +21,16 @@ args = parser.parse_args()
 
 
 map_eq = {
-    1: "./parallel/expand_expression1.txt",
-    2: "./parallel/expand_expression2.txt",
-    3: "./parallel/expand_expression3.txt",
-    4: "./parallel/expand_expression4.txt",
-    5: "./parallel/expand_expression5.txt",
-    7: "./parallel/expand_expression7.txt"
+    1: eq1,
+    2: eq2,
+    3: eq3,
+    4: eq4,
+    5: eq5,
+    7: eq7
 }
 
 lock = Lock()
 client = redis.Redis(host='localhost', port=6379, db=0)
-
-print("############### parse equation №_%d from txt file: %s ##################" % (args.n, map_eq[args.n]))
-t1 = time.time()
-
-with open(file=map_eq[args.n], mode='r') as expression:
-    lines = [line.rstrip() for line in expression]
-
-expression = parse_expr(lines[0], evaluate=False)
-t2 = time.time()
-print("finished = %.2f [m]", (t2 - t1)/60)
 
 print("_____begin collecting coefficient_____")
 dict_expression = dict(
