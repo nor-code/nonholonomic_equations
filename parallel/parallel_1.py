@@ -40,7 +40,7 @@ def time_benchmark(function):
         function(*args, **kwargs)
         t2 = time.time()
         _, number = args
-        print("finished expand term # %d. passed by time %.2f" % (number, (t2 - t1)))
+        print("finished expand term # %d. passed by time %.2f [m]" % (number, (t2 - t1) / 60))
     return wrapper
 
 

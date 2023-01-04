@@ -6,6 +6,7 @@ import redis
 import pickle
 from Subs_kinematic import *
 from utils.to_sympy_expression import transform_to_simpy
+from sympy.parsing.sympy_parser import parse_expr
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--n', type=int)
@@ -14,26 +15,26 @@ args = parser.parse_args()
 
 
 map_eq = {
-    1: Eq1_simpl,
-    2: Eq2_simpl,
-    3: Eq3_simpl,
-    4: Eq4_simpl,
-    5: Eq5_simpl,
-    7: Eq7_simpl
+    1: "./parallel/expand_expression1.txt",
+    2: "./parallel/expand_expression2.txt",
+    3: "./parallel/expand_expression3.txt",
+    4: "./parallel/expand_expression4.txt",
+    5: "./parallel/expand_expression5.txt",
+    7: "./parallel/expand_expression7.txt"
 }
 
 lock = Lock()
 client = redis.Redis(host='localhost', port=6379, db=0)
 
-print("######### kinematic eq_№ ", args.n)
-eq = subs_kinematic(map_eq[args.n], d_phi, d_delta, d_eps, d_tau, d_d_phi, d_d_delta, d_d_eps, d_d_tau)
+print("############### parse equation №_%d from txt file: %s ##################" % (args.n, map_eq[args.n]))
+t1 = time.time()
 
-print("_____finished subs kinematic's expression for eq_№ ", args.n, "_____")
-eq_top, eq_bot = fraction(together(eq))
+with open(file=map_eq[args.n], mode='r') as expression:
+    lines = [line.rstrip() for line in expression]
 
-print("_____expand all parentheses in eq_№ ", args.n, "_____")
-#TODO сделать это тоже параллельно
-expression = expand(eq_top)
+expression = parse_expr(lines[0], evaluate=False)
+t2 = time.time()
+print("finished = %.2f [m]", (t2 - t1)/60)
 
 print("_____begin collecting coefficient_____")
 dict_expression = dict(
