@@ -1,44 +1,46 @@
 import json
 import multiprocessing as mp
-from multiprocessing import Process, Lock
+import sys
+from multiprocessing import Process, Lock, Pool
 from typing import *
+import tqdm
 import redis
-import pickle
+sys.setrecursionlimit(100000)
+
 from Subs_kinematic import *
 from utils.to_sympy_expression import transform_to_simpy
-from sympy.parsing.sympy_parser import parse_expr
-from .parallel.expression7 import eq7
-from .parallel.expression5 import eq5
-from .parallel.expression4 import eq4
-from .parallel.expression3 import eq3
-from .parallel.expression2 import eq2
-from .parallel.expression1 import eq1
+from definitions.generic_coordinates import *
+from sympy.parsing.sympy_parser import standard_transformations, implicit_multiplication_application
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--n', type=int)
 
 args = parser.parse_args()
 
-
 map_eq = {
-    1: eq1,
-    2: eq2,
-    3: eq3,
-    4: eq4,
-    5: eq5,
-    7: eq7
+    1: "./expand_parallel/expand_expression1.json",
+    2: "./expand_parallel/expand_expression2.json",
+    3: "./expand_parallel/expand_expression3.json",
+    4: "./expand_parallel/expand_expression4.json",
+    5: "./expand_parallel/expand_expression5.json",
+    7: "./expand_parallel/expand_expression7.json"
 }
+
+
+file = open(map_eq[args.n])
+dict_n_to_term = json.load(file)
+transformations = (standard_transformations + (implicit_multiplication_application,))
+local_dictionary = {'x': x, 'y': y, 'x1': x1, 'x2': x2, 'x3': x3, 'x4': x4, 'x5': x5, 'x6': x6, 'x7': x7, 'x8': x8}
+
+dict_expression = {}
+for k, v in tqdm.tqdm(dict_n_to_term.items()):
+    dict_expression[int(k)] = parse_expr(v, transformations=transformations, local_dict=local_dictionary)
 
 lock = Lock()
 client = redis.Redis(host='localhost', port=6379, db=0)
 
 print("_____begin collecting coefficient_____")
-dict_expression = dict(
-    zip(
-        range(len(expression.args)), list(expression.args)
-    )
-)
-print("size dictionary = ", len(dict_expression.keys()))
+print("_____size dictionary = %d _____" % len(dict_expression.keys()))
 
 final_independent_coordinates = [x, y, x1, x2, x3, x5]
 second_derivatives = [diff(diff(var, t), t) for var in final_independent_coordinates]
@@ -71,7 +73,7 @@ def get_free_term(_coeff_dict, _selected_term_indx, _dict_expression):
     _coeff_dict["free"] = transform_to_simpy(str(free_term))
 
 
-def time_benchmark(function):
+def time_collecting(function):
     def wrapper(*args, **kwargs):
         t1 = time.time()
         function(*args, **kwargs)
@@ -85,14 +87,16 @@ def time_benchmark(function):
     return wrapper
 
 
-@time_benchmark
-def processing(arr, d_one: Derivative, is_mixed, d_two: Optional[Derivative] = None):
+@time_collecting
+def collect_before_derivatives(arr, d_one: Derivative, is_mixed, d_two: Optional[Derivative] = None):
     global dict_expression, coeff_dict, lock, args
 
     result_expression = 0
     first, second = False, False
     indexes = []
     for index, terms in dict_expression.items():
+        if arr[index] == 1:
+            continue
         for term in terms.args:
             if not is_mixed:
                 if term == d_one:
@@ -132,22 +136,35 @@ def processing(arr, d_one: Derivative, is_mixed, d_two: Optional[Derivative] = N
 
 tasks = []
 for dd_var in second_derivatives:
-    task = Process(target=processing, args=(selected_term_indx, dd_var, False))
-    task.start()
-    tasks.append(task)
-
-for d_one, d_two in itertools.combinations([diff(var, t) for var in final_independent_coordinates], 2):
-    task = Process(target=processing, args=(selected_term_indx, d_one, True, d_two))
-    task.start()
-    tasks.append(task)
-
-for d_var in list(diff(var, t) for var in final_independent_coordinates):
-    task = Process(target=processing, args=(selected_term_indx, d_var * d_var, False))
+    task = Process(target=collect_before_derivatives, args=(selected_term_indx, dd_var, False))
     task.start()
     tasks.append(task)
 
 for task in tasks:
     task.join()
+print("\n####### finished collecting before second derivatives #######\n")
+
+
+tasks = []
+for d_one, d_two in itertools.combinations([diff(var, t) for var in final_independent_coordinates], 2):
+    task = Process(target=collect_before_derivatives, args=(selected_term_indx, d_one, True, d_two))
+    task.start()
+    tasks.append(task)
+
+for task in tasks:
+    task.join()
+print("\n####### finished collecting before mixed derivatives #######\n")
+
+
+tasks = []
+for d_var in list(diff(var, t) for var in final_independent_coordinates):
+    task = Process(target=collect_before_derivatives, args=(selected_term_indx, d_var * d_var, False))
+    task.start()
+    tasks.append(task)
+
+for task in tasks:
+    task.join()
+print("\n####### finished collecting before squared derivatives #######\n")
 
 get_result_from_redis(coeff_dict, client)
 get_free_term(coeff_dict, selected_term_indx, dict_expression)
