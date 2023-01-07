@@ -4,6 +4,7 @@ import sys
 from multiprocessing import Process, Lock, Pool
 from typing import *
 import tqdm
+import re
 import redis
 sys.setrecursionlimit(100000)
 
@@ -18,14 +19,30 @@ parser.add_argument('--n', type=int)
 args = parser.parse_args()
 
 map_eq = {
-    1: "./expand_parallel/expand_expression1.json",
-    2: "./expand_parallel/expand_expression2.json",
-    3: "./expand_parallel/expand_expression3.json",
-    4: "./expand_parallel/expand_expression4.json",
-    5: "./expand_parallel/expand_expression5.json",
-    7: "./expand_parallel/expand_expression7.json"
+    1: "../expand_parallel/expand_expression1.json",
+    2: "../expand_parallel/expand_expression2.json",
+    3: "../expand_parallel/expand_expression3.json",
+    4: "../expand_parallel/expand_expression4.json",
+    5: "../expand_parallel/expand_expression5.json",
+    7: "../expand_parallel/expand_expression7.json"
 }
+final_independent_coordinates = [x, y, x1, x2, x3, x5]
 
+second_derivatives = [diff(diff(var, t), t) for var in final_independent_coordinates]
+second_dict_name = dict(
+    zip(
+        second_derivatives,
+        [re.sub('[)( ,]', '_', str(dd_var)).replace('Derivative', 'd_d').replace('t____', '') for dd_var in second_derivatives])
+)
+
+mixed_derivatives = list(mixed[0] * mixed[1] for mixed in itertools.combinations([diff(var, t) for var in final_independent_coordinates], 2))
+[mixed_derivatives.append(diff(var, t) * diff(var, t)) for var in final_independent_coordinates]
+mixed_dict_name = dict(
+    zip(
+        mixed_derivatives,
+        [re.sub('[)( ,*]', '_', str(mixed)).replace('Derivative', 'd').replace('t___', '') for mixed in mixed_derivatives]
+    )
+)
 
 file = open(map_eq[args.n])
 dict_n_to_term = json.load(file)
@@ -42,10 +59,6 @@ client = redis.Redis(host='localhost', port=6379, db=0)
 print("_____begin collecting coefficient_____")
 print("_____size dictionary = %d _____" % len(dict_expression.keys()))
 
-final_independent_coordinates = [x, y, x1, x2, x3, x5]
-second_derivatives = [diff(diff(var, t), t) for var in final_independent_coordinates]
-mixed_derivatives = list(mixed[0] * mixed[1] for mixed in itertools.combinations([diff(var, t) for var in final_independent_coordinates], 2))
-[mixed_derivatives.append(diff(var, t) * diff(var, t)) for var in final_independent_coordinates]
 
 coeff_dict = dict(
     zip(
@@ -65,12 +78,15 @@ def get_result_from_redis(coeff_dict, redis_client):
             coeff_dict[key] = value.decode('utf-8')
 
 
-def get_free_term(_coeff_dict, _selected_term_indx, _dict_expression):
+def get_free_term(_coeff_dict, _selected_term_indx, _dict_expression, eq_number):
     free_term = 0
     for index in range(len(_dict_expression.keys())):
         if _selected_term_indx[index] != 1:
             free_term = Add(free_term, _dict_expression[index])
     _coeff_dict["free"] = transform_to_simpy(str(free_term))
+
+    with open("./eq" + str(eq_number) + '/free_term.txt', 'w') as out:
+        out.write(transform_to_simpy(str(_coeff_dict["free"])))
 
 
 def time_collecting(function):
@@ -78,17 +94,17 @@ def time_collecting(function):
         t1 = time.time()
         function(*args, **kwargs)
         t2 = time.time()
-        if len(args) == 4:
-            _, one, _, two = args
-            print("for collect before %s * %s time execution: %.2f [s]" % (one, two, t2 - t1))
+        if len(args) == 6:
+            _, _, _, one, _, two = args
+            print("for collect before %s * %s time execution: %.2f [m]" % (one, two, (t2 - t1)/60))
         else:
-            _, one, _ = args
-            print("for collect before %s time execution: %.2f [s]" % (one, t2 - t1))
+            _, _, _, one, _ = args
+            print("for collect before %s time execution: %.2f [m]" % (one, (t2 - t1)/60))
     return wrapper
 
 
 @time_collecting
-def collect_before_derivatives(arr, d_one: Derivative, is_mixed, d_two: Optional[Derivative] = None):
+def collect_before_derivatives(arr, eq_number, name, d_one: Derivative, is_mixed, d_two: Optional[Derivative] = None):
     global dict_expression, coeff_dict, lock, args
 
     result_expression = 0
@@ -117,11 +133,13 @@ def collect_before_derivatives(arr, d_one: Derivative, is_mixed, d_two: Optional
 
         first, second = False, False
 
-    if result_expression != 0:
-        syms = d_one if not is_mixed else d_one * d_two
-        simpl_coeff = trigsimp(collect(result_expression, syms).coeff(syms))
+    # syms = d_one if not is_mixed else d_one * d_two
+    # simpl_coeff = trigsimp(collect(result_expression, syms).coeff(syms))
 
-        result_expression = Mul(simpl_coeff, syms)
+    # result_expression = Mul(simpl_coeff, syms)
+    with open('./eq' + str(eq_number) + '/' + name + '.txt', 'w') as out:
+        out.write(transform_to_simpy(str(result_expression)))
+    print("write to file collected coefficient = %s" % (str(d_one) + "*" + str(d_two)))
 
     client.set(str(args.n) + str(d_one) if not is_mixed else str(args.n) + str(d_one * d_two),
                transform_to_simpy(str(result_expression)))
@@ -136,7 +154,10 @@ def collect_before_derivatives(arr, d_one: Derivative, is_mixed, d_two: Optional
 
 tasks = []
 for dd_var in second_derivatives:
-    task = Process(target=collect_before_derivatives, args=(selected_term_indx, dd_var, False))
+    task = Process(
+        target=collect_before_derivatives,
+        args=(selected_term_indx, args.n, second_dict_name[dd_var], dd_var, False)
+    )
     task.start()
     tasks.append(task)
 
@@ -147,7 +168,10 @@ print("\n####### finished collecting before second derivatives #######\n")
 
 tasks = []
 for d_one, d_two in itertools.combinations([diff(var, t) for var in final_independent_coordinates], 2):
-    task = Process(target=collect_before_derivatives, args=(selected_term_indx, d_one, True, d_two))
+    task = Process(
+        target=collect_before_derivatives,
+        args=(selected_term_indx, args.n, mixed_dict_name[d_one*d_two], d_one, True, d_two)
+    )
     task.start()
     tasks.append(task)
 
@@ -158,7 +182,10 @@ print("\n####### finished collecting before mixed derivatives #######\n")
 
 tasks = []
 for d_var in list(diff(var, t) for var in final_independent_coordinates):
-    task = Process(target=collect_before_derivatives, args=(selected_term_indx, d_var * d_var, False))
+    task = Process(
+        target=collect_before_derivatives,
+        args=(selected_term_indx, args.n, mixed_dict_name[d_var * d_var], d_var * d_var, False)
+    )
     task.start()
     tasks.append(task)
 
@@ -167,13 +194,13 @@ for task in tasks:
 print("\n####### finished collecting before squared derivatives #######\n")
 
 get_result_from_redis(coeff_dict, client)
-get_free_term(coeff_dict, selected_term_indx, dict_expression)
+get_free_term(coeff_dict, selected_term_indx, dict_expression, args.n)
 
-for k, v in coeff_dict.items():
-    coeff_dict[k] = str(v)
-
-with open('./out' + str(args.n) + '.json', 'w') as out:
-    out.write(json.dumps(coeff_dict))
+# for k, v in coeff_dict.items():
+#     coeff_dict[k] = str(v)
+#
+# with open('./out' + str(args.n) + '.json', 'w') as out:
+#     out.write(json.dumps(coeff_dict))
 
 print("selected = ", selected_term_indx[:])
 

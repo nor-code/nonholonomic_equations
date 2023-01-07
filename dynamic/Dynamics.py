@@ -4,6 +4,7 @@ from definitions.lagrangian_multipliers import *
 import time
 from sympy.solvers.solveset import linsolve, linear_eq_to_matrix
 from utils.Wolfram import Wolfram
+from utils.to_sympy_expression import transform_to_simpy
 
 t0 = time.time()
 # кинетическая энергия сферической оболочки
@@ -58,6 +59,13 @@ Eq7 = diff(diff(T, diff(x5, t)), t)[0] - diff(T, x5)[0] - Q_ψ - (B.row(6) * λ)
 Eq8 = diff(diff(T, diff(x6, t)), t)[0] - diff(T, x6)[0] - Q_δ - (B.row(7) * λ)[0]
 Eq9 = diff(diff(T, diff(x7, t)), t)[0] - diff(T, x7)[0] - Q_ε - (B.row(8) * λ)[0]
 Eq10 = diff(diff(T, diff(x8, t)), t)[0] - diff(T, x8)[0] - Q_τ - (B.row(9) * λ)[0]
+
+
+equations = [Eq1, Eq2, Eq3, Eq4, Eq5, Eq6, Eq7, Eq8, Eq9, Eq10]
+for i in range(len(equations)):
+    with open('./dynamic/eq' + str(i + 1) + '.txt', 'w') as eq_i:
+        eq_i.write(transform_to_simpy(str(equations[i])))
+
 
 print("Eq1 ", expand(Eq1))
 print("Eq2 ", Eq2)
@@ -209,13 +217,3 @@ def print_equations_for_Wolfram_Mathematica():
     print('ParametricPlot[Evaluate[{x[t], y[t]} /. nds], {t, 0, 5}, PlotRange -> All]')
     print('Plot[Evaluate[{x[t]} /. nds], {t, 0, 5}, PlotRange -> All]')
     print('Plot[Evaluate[{y[t]} /. nds], {t, 0, 5}, PlotRange -> All]')
-
-
-print("_________________")
-
-print(
-    linsolve(
-        [equations[0]],
-        diff(diff(x, t), t)
-    )
-)

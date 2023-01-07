@@ -124,26 +124,3 @@ def build_matrix():
     print("ранг матрицы B = ", B.rank(), " количество строк = ", B.rows)
     B.row_del(4)
     return B
-
-
-def get_dot_phi_delta_eps_tau():
-    # A0 = 0, A1 != 0, b != 0
-    (A0, A1), b = linear_ode_to_matrix(
-        [nonholonomic_links[0], nonholonomic_links[1], nonholonomic_links[2], nonholonomic_links[4]],
-        [Derivative(x4, t), Derivative(x6, t), Derivative(x7, t), Derivative(x8, t)],
-        t, 1
-    )
-
-    print("A1 = ", A1)
-    A1 = sym.simplify(A1)
-    print("symplified = ", A1)
-
-    A1_inv = A1.inv()
-    print("inv A1 = ", A1_inv)
-
-    solution = A1_inv * b
-    print("d_phi ", solution.row(0)[0])
-    print("d_del ", solution.row(1)[0])
-    print("d_eps ", solution.row(2)[0])
-    print("d_tau ", solution.row(3)[0])
-    return solution.row(0)[0], solution.row(1)[0], solution.row(2)[0], solution.row(3)[0]

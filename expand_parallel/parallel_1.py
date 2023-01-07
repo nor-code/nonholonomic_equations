@@ -4,6 +4,7 @@ from multiprocessing import Process, Lock, Value
 import redis
 
 from Subs_kinematic import *
+from utils.sympy_expression import parse_2_sympy_expression
 from utils.to_sympy_expression import transform_to_simpy
 
 parser = argparse.ArgumentParser()
@@ -12,13 +13,23 @@ parser.add_argument('--n', type=int)
 args = parser.parse_args()
 
 map_eq = {
-    1: Eq1_simpl,
-    2: Eq2_simpl,
-    3: Eq3_simpl,
-    4: Eq4_simpl,
-    5: Eq5_simpl,
-    7: Eq7_simpl
+    1: parse_2_sympy_expression(open("../lambda/part2/eq_1_without_lambda.txt").readline()),
+    2: parse_2_sympy_expression(open("../lambda/part2/eq_2_without_lambda.txt").readline()),
+    3: parse_2_sympy_expression(open("../lambda/part2/eq_3_without_lambda.txt").readline()),
+    4: parse_2_sympy_expression(open("../lambda/part2/eq_4_without_lambda.txt").readline()),
+    5: parse_2_sympy_expression(open("../lambda/part2/eq_5_without_lambda.txt").readline()),
+    7: parse_2_sympy_expression(open("../lambda/part2/eq_7_without_lambda.txt").readline())
 }
+
+d_phi = parse_2_sympy_expression(open("../kinematic/part2/d_phi.txt").readline())
+d_delta = parse_2_sympy_expression(open("../kinematic/part2/d_del.txt").readline())
+d_eps = parse_2_sympy_expression(open("../kinematic/part2/d_eps.txt").readline())
+d_tau = parse_2_sympy_expression(open("../kinematic/part2/d_tau.txt").readline())
+
+d_d_phi = parse_2_sympy_expression(open("../kinematic/part3/d_d_phi.txt").readline())
+d_d_delta = parse_2_sympy_expression(open("../kinematic/part3/d_d_del.txt").readline())
+d_d_eps = parse_2_sympy_expression(open("../kinematic/part3/d_d_eps.txt").readline())
+d_d_tau = parse_2_sympy_expression(open("../kinematic/part3/d_d_tau.txt").readline())
 
 lock = Lock()
 counter = Value('i', 0)

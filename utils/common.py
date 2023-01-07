@@ -67,7 +67,7 @@ def expand_and_collect_term_before_derivatives_and_lambda(expression):
             expression = sympify(expression - expand(Mul(before_second_diff * d_d_var)))
             simplified = Add(simplified, _add_simplify(before_second_diff, d_d_var))
 
-    print("time collect second derivatives ", round((time.time() - bedin) / 60, 2))
+    print("time collect second derivatives %.2f [m]" % ((time.time() - bedin) / 60))
     print("middle1 ", len(str(expression)))
 
     # коэффициенты перед diff(var_i, t) * diff(var_j, t)

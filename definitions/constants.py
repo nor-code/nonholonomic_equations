@@ -16,7 +16,8 @@ R_p = Symbol('R_p')
 l: Symbol = Symbol('l')
 
 # расстояние от т.O до т. P
-l_p: Symbol = Symbol('l_p')  # 0.009 m
+# TODO изменить на C_Mz
+l_p: Symbol = 0 #Symbol('l_p')  # 0.009 m
 
 # масса сферической оболочки
 M = Symbol('M')  # 137.5 g ()
@@ -40,7 +41,7 @@ C_mz = Symbol('C_mz')
 # радиус-вектор центра масс платформы в с.к. C_x1_x2_x3
 R_cm_p = Matrix([[0],
                  [0],
-                 [C_Mz]])
+                 [0]])
 
 # радиус-вектор центра масс колеса в с.к. C_x1_x2_x3
 R_cm_w = Matrix([[0],
@@ -48,14 +49,14 @@ R_cm_w = Matrix([[0],
                  [C_mz]])
 
 # моменты инерции платформы относитльно главных осей инерции
-J_px = (M_p * R_p ** 2) / 4 + M_p * l_p ** 2  # Symbol('J_px')
-J_py = (M_p * R_p ** 2) / 4 + M_p * l_p ** 2  # Symbol('J_py')
-J_pz = (M_p * R_p ** 2) / 2  # Symbol('J_pz') # Symbol('J_pz')
+J_px = Symbol('J_px')
+J_py = Symbol('J_py')
+J_pz = Symbol('J_pz') # Symbol('J_pz')
 
 # моменты инерции колеса относитльно главных осей инерции
-J_wx = (m * r ** 2) / 4 + m * l ** 2  # Symbol('J_wx')
-J_wy = (m * r ** 2) / 4 + m * l ** 2  # Symbol('J_wy')
-J_wz = (m * r ** 2) / 2  # Symbol('J_wz')
+J_wx = Symbol('J_wx')
+J_wy = Symbol('J_wy')
+J_wz = Symbol('J_wz')
 
 # тензор инерции для сферической оболочки
 J_s = Matrix([[2 / 3 * M * R ** 2, 0, 0],

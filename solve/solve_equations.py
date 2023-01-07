@@ -1,4 +1,4 @@
-from Dynamics import *
+from dynamic.Dynamics import *
 
 for link in nonholonomic_links:
     print(link.subs([(r, 0.02), (R, 0.09)]))

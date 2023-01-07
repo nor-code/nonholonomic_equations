@@ -1,9 +1,9 @@
 from sympy import Symbol, Matrix
 
-λ1 = Symbol('λ1')
-λ2 = Symbol('λ2')
-λ3 = Symbol('λ3')
-λ4 = Symbol('λ4')
-λ5 = Symbol('λ5')
+λ_1 = Symbol('λ_1')
+λ_2 = Symbol('λ_2')
+λ_3 = Symbol('λ_3')
+λ_4 = Symbol('λ_4')
+λ_5 = Symbol('λ_5')
 
-λ = Matrix([[λ1], [λ2], [λ3], [λ4]])#, [λ5]])
+λ = Matrix([[λ_1], [λ_2], [λ_3], [λ_4]])#, [λ5]])
