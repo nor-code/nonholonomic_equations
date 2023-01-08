@@ -47,49 +47,51 @@ import time
 
 """ упрощаем в предположении, что β γ и τ  мал """
 def simplification_expression(expression):
-    simpl_raw = expression.subs(cos(x8), 1)
-    simpl_raw = simpl_raw.subs(sin(x8), x8)
-    simpl_raw = simpl_raw.subs(cos(x3), 1)
-    simpl_raw = simpl_raw.subs(sin(x3), x3)
-    simpl_raw = simpl_raw.subs(sin(x2), x2)
-    simpl_raw = simpl_raw.subs(cos(x2), 1)
+    simpl_raw = expression.subs(
+        {cos(x8): 1 - x8**2 / 2,
+         sin(x8): x8 - x8**3 / 6,
 
-    # simpl_raw = simpl_raw.subs(x3 * x8, 0)
-    # simpl_raw = simpl_raw.subs(x2 * x3, 0)
-    # simpl_raw = simpl_raw.subs(x2 * x8, 0)
-    simpl_raw = simpl_raw.subs(x2 * x3 * x8, 0)
+         cos(x3): 1 - x3**2 / 2,
+         sin(x3): x3 - x3**3 / 6,
 
-    simpl_raw = simpl_raw.subs(x2**2 * x3, 0)
-    simpl_raw = simpl_raw.subs(x2**2 * x8, 0)
+         cos(x2): 1 - x2 ** 2 / 2,
+         sin(x2): x2 - x2**3 / 6,
 
-    simpl_raw = simpl_raw.subs(x2 * x3**2, 0)
-    simpl_raw = simpl_raw.subs(x3**2 * x8, 0)
+         x2 * x3 ** 2 * x8: 0,
+         x2 ** 2 * x3 * x8: 0,
+         x2 * x3 * x8 ** 2: 0,
 
-    simpl_raw = simpl_raw.subs(x2 * x8**2, 0)
-    simpl_raw = simpl_raw.subs(x3 * x8**2, 0)
+         x2**2 * x3**2: 0,
+         x2**2 * x8**2: 0,
+         x3**2 * x8**2: 0,
 
-    simpl_raw = simpl_raw.subs(x8 ** 3, 0)
-    simpl_raw = simpl_raw.subs(x3 ** 3, 0)
-    simpl_raw = simpl_raw.subs(x2 ** 3, 0)
+         x2 ** 4: 0,
+         x3 ** 4: 0,
+         x8 ** 4: 0,
 
-    simpl_raw = simpl_raw.subs(x8 ** 4, 0)
-    simpl_raw = simpl_raw.subs(x3 ** 4, 0)
-    simpl_raw = simpl_raw.subs(x2 ** 4, 0)
+         x2 ** 5: 0,
+         x3 ** 5: 0,
+         x8 ** 5: 0,
 
-    simpl_raw = simpl_raw.subs(x8 ** 5, 0)
-    simpl_raw = simpl_raw.subs(x3 ** 5, 0)
-    simpl_raw = simpl_raw.subs(x2 ** 5, 0)
+         x2 ** 6: 0,
+         x3 ** 6: 0,
+         x8 ** 6: 0,
 
-    simpl_raw = simpl_raw.subs(x8 ** 6, 0)
-    simpl_raw = simpl_raw.subs(x3 ** 6, 0)
-    simpl_raw = simpl_raw.subs(x2 ** 6, 0)
+         x2 ** 7: 0,
+         x3 ** 7: 0,
+         x8 ** 7: 0,
 
-    simpl_raw = simpl_raw.subs(x8 ** 7, 0)
-    simpl_raw = simpl_raw.subs(x3 ** 7, 0)
-    simpl_raw = simpl_raw.subs(x2 ** 7, 0)
+         x2 ** 8: 0,
+         x3 ** 8: 0,
+         x8 ** 8: 0,
 
-    res = sympify(simpl_raw)
-    return res
+         x2 ** 9: 0,
+         x3 ** 9: 0,
+         x8 ** 9: 0,
+         }
+    )
+    return sympify(simpl_raw)
+
 
 def _add_simplify(coefficient, var):
     return Mul(
@@ -107,7 +109,7 @@ def expand_and_collect_term_before_derivatives_and_lambda(expression):
 
     # коэффициенты перед diff(diff(var, t), t)
     for d_d_var in second_diff_generic_coord:
-        before_second_diff = collect(expression, d_d_var).coeff(d_d_var)
+        before_second_diff = simplify(simplification_expression(expand(collect(expression, d_d_var).coeff(d_d_var))))
         if not before_second_diff._eval_is_zero():
             print(d_d_var, ": ", before_second_diff)
             expression = sympify(expression - expand(Mul(before_second_diff * d_d_var)))
@@ -118,7 +120,7 @@ def expand_and_collect_term_before_derivatives_and_lambda(expression):
 
     # коэффициенты перед diff(var_i, t) * diff(var_j, t)
     for d_one_d_another in mixed_diff_of_generic_coordinates:
-        before_mixed_diff = collect(expression, d_one_d_another, exact=True).coeff(d_one_d_another)
+        before_mixed_diff = simplify(simplification_expression(expand(collect(expression, d_one_d_another, exact=True).coeff(d_one_d_another))))
         if not before_mixed_diff._eval_is_zero():
             expression = sympify(expression - expand(Mul(before_mixed_diff, d_one_d_another)))
             sss = _add_simplify(before_mixed_diff, d_one_d_another)
@@ -130,7 +132,7 @@ def expand_and_collect_term_before_derivatives_and_lambda(expression):
 
     # коэффициенты перед λ_i
     for λ_i in λ:
-        before_lambda = collect(expression, λ_i).coeff(λ_i)
+        before_lambda = simplify(simplification_expression(expand(collect(expression, λ_i).coeff(λ_i))))
         if before_lambda.is_Symbol:
             expression = sympify(expression - expand(Mul(before_lambda, λ_i)))
             simplified = Add(simplified, _add_simplify(before_lambda, λ_i))
@@ -139,7 +141,7 @@ def expand_and_collect_term_before_derivatives_and_lambda(expression):
             simplified = Add(simplified, _add_simplify(before_lambda, λ_i))
 
     print("begin free")
-    free_term = simplify(trigsimp(expand(expression))) # simplification_expression(simplify(expression - trigsimp(expand(simplified))))
+    free_term = simplify(trigsimp(simplification_expression(expand(expression)))) # simplification_expression(simplify(expression - trigsimp(expand(simplified))))
     print("free ", free_term)
     simplified = Add(simplified, free_term)
 
@@ -149,12 +151,12 @@ def expand_and_collect_term_before_derivatives_and_lambda(expression):
 
 
 def expand_and_collect_term_before_first_derivatives(expression):
-    expression = nsimplify(simplification_expression(expand(expression)), rational=True)
+    expression = simplification_expression(expand(expression))
     simplified = 0
 
     # коэффициенты перед diff(diff(var, t), t)
     for d_var in first_diff_generic_vars:
-        before_second_diff = collect(expression, d_var).coeff(d_var)
+        before_second_diff = simplify(expand(collect(expression, d_var).coeff(d_var)))
         if not before_second_diff._eval_is_zero():
             simplified = Add(simplified, _add_simplify(before_second_diff, d_var))
 

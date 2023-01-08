@@ -17,6 +17,7 @@ d_tau = parse_2_sympy_expression(open('../../kinematic/part1/kin_eq3.txt').readl
 
 def solve_transform_and_write_to_file(d_var, name):
     d_var_top, d_var_bot = fraction(together(d_var))
+    d_var_top = expand(d_var_top, deep=True)
     top = expand_and_collect_term_before_first_derivatives(d_var_top)
     bot = simplify(simplification_expression(d_var_bot))
     result = top / bot
