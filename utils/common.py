@@ -6,44 +6,90 @@ from definitions.moments import *
 import time
 
 
-""" упрощаем в предположении, что (β) τ и γ мал """
+# """ упрощаем в предположении, что (β) τ и γ мал """
+# def simplification_expression(expression):
+#     simpl_raw = expression.subs(cos(x8), 1)
+#     simpl_raw = simpl_raw.subs(sin(x8), x8)
+#     simpl_raw = simpl_raw.subs(cos(x3), 1)
+#     simpl_raw = simpl_raw.subs(sin(x3), x3)
+#     # simpl_raw = simpl_raw.subs(sin(x2), x2)
+#     # simpl_raw = simpl_raw.subs(cos(x2), 1)
+#
+#     simpl_raw = simpl_raw.subs(x3 * x8, 0)
+#     # simpl_raw = simpl_raw.subs(x2 * x3, 0)
+#     simpl_raw = simpl_raw.subs(x2 * x8, 0)
+#
+#     simpl_raw = simpl_raw.subs(x8 ** 2, 0)
+#     simpl_raw = simpl_raw.subs(x3 ** 2, 0)
+#     # simpl_raw = simpl_raw.subs(x2 ** 2, 0)
+#
+#     simpl_raw = simpl_raw.subs(x8 ** 3, 0)
+#     simpl_raw = simpl_raw.subs(x3 ** 3, 0)
+#     # simpl_raw = simpl_raw.subs(x2 ** 3, 0)
+#
+#     simpl_raw = simpl_raw.subs(x8 ** 4, 0)
+#     simpl_raw = simpl_raw.subs(x3 ** 4, 0)
+#     # simpl_raw = simpl_raw.subs(x2 ** 4, 0)
+#
+#     simpl_raw = simpl_raw.subs(x8 ** 5, 0)
+#     simpl_raw = simpl_raw.subs(x3 ** 5, 0)
+#     # simpl_raw = simpl_raw.subs(x2 ** 5, 0)
+#
+#     simpl_raw = simpl_raw.subs(x8 ** 6, 0)
+#     simpl_raw = simpl_raw.subs(x3 ** 6, 0)
+#     # simpl_raw = simpl_raw.subs(x2 ** 6, 0)
+#
+#     # simpl_raw = simpl_raw.subs(x2 * x3 * x8, 0)
+#
+#     res = sympify(simpl_raw)
+#     return res
+
+
+""" упрощаем в предположении, что β γ и τ  мал """
 def simplification_expression(expression):
     simpl_raw = expression.subs(cos(x8), 1)
     simpl_raw = simpl_raw.subs(sin(x8), x8)
     simpl_raw = simpl_raw.subs(cos(x3), 1)
     simpl_raw = simpl_raw.subs(sin(x3), x3)
-    # simpl_raw = simpl_raw.subs(sin(x2), x2)
-    # simpl_raw = simpl_raw.subs(cos(x2), 1)
+    simpl_raw = simpl_raw.subs(sin(x2), x2)
+    simpl_raw = simpl_raw.subs(cos(x2), 1)
 
-    simpl_raw = simpl_raw.subs(x3 * x8, 0)
+    # simpl_raw = simpl_raw.subs(x3 * x8, 0)
     # simpl_raw = simpl_raw.subs(x2 * x3, 0)
-    simpl_raw = simpl_raw.subs(x2 * x8, 0)
+    # simpl_raw = simpl_raw.subs(x2 * x8, 0)
+    simpl_raw = simpl_raw.subs(x2 * x3 * x8, 0)
 
-    simpl_raw = simpl_raw.subs(x8 ** 2, 0)
-    simpl_raw = simpl_raw.subs(x3 ** 2, 0)
-    # simpl_raw = simpl_raw.subs(x2 ** 2, 0)
+    simpl_raw = simpl_raw.subs(x2**2 * x3, 0)
+    simpl_raw = simpl_raw.subs(x2**2 * x8, 0)
+
+    simpl_raw = simpl_raw.subs(x2 * x3**2, 0)
+    simpl_raw = simpl_raw.subs(x3**2 * x8, 0)
+
+    simpl_raw = simpl_raw.subs(x2 * x8**2, 0)
+    simpl_raw = simpl_raw.subs(x3 * x8**2, 0)
 
     simpl_raw = simpl_raw.subs(x8 ** 3, 0)
     simpl_raw = simpl_raw.subs(x3 ** 3, 0)
-    # simpl_raw = simpl_raw.subs(x2 ** 3, 0)
+    simpl_raw = simpl_raw.subs(x2 ** 3, 0)
 
     simpl_raw = simpl_raw.subs(x8 ** 4, 0)
     simpl_raw = simpl_raw.subs(x3 ** 4, 0)
-    # simpl_raw = simpl_raw.subs(x2 ** 4, 0)
+    simpl_raw = simpl_raw.subs(x2 ** 4, 0)
 
     simpl_raw = simpl_raw.subs(x8 ** 5, 0)
     simpl_raw = simpl_raw.subs(x3 ** 5, 0)
-    # simpl_raw = simpl_raw.subs(x2 ** 5, 0)
+    simpl_raw = simpl_raw.subs(x2 ** 5, 0)
 
     simpl_raw = simpl_raw.subs(x8 ** 6, 0)
     simpl_raw = simpl_raw.subs(x3 ** 6, 0)
-    # simpl_raw = simpl_raw.subs(x2 ** 6, 0)
+    simpl_raw = simpl_raw.subs(x2 ** 6, 0)
 
-    # simpl_raw = simpl_raw.subs(x2 * x3 * x8, 0)
+    simpl_raw = simpl_raw.subs(x8 ** 7, 0)
+    simpl_raw = simpl_raw.subs(x3 ** 7, 0)
+    simpl_raw = simpl_raw.subs(x2 ** 7, 0)
 
     res = sympify(simpl_raw)
     return res
-
 
 def _add_simplify(coefficient, var):
     return Mul(

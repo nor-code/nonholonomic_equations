@@ -1,11 +1,60 @@
 import json
 from multiprocessing import Process, Lock, Value
-
+from utils.common import *
 import redis
-
-from Subs_kinematic import *
+import argparse
 from utils.sympy_expression import parse_2_sympy_expression
 from utils.to_sympy_expression import transform_to_simpy
+
+
+def _sub_step(equation, var, expression):
+    equation_top, bot = fraction(
+        together(
+            equation.subs(var, expression)
+        )
+    )
+    return equation_top
+
+
+def subs_kinematic(equation, val_d_phi, val_d_delta, val_d_eps, val_d_tau,
+                   val_dd_phi, val_dd_delta, val_dd_eps, val_dd_tau):
+    begin = time.time()
+
+    equation = _sub_step(equation, diff(diff(x6, t), t), val_dd_delta)
+    equation = simplification_expression(equation)
+    print("end sub dd_delta")
+
+    equation = _sub_step(equation, diff(diff(x7, t), t), val_dd_eps)
+    equation = simplification_expression(equation)
+    print("end sub dd_eps")
+
+    equation = _sub_step(equation, diff(diff(x8, t), t), val_dd_tau)
+    equation = simplification_expression(equation)
+    print("end sub dd_tau")
+
+    equation = _sub_step(equation, diff(diff(x4, t), t), val_dd_phi)
+    equation = simplification_expression(equation)
+    print("end sub dd_phi")
+
+    equation = _sub_step(equation, diff(x4, t), val_d_phi)
+    equation = simplification_expression(equation)
+    print("::::end substitution d_phi::::")
+
+    equation = _sub_step(equation, diff(x6, t), val_d_delta)
+    equation = simplification_expression(equation)
+    print("::::end substitution d_delta::::")
+
+    equation = _sub_step(equation, diff(x7, t), val_d_eps)
+    equation = simplification_expression(equation)
+    print("::::end substitution d_eps::::")
+
+    equation = _sub_step(equation, diff(x8, t), val_d_tau)
+    equation = simplification_expression(equation)
+    print("::::end substitution d_tau::::")
+
+    print("total time subs kinematic = %.2f [m]" % ((time.time() - begin) / 60))
+    return equation
+
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--n', type=int)
