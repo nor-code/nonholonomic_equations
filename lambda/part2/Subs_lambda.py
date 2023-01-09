@@ -16,12 +16,12 @@ t1 = time.time()
 
 def subs_lambda_to_equation(eq, i):
     global λ_1_expression, λ_2_expression, λ_3_expression, λ_4_expression
-    eq = eq.subs(λ_1, λ_1_expression)
-    eq = eq.subs(λ_2, λ_2_expression)
-    eq = eq.subs(λ_3, λ_3_expression)
-    eq = eq.subs(λ_4, λ_4_expression)
+    eq_top, _ = fraction(together(eq.subs(λ_1, λ_1_expression)))
+    eq_top, _ = fraction(together(eq_top.subs(λ_2, λ_2_expression)))
+    eq_top, _ = fraction(together(eq_top.subs(λ_3, λ_3_expression)))
+    eq_top, _ = fraction(together(eq_top.subs(λ_4, λ_4_expression)))
     with open("../../lambda/part2/eq_" + str(i) + "_without_lambda.txt", 'w') as out:
-        out.write(transform_to_simpy(str(eq)))
+        out.write(transform_to_simpy(str(eq_top)))
 
 
 Eq1 = parse_2_sympy_expression(open("../../dynamic/eq1.txt").readline())

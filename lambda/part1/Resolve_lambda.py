@@ -37,7 +37,11 @@ lambda4 = solution.row(3)[0]
 def solve_transform_and_write_to_file(lambda_i, i):
     λ_i_top, λ_i_bottom = fraction(together(lambda_i))
     top = expand_and_collect_term_before_derivatives_and_lambda(λ_i_top)
-    bottom = expand_and_collect_term_before_derivatives_and_lambda(λ_i_bottom)
+    bottom = simplify(
+        simplification_expression(
+            expand(λ_i_bottom)
+        )
+    )
     result = top / bottom
     with open('../../lambda/part1/lambda_' + str(i + 1) + '.txt', 'w') as out:
         out.write(transform_to_simpy(str(result)))

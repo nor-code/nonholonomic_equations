@@ -17,7 +17,11 @@ def calculate_second_diff(d_var, name):
     d_d_var_top, d_d_var_bot = fraction(together(d_d_var))
 
     top = expand_and_collect_term_before_derivatives_and_lambda(d_d_var_top)
-    bot = trigsimp(simplification_expression(expand(d_d_var_bot)))
+    bot = simplify(
+        simplification_expression(
+            expand(d_d_var_bot)
+        )
+    )
 
     result = top / bot
     with open('../../kinematic/part3/' + name + '.txt', 'w') as out:

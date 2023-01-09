@@ -8,10 +8,10 @@ import re
 import redis
 sys.setrecursionlimit(100000)
 
-from Subs_kinematic import *
+import argparse
 from utils.to_sympy_expression import transform_to_simpy
 from definitions.generic_coordinates import *
-from sympy.parsing.sympy_parser import standard_transformations, implicit_multiplication_application
+from sympy.parsing.sympy_parser import standard_transformations, implicit_multiplication_application, parse_expr
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--n', type=int)
