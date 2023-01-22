@@ -1,0 +1,1 @@
+-12*M_φ*R*x1*x2*sin(x6)*sin(x7)*cos(x7) + 2*M_φ*R*x2**3*sin(x7)*cos(x6)*cos(x7) - 12*M_φ*R*x2*sin(x7)*cos(x6)*cos(x7) - 12*M_φ*R*x3*sin(x6)*sin(x7)*cos(x7) + 12*M_φ*R*sin(x7)**2

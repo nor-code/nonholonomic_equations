@@ -1,0 +1,1 @@
+-48*M_φ*R*x1*x2*sin(x7)*cos(x6) - 8*M_φ*R*x2**3*sin(x6)*sin(x7) + 48*M_φ*R*x2*x8*sin(x7)**2*cos(x6) + 48*M_φ*R*x2*sin(x6)*sin(x7) - 48*M_φ*R*x3*sin(x7)*cos(x6) + 48*M_φ*R*x8*sin(x7)*cos(x7)

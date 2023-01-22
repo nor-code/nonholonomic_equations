@@ -1,0 +1,1 @@
+8*C_mz*R*m*(-6*x1*x2*cos(x6 - x5) - x2**3*sin(x6)*cos(x5) + 6*x2*x8*sin(x7)*cos(x6)*cos(x5) + 6*x2*sin(x6)*cos(x5) - 6*x3*cos(x6)*cos(x5) + 6*x8*cos(x7)*cos(x5))*sin(x7)*diff(diff(y, t), t)

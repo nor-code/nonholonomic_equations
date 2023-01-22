@@ -1,0 +1,1 @@
+{"0": "-12*M_\u03c6*R*x2*sin(x7)*cos(x6)*cos(x7)", "1": "2*M_\u03c6*R*x2**3*sin(x7)*cos(x6)*cos(x7)", "2": "12*M_\u03c6*R*sin(x7)**2", "3": "-12*M_\u03c6*R*x3*sin(x6)*sin(x7)*cos(x7)", "4": "-12*M_\u03c6*R*x1*x2*sin(x6)*sin(x7)*cos(x7)"}
