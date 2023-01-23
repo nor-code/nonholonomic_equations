@@ -1,0 +1,1 @@
+1296.0*C_mz**4*J_px*R**3*m**3*r**2*x2*x3*sin(x6 + x5)*sin(x6)*sin(x7)**8*cos(x6 - x5)**2*cos(x5) - 1296.0*C_mz**4*J_px*R**3*m**3*r**2*x2*x3*sin(x6)**2*sin(x7)**8*cos(x6 - x5)**2*cos(x5)**2 - 1296.0*C_mz**4*J_px*R**3*m**3*r**2*x2*x3*sin(x6)*sin(x7)**8*sin(x5)*cos(x6 - x5)**2*cos(x6)*cos(x5)

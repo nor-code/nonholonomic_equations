@@ -1,1 +1,1 @@
-r*(3.0*C_mz**2*d_del_bot**2*d_eps_bot*d_tau_bot*m*(x1**2 - x2**2)*x3*sin(x7)*cos(x6 - x5) - R**2*d_del_bot**2*(3*J_pz + 2*M*R**2)*x2**2*x8*sin(x7)*cos(x7)*cos(x5)**3 + R**2*d_del_bot*d_eps_bot*(-6*J_pz*sin(x7) + 3*J_pz*cos(x7) - 4*M*R**2*sin(x7) + 2*M*R**2*cos(x7))*x2**2*x8*sin(x7)*cos(x5)**3 - R**2*d_del_bot*d_tau_bot*(3*J_pz*sin(x7) + 6*J_pz*cos(x7) + 2*M*R**2*sin(x7) + 4*M*R**2*cos(x7))*x2**2*x8*cos(x7)*cos(x5)**3 - R**2*d_eps_bot*d_tau_bot*(3*J_pz + 2*M*R**2)*x2**2*x8*cos(x5)**3)*sin(x7)*diff(x3, t)**2/(d_del_bot**2*d_eps_bot*d_tau_bot)
+0

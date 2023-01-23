@@ -1,1 +1,1 @@
-2*C_mz*R*m*(6*x1*x2*cos(x6 - x5)*cos(x7) - 6*x1*sin(x7)*cos(x5) - x2**3*sin(x5)*cos(x6)*cos(x7) + 6*x2*sin(x5)*cos(x6)*cos(x7) + 6*x3*sin(x6)*sin(x5)*cos(x7) - 6*sin(x7)*sin(x5))*sin(x7)*diff(diff(x, t), t)
+12*C_mz*R*m*(x1*x2*cos(x6 - x5)*cos(x7) - x1*sin(x7)*cos(x5) + x2*sin(x5)*cos(x6)*cos(x7) + x3*sin(x6)*sin(x5)*cos(x7) - sin(x7)*sin(x5))*sin(x7)*diff(diff(x, t), t)
