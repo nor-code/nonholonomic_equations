@@ -1,1 +1,1 @@
-4*r*(sqrt(2)*d_del_bot*(-3*J_pz*sin(x7) - 2*M*R**2*sin(x7) + 4*M*R**2*cos(x7))*cos(x7 + pi/4) + d_tau_bot*(3*J_pz + 4*M*R**2)*cos(x7)**2)*x2**2*sin(x7)**3*cos(x6 - x5)**3*cos(x7)*diff(x, t)**2/(d_del_bot**2*d_tau_bot)
+0

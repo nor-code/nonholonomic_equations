@@ -3,9 +3,12 @@
 """
 from multiprocessing import Process
 
+from sympy import together, fraction
+
 from utils.common import *
 from utils.sympy_expression import parse_2_sympy_expression
 from utils.to_sympy_expression import *
+from definitions.denominators import *
 
 t1 = time.time()
 
@@ -15,23 +18,32 @@ d_eps = parse_2_sympy_expression(open('../../kinematic/part1/kin_eq2.txt').readl
 d_tau = parse_2_sympy_expression(open('../../kinematic/part1/kin_eq3.txt').readline())
 
 
-def solve_transform_and_write_to_file(d_var, name):
+def solve_transform_and_write_to_file(d_var, name, bottom_symbol):
     d_var_top, d_var_bot = fraction(together(d_var))
     bot = simplify(simplification_expression(expand(simplification_expression(expand(d_var_bot)))))
 
     d_var_top = expand(d_var_top, deep=True)
     top = expand_and_collect_term_before_first_derivatives(d_var_top)
 
-    result = top / bot
+    result = top / bottom_symbol
     with open('../../kinematic/part2/' + name + '.txt', 'w') as out:
         out.write(transform_to_simpy(str(result)))
+
+    with open('../../kinematic/part2/' + name + '_bottom' + '.txt', 'w') as out:
+        out.write(transform_to_simpy(str(bot)))
 
 
 tasks = []
 d_vars = [d_phi, d_del, d_eps, d_tau]
 names = ['d_phi', 'd_del', 'd_eps', 'd_tau']
+name_2_symb_dict = {
+    'd_phi': d_phi_bot,
+    'd_del': d_del_bot,
+    'd_eps': d_eps_bot,
+    'd_tau': d_tau_bot
+}
 for i in range(len(d_vars)):
-    task = Process(target=solve_transform_and_write_to_file, args=(d_vars[i], names[i]))
+    task = Process(target=solve_transform_and_write_to_file, args=(d_vars[i], names[i], name_2_symb_dict[names[i]]))
     task.start()
     tasks.append(task)
 

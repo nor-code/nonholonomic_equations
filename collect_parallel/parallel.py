@@ -1,30 +1,35 @@
 import json
 import multiprocessing as mp
 import sys
+import time
 from multiprocessing import Process, Lock, Pool
 from typing import *
 import tqdm
 import re
 import redis
+from sympy import Add, Derivative, trigsimp, simplify, Mul
+
+from utils.sympy_expression import parse_2_sympy_expression
+
 sys.setrecursionlimit(100000)
 
 import argparse
+from utils.common import get_count_files_in_directory, remove_third_and_above_smallness_from_expression
 from utils.to_sympy_expression import transform_to_simpy
 from definitions.generic_coordinates import *
-from sympy.parsing.sympy_parser import standard_transformations, implicit_multiplication_application, parse_expr
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--n', type=int)
 
 args = parser.parse_args()
 
-map_eq = {
-    1: "../expand_parallel/expand_expression1.json",
-    2: "../expand_parallel/expand_expression2.json",
-    3: "../expand_parallel/expand_expression3.json",
-    4: "../expand_parallel/expand_expression4.json",
-    5: "../expand_parallel/expand_expression5.json",
-    7: "../expand_parallel/expand_expression7.json"
+map_dir_eq_path = {
+    1: "../expand_parallel/eq1",
+    2: "../expand_parallel/eq2",
+    3: "../expand_parallel/eq3",
+    4: "../expand_parallel/eq4",
+    5: "../expand_parallel/eq5",
+    7: "../expand_parallel/eq7"
 }
 final_independent_coordinates = [x, y, x1, x2, x3, x5]
 
@@ -44,14 +49,14 @@ mixed_dict_name = dict(
     )
 )
 
-file = open(map_eq[args.n])
-dict_n_to_term = json.load(file)
-transformations = (standard_transformations + (implicit_multiplication_application,))
-local_dictionary = {'x': x, 'y': y, 'x1': x1, 'x2': x2, 'x3': x3, 'x4': x4, 'x5': x5, 'x6': x6, 'x7': x7, 'x8': x8}
+count_files = get_count_files_in_directory(map_dir_eq_path[args.n])
 
 dict_expression = {}
-for k, v in tqdm.tqdm(dict_n_to_term.items()):
-    dict_expression[int(k)] = parse_expr(v, transformations=transformations, local_dict=local_dictionary)
+counter = 0
+for i in tqdm.tqdm(range(count_files)):
+    for k, raw_term in json.load(open(map_dir_eq_path[args.n] + '/' + "term" + str(i) + '.json')).items():
+        dict_expression[counter] = parse_2_sympy_expression(raw_term)
+        counter += 1
 
 lock = Lock()
 client = redis.Redis(host='localhost', port=6379, db=0)
@@ -63,7 +68,7 @@ print("_____size dictionary = %d _____" % len(dict_expression.keys()))
 coeff_dict = dict(
     zip(
         list(str(var) for var in [*second_derivatives, *mixed_derivatives]),
-        zeros(len(second_derivatives) + len(mixed_derivatives))
+        [0] * (len(second_derivatives) + len(mixed_derivatives))
     )
 )
 coeff_dict["free"] = 0
@@ -137,6 +142,10 @@ def collect_before_derivatives(arr, eq_number, name, d_one: Derivative, is_mixed
     # simpl_coeff = trigsimp(collect(result_expression, syms).coeff(syms))
 
     # result_expression = Mul(simpl_coeff, syms)
+    if type(result_expression) != Mul:
+        result_expression = remove_third_and_above_smallness_from_expression(result_expression)
+
+    result_expression = simplify(result_expression)
     with open('./eq' + str(eq_number) + '/' + name + '.txt', 'w') as out:
         out.write(transform_to_simpy(str(result_expression)))
     print("write to file collected coefficient = %s" % (str(d_one) + "*" + str(d_two)))
@@ -193,9 +202,12 @@ for task in tasks:
     task.join()
 print("\n####### finished collecting before squared derivatives #######\n")
 
+t1 = time.time()
 get_result_from_redis(coeff_dict, client)
 get_free_term(coeff_dict, selected_term_indx, dict_expression, args.n)
+t2 = time.time()
 
+print("end collect free term. spent timw = %.2f [m]" % ((t2 - t1)/60))
 # for k, v in coeff_dict.items():
 #     coeff_dict[k] = str(v)
 #

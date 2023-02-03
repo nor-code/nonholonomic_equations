@@ -55,3 +55,7 @@ def transform_to_simpy(row):
         row = re.sub(re.compile(key), second_regexp[key], row)
 
     return row
+
+
+def replace_space_to_multiplication_sym(raw_str):
+    return re.sub(r'((?<=\d{1})( )(?=[a-z]{1}))', '*', raw_str)

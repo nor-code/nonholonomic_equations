@@ -21,22 +21,11 @@ import sympy
 from sympy import *
 from definitions.generic_coordinates import *
 from definitions.constants import *
+from definitions.coefficient_for_resolve import *
 
-expr = (-x3*sin(x1 - x6)*sin(x7)*sin(x5)*cos(x1) - x3*sin(x1)*sin(x2)**2*sin(x7)*sin(x5)*cos(x1 - x6) - x3*sin(x1)*sin(x2)*sin(x5)*cos(x2)*cos(x7))*(x3**2 - cos(x1))*diff(x1, t) + ((x2 - x5)*diff(x2, t)/(x4 - x1)) + diff(x1, t)
-
-print(srepr(expr))
-Add(
-    Mul(Add(Pow(Function('γ')(Symbol('t')), Integer(2)), Mul(Integer(-1), cos(Function('α')(Symbol('t'))))), Add(Mul(Integer(-1), Function('γ')(Symbol('t')), sin(Add(Function('α')(Symbol('t')), Mul(Integer(-1), Function('δ')(Symbol('t'))))), sin(Function('ε')(Symbol('t'))), sin(Function('ψ')(Symbol('t'))), cos(Function('α')(Symbol('t')))), Mul(Integer(-1), Function('γ')(Symbol('t')), sin(Function('α')(Symbol('t'))), Pow(sin(Function('β')(Symbol('t'))), Integer(2)), sin(Function('ε')(Symbol('t'))), sin(Function('ψ')(Symbol('t'))), cos(Add(Function('α')(Symbol('t')), Mul(Integer(-1), Function('δ')(Symbol('t')))))), Mul(Integer(-1), Function('γ')(Symbol('t')), sin(Function('α')(Symbol('t'))), sin(Function('β')(Symbol('t'))), sin(Function('ψ')(Symbol('t'))), cos(Function('β')(Symbol('t'))), cos(Function('ε')(Symbol('t'))))), Derivative(Function('α')(Symbol('t')), Tuple(Symbol('t'), Integer(1)))),
-    Derivative(Function('α')(Symbol('t')), Tuple(Symbol('t'), Integer(1))),
-    Mul(Pow(Add(Mul(Integer(-1), Function('α')(Symbol('t'))), Function('φ')(Symbol('t'))), Integer(-1)), Add(Function('β')(Symbol('t')), Mul(Integer(-1), Function('ψ')(Symbol('t')))), Derivative(Function('β')(Symbol('t')), Tuple(Symbol('t'), Integer(1))))
-)
-
-print(expr)
-print(expr - ((x2 - x5)*diff(x2, t)/(x4 - x1)))
-
-def k(name, *args):
-    for n in (name, ) + args:
-        print(" _ ", n)
-
-k("tomas", "kraken", "sraken")
+mmm = Matrix([[a1, a2, a3, a4, a5],
+              [b1, b2, b3, b4, b5],
+              [c1, c2, c3, c4, c5],
+              [d1, d2, d3, d4, d5],
+              [e1, e2, e3, e4, e5]])
 

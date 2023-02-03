@@ -1,10 +1,77 @@
-from sympy import *
+from sympy import cos, sin, nsimplify, expand, collect, Add, sympify, Mul, simplify, trigsimp, Pow
+from sympy.core.numbers import Zero
+
 from definitions.constants import *
 from definitions.generic_coordinates import *
 from definitions.lagrangian_multipliers import *
 from definitions.moments import *
+from definitions.denominators import *
 import time
 
+
+def base_remove_current_and_above_smallness(term, order):
+    count = 0
+    for tterm in term.args:
+        if tterm == x1 or tterm == x2 or tterm == x3 or tterm == x8:
+            count += 1
+        elif type(tterm) is Pow and len(tterm.args) == 2:
+            var, pow = tterm.args
+            if var == x1 or var == x2 or var == x3 or var == x8:
+                count += pow
+        if count >= order:
+            break
+    return count
+
+
+def remove_fourth_and_above_smallness_from_one_term(term):
+    if base_remove_current_and_above_smallness(term, 4) < 4:
+        return term
+    else:
+        return 0
+
+
+def __is_denominator_sym(symbol):
+    return symbol in [d_phi_bot, d_eps_bot, d_tau_bot, d_del_bot, d_d_phi_bot, d_d_eps_bot, d_d_tau_bot, d_d_del_bot]
+
+
+def remove_fourth_and_above_smallness_from_expression(expression):
+    simplified = Zero()
+    # if (type(expression) == Pow and __is_denominator_sym(expression.args[0])) or __is_denominator_sym(expression):
+    #     return expression
+    for term in expand(expression).args:
+        count = base_remove_current_and_above_smallness(term, 4)
+        if count < 4:
+            simplified = Add(term, simplified)
+    return simplified
+
+
+def remove_third_and_above_smallness_from_one_term(term):
+    if base_remove_current_and_above_smallness(term, 3) < 3:
+        return term
+    else:
+        return 0
+
+
+def remove_third_and_above_smallness_from_expression(expression):
+    if expression == 1:
+        return 1
+    simplified = Zero()
+    # if (type(expression) == Pow and __is_denominator_sym(expression.args[0])) or __is_denominator_sym(expression):
+    #     return expression
+    for term in expand(expression).args:
+        count = base_remove_current_and_above_smallness(term)
+        if count < 3:
+            simplified = Add(term, simplified)
+    return simplified
+
+
+def get_count_files_in_directory(path):
+    import os
+    count = 0
+    for entry in os.listdir(path):
+        if os.path.isfile(os.path.join(path, entry)):
+            count += 1
+    return count
 
 # """ упрощаем в предположении, что τ и γ мал """
 # def simplification_expression(expression):
@@ -44,41 +111,39 @@ import time
 #     res = sympify(simpl_raw)
 #     return res
 
+
 """ упрощаем в предположении, что  α и γ и τ  мал """
+
+
 def simplification_expression(expression):
     simpl_raw = expression.subs(
         {
-            cos(x8): 1,
-            sin(x8): x8,
-
             cos(x1): 1,
             sin(x1): x1,
 
             cos(x3): 1,
             sin(x3): x3,
 
-            x1*x3: 0,
-            x1*x8: 0,
-            x3*x8: 0,
+            cos(x8): 1,
+            sin(x8): x8,
 
-            x1**2: 0,
-            x3**2: 0,
-            x8**2: 0,
+            sin(x2): x2 - (x2 ** 3 / 6),
+            sin(x2) ** 2: x2 ** 2,
+            sin(x2) ** 3: 0,
+            sin(x2) ** 4: 0,
+            sin(x2) ** 5: 0,
+            sin(x2) ** 6: 0,
 
-            x1**3: 0,
-            x3**3: 0,
-            x8**3: 0,
-
-            x1**4: 0,
-            x3**4: 0,
-            x8**4: 0,
-
-            x1**5: 0,
-            x3**5: 0,
-            x8**5: 0,
+            cos(x2): 1,
+            cos(x2) ** 2: 1,
+            cos(x2) ** 3: 1,
+            cos(x2) ** 4: 1,
+            cos(x2) ** 5: 1,
+            cos(x2) ** 6: 1
         }
     )
-    return sympify(simpl_raw)
+    return simpl_raw
+
 
 # """ упрощаем в предположении, что β γ и τ  мал """
 # def simplification_expression(expression):
@@ -183,7 +248,8 @@ def expand_and_collect_term_before_derivatives_and_lambda(expression):
             simplified = Add(simplified, _add_simplify(before_lambda, λ_i))
 
     print("begin free")
-    free_term = simplify(trigsimp(expand(expression))) # simplification_expression(simplify(expression - trigsimp(expand(simplified))))
+    free_term = simplify(
+        trigsimp(expand(expression)))  # simplification_expression(simplify(expression - trigsimp(expand(simplified))))
     print("free ", free_term)
     simplified = Add(simplified, free_term)
 

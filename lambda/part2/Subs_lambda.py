@@ -1,10 +1,8 @@
 from utils.to_sympy_expression import *
 from utils.common import *
-import time
-import argparse
-from utils.to_sympy_expression import transform_to_simpy
 from utils.sympy_expression import parse_2_sympy_expression
 from multiprocessing import Process
+from sympy import linear_eq_to_matrix, together, fraction
 
 t1 = time.time()
 
