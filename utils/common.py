@@ -59,7 +59,7 @@ def remove_third_and_above_smallness_from_expression(expression):
     # if (type(expression) == Pow and __is_denominator_sym(expression.args[0])) or __is_denominator_sym(expression):
     #     return expression
     for term in expand(expression).args:
-        count = base_remove_current_and_above_smallness(term)
+        count = base_remove_current_and_above_smallness(term, 3)
         if count < 3:
             simplified = Add(term, simplified)
     return simplified
@@ -112,34 +112,21 @@ def get_count_files_in_directory(path):
 #     return res
 
 
-""" упрощаем в предположении, что  α и γ и τ  мал """
-
-
+""" упрощаем в предположении, что  α, β, γ и τ  мал """
 def simplification_expression(expression):
     simpl_raw = expression.subs(
         {
-            cos(x1): 1,
-            sin(x1): x1,
+            cos(x1): 1 - x1**2/2,
+            sin(x1): x1 - x1**3/6,
 
-            cos(x3): 1,
-            sin(x3): x3,
+            cos(x3): 1 - x3**2/2,
+            sin(x3): x3 - x3**2/6,
 
-            cos(x8): 1,
-            sin(x8): x8,
+            cos(x8): 1 - x8**2/2,
+            sin(x8): x8 - x8**3/6,
 
-            sin(x2): x2 - (x2 ** 3 / 6),
-            sin(x2) ** 2: x2 ** 2,
-            sin(x2) ** 3: 0,
-            sin(x2) ** 4: 0,
-            sin(x2) ** 5: 0,
-            sin(x2) ** 6: 0,
-
-            cos(x2): 1,
-            cos(x2) ** 2: 1,
-            cos(x2) ** 3: 1,
-            cos(x2) ** 4: 1,
-            cos(x2) ** 5: 1,
-            cos(x2) ** 6: 1
+            sin(x2): x2 - x2**3/6,
+            cos(x2): 1 - x2**2/2,
         }
     )
     return simpl_raw

@@ -20,9 +20,19 @@ d_tau = parse_2_sympy_expression(open('../../kinematic/part1/kin_eq3.txt').readl
 
 def solve_transform_and_write_to_file(d_var, name, bottom_symbol):
     d_var_top, d_var_bot = fraction(together(d_var))
-    bot = simplify(simplification_expression(expand(simplification_expression(expand(d_var_bot)))))
+    bot = simplify(
+        remove_fourth_and_above_smallness_from_expression(
+            expand(
+                simplification_expression(expand(d_var_bot, deep=True)), deep=True
+            )
+        )
+    )
 
-    d_var_top = expand(d_var_top, deep=True)
+    d_var_top = remove_fourth_and_above_smallness_from_expression(
+        expand(
+            simplification_expression(expand(d_var_top, deep=True)), deep=True
+        )
+    )
     top = expand_and_collect_term_before_first_derivatives(d_var_top)
 
     result = top / bottom_symbol
