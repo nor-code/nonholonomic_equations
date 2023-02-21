@@ -9,10 +9,20 @@ from definitions.denominators import *
 
 t1 = time.time()
 
-d_phi = parse_2_sympy_expression(open('../../kinematic/part2/d_phi.txt').readline())
-d_del = parse_2_sympy_expression(open('../../kinematic/part2/d_del.txt').readline())
-d_eps = parse_2_sympy_expression(open('../../kinematic/part2/d_eps.txt').readline())
-d_tau = parse_2_sympy_expression(open('../../kinematic/part2/d_tau.txt').readline())
+d_phi_top = parse_2_sympy_expression(open('../../kinematic/part2/d_phi.txt').readline())
+d_del_top = parse_2_sympy_expression(open('../../kinematic/part2/d_del.txt').readline())
+d_eps_top = parse_2_sympy_expression(open('../../kinematic/part2/d_eps.txt').readline())
+d_tau_top = parse_2_sympy_expression(open('../../kinematic/part2/d_tau.txt').readline())
+
+d_phi_bot = parse_2_sympy_expression(open('../../kinematic/part2/d_phi_bottom.txt').readline())
+d_del_bot = parse_2_sympy_expression(open('../../kinematic/part2/d_del_bottom.txt').readline())
+d_eps_bot = parse_2_sympy_expression(open('../../kinematic/part2/d_eps_bottom.txt').readline())
+d_tau_bot = parse_2_sympy_expression(open('../../kinematic/part2/d_tau_bottom.txt').readline())
+
+d_phi = d_phi_top / d_phi_bot
+d_del = d_del_top / d_del_bot
+d_eps = d_eps_top / d_eps_bot
+d_tau = d_tau_top / d_tau_bot
 
 map_name_2_symbol = {
     'd_d_phi': d_d_phi_bot,
@@ -26,31 +36,36 @@ def calculate_second_diff(d_var, name):
     d_d_var = diff(d_var, t)
     d_d_var_top, d_d_var_bot = fraction(together(d_d_var))
 
-    top = expand_and_collect_term_before_derivatives_and_lambda(d_d_var_top)
-    print("finished 1st collect and expand")
+    d_d_var_top = d_d_var_top.subs(
+        {
+            diff(x4, t): d_phi,
+            diff(x6, t): d_del,
+            diff(x7, t): d_eps,
+            diff(x8, t): d_tau
+        },
+        simultaneous=True
+    )
+    print("finished sub first derivatives")
 
-    top = top.subs(diff(x4, t),  d_phi)
-    top = top.subs(diff(x6, t), d_del)
-    top = top.subs(diff(x7, t), d_eps)
-    top = top.subs(diff(x8, t), d_tau)
-    print("finished 2nd collect and expand")
-
-    top, bot1 = fraction(together(top))
+    top, bot1 = fraction(together(d_d_var_top))
     print("finished fraction and together")
 
-    top = expand_and_collect_term_before_derivatives_and_lambda(top)
-    print("finished 2st collect and expand")
-
-    bot2 = simplification_expression(
-        trigsimp(
-            simplification_expression(
-                expand(d_d_var_bot)
-            )
+    top = expand_and_collect_term_before_derivatives_and_lambda(
+        remove_fourth_and_above_smallness_from_expression(
+            expand(top, deep=True)
         )
     )
+    print("finished 2st collect and expand")
+
+    bot2 = remove_fourth_and_above_smallness_from_expression(
+                expand(d_d_var_bot, deep=True)
+    )
     print("finished simplification denominator. 1")
-    bot = simplification_expression(
-        trigsimp(simplification_expression(Mul(bot1, bot2)))
+
+    bot = trigsimp(
+        remove_fourth_and_above_smallness_from_expression(
+            expand(Mul(bot1, bot2), deep=True)
+        )
     )
     print("finished simplification denominator. 2")
 

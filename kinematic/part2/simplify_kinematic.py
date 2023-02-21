@@ -35,7 +35,7 @@ def solve_transform_and_write_to_file(d_var, name, bottom_symbol):
     )
     top = expand_and_collect_term_before_first_derivatives(d_var_top)
 
-    result = top / bottom_symbol
+    result = top  # / bottom_symbol
     with open('../../kinematic/part2/' + name + '.txt', 'w') as out:
         out.write(transform_to_simpy(str(result)))
 
