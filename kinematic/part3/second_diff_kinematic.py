@@ -52,21 +52,19 @@ def calculate_second_diff(d_var, name):
 
     top = expand_and_collect_term_before_derivatives_and_lambda(
         remove_fourth_and_above_smallness_from_expression(
-            simplification_expression(
-                expand(top, deep=True, trig=True)
-            )
+            expand(top, deep=True)
         )
     )
     print("finished 2st collect and expand")
 
     bot2 = remove_fourth_and_above_smallness_from_expression(
-                expand(d_d_var_bot, deep=True, trig=True)
+        expand(d_d_var_bot, deep=True)
     )
     print("finished simplification denominator. 1")
 
     bot = trigsimp(
         remove_fourth_and_above_smallness_from_expression(
-            expand(Mul(bot1, bot2), deep=True, trig=True)
+            expand(Mul(bot1, bot2), deep=True)
         )
     )
     print("finished simplification denominator. 2")
