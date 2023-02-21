@@ -196,7 +196,7 @@ def _add_simplify(coefficient, var):
 
 def expand_and_collect_term_before_derivatives_and_lambda(expression):
     bedin = time.time()
-    expression = nsimplify(simplification_expression(expand(expression)), rational=True)
+    # expression = nsimplify(simplification_expression(expand(expression)), rational=True)
     print(expression)
     print("begin ", len(str(expression)))
     simplified = 0

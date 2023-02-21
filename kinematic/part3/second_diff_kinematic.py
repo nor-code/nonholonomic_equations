@@ -52,7 +52,9 @@ def calculate_second_diff(d_var, name):
 
     top = expand_and_collect_term_before_derivatives_and_lambda(
         remove_fourth_and_above_smallness_from_expression(
-            expand(top, deep=True)
+            simplification_expression(
+                expand(top, deep=True)
+            )
         )
     )
     print("finished 2st collect and expand")
