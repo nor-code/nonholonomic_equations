@@ -73,6 +73,7 @@ def get_count_files_in_directory(path):
             count += 1
     return count
 
+
 # """ упрощаем в предположении, что τ и γ мал """
 # def simplification_expression(expression):
 #     simpl_raw = expression.subs(cos(x8), 1)
@@ -112,21 +113,21 @@ def get_count_files_in_directory(path):
 #     return res
 
 
-""" упрощаем в предположении, что  α, β, γ и τ  мал """
 def simplification_expression(expression):
+    """ упрощаем в предположении, что  α, γ и τ  мал """  # β
     simpl_raw = expression.subs(
         {
-            cos(x1): 1 - x1**2/2,
-            sin(x1): x1 - x1**3/6,
+            cos(x1): 1 - x1 ** 2 / 2,
+            sin(x1): x1 - x1 ** 3 / 6,
 
-            cos(x3): 1 - x3**2/2,
-            sin(x3): x3 - x3**2/6,
+            cos(x3): 1 - x3 ** 2 / 2,
+            sin(x3): x3 - x3 ** 2 / 6,
 
-            cos(x8): 1 - x8**2/2,
-            sin(x8): x8 - x8**3/6,
+            cos(x8): 1 - x8 ** 2 / 2,
+            sin(x8): x8 - x8 ** 3 / 6,
 
-            sin(x2): x2 - x2**3/6,
-            cos(x2): 1 - x2**2/2,
+            # sin(x2): x2 - x2**3/6,
+            # cos(x2): 1 - x2**2/2,
         }
     )
     return simpl_raw
