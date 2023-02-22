@@ -1,5 +1,6 @@
 from multiprocessing import Process
 
+import sympy
 from sympy import together, fraction, Symbol
 
 from utils.common import *
@@ -8,7 +9,9 @@ from utils.to_sympy_expression import *
 from definitions.denominators import *
 from definitions.symengine_var import *
 import sys
+import tqdm
 sys.setrecursionlimit(1000000)
+
 
 t1 = time.time()
 
@@ -39,12 +42,11 @@ def calculate_second_diff(d_var, name):
     d_d_var = diff(d_var, t)
     d_d_var_top, d_d_var_bot = fraction(together(d_d_var))
 
-    d_d_var_top = expand_and_collect_term_before_derivatives_and_lambda(
-        remove_required_and_above_smallness_from_expression(
-            expand(d_d_var_top, deep=True),
-            order=5
-        )
+    d_d_var_top = remove_required_and_above_smallness_from_expression(
+        expand(d_d_var_top, deep=True),
+        order=5
     )
+
     print("first collect in d_d_var_top and remove small term")
 
     d_d_var_top = d_d_var_top.subs(
@@ -62,13 +64,36 @@ def calculate_second_diff(d_var, name):
     print("finished fraction and together")
 
     top_as_se = se.expand(se.sympify(top))
-    top = expand_and_collect_term_before_derivatives_and_lambda(
-        remove_required_and_above_smallness_from_expression(
-            parse_2_sympy_expression(transform_to_simpy(str(top_as_se))),
-            order=5
-        )
-    )
-    print("finished 2st collect and expand")
+    print("sym_engine expand finished")
+    # top = expand_and_collect_term_before_derivatives_and_lambda(
+    #     remove_required_and_above_smallness_from_expression(
+    #         parse_2_sympy_expression(transform_to_simpy(str(top_as_se))),
+    #         order=5
+    #     )
+    # )
+
+    res = 0
+    count = 0
+    for term_ in tqdm.tqdm(top_as_se.args):
+        term_ = parse_2_sympy_expression(transform_to_simpy(str(term_)))
+        top = expand(term_)
+
+        if type(top) == Mul:
+            simpl_top = remove_current_and_above_smallness_from_one_term(term_, order=5)
+        else:
+            simpl_top = remove_required_and_above_smallness_from_expression(term_, order=5)
+
+        if simpl_top != sympy.core.numbers.Zero():
+            expression = expand(simpl_top)
+            if type(expression) == Add:
+                for tterm in expression.args:
+                    res += transform_to_simpy(str(tterm))
+                    count += 1
+            else:
+                res += transform_to_simpy(str(expression))
+                count += 1
+    print("finished 2st collect and expand", count)
+    print("res ", res)
 
     bot2 = remove_fourth_and_above_smallness_from_expression(
         expand(d_d_var_bot, deep=True)
