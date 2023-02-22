@@ -37,6 +37,9 @@ def calculate_second_diff(d_var, name):
     d_d_var = diff(d_var, t)
     d_d_var_top, d_d_var_bot = fraction(together(d_d_var))
 
+    d_d_var_top = expand_and_collect_term_before_derivatives_and_lambda(d_d_var_top)
+    print("first collect in d_d_var_top")
+
     d_d_var_top = d_d_var_top.subs(
         {
             diff(x4, t): d_phi,
