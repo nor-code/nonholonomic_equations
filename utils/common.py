@@ -128,17 +128,17 @@ def simplification_expression(expression):
     """ упрощаем в предположении, что  α, γ и τ  мал """  # β
     simpl_raw = expression.subs(
         {
-            cos(x1): 1 - x1 ** 2 / 2,
+            cos(x1): 1 - x1 ** 2 / 2 - x1 ** 4 / 24,
             sin(x1): x1 - x1 ** 3 / 6,
 
-            cos(x3): 1 - x3 ** 2 / 2,
+            cos(x3): 1 - x3 ** 2 / 2 - x3 ** 4 / 24,
             sin(x3): x3 - x3 ** 2 / 6,
 
-            cos(x8): 1 - x8 ** 2 / 2,
+            cos(x8): 1 - x8 ** 2 / 2 - x8 ** 4 / 24,
             sin(x8): x8 - x8 ** 3 / 6,
 
-            # sin(x2): x2 - x2**3/6,
-            # cos(x2): 1 - x2**2/2,
+            sin(x2): x2 - x2 ** 3 / 6,
+            cos(x2): 1 - x2 ** 2 / 2 - x2 ** 4 / 24,
         }
     )
     return simpl_raw
