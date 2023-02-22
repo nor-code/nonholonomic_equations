@@ -7,6 +7,8 @@ from utils.sympy_expression import parse_2_sympy_expression
 from utils.to_sympy_expression import *
 from definitions.denominators import *
 from definitions.symengine_var import *
+import sys
+sys.setrecursionlimit(1000000)
 
 t1 = time.time()
 
