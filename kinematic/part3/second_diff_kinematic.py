@@ -6,7 +6,7 @@ from utils.common import *
 from utils.sympy_expression import parse_2_sympy_expression
 from utils.to_sympy_expression import *
 from definitions.denominators import *
-import symengine as se
+from definitions.symengine_var import *
 
 t1 = time.time()
 
