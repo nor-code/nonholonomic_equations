@@ -51,7 +51,7 @@ def calculate_second_diff(d_var, name):
     top, bot1 = fraction(together(d_d_var_top))
     print("finished fraction and together")
 
-    top_as_se = se.expand(se.symengine(top))
+    top_as_se = se.expand(se.sympify(top))
     top = expand_and_collect_term_before_derivatives_and_lambda(
         remove_fourth_and_above_smallness_from_expression(
             parse_2_sympy_expression(transform_to_simpy(str(top_as_se)))
