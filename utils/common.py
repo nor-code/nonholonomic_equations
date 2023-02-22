@@ -34,6 +34,17 @@ def __is_denominator_sym(symbol):
     return symbol in [d_phi_bot, d_eps_bot, d_tau_bot, d_del_bot, d_d_phi_bot, d_d_eps_bot, d_d_tau_bot, d_d_del_bot]
 
 
+def remove_required_and_above_smallness_from_expression(expression, order):
+    simplified = Zero()
+    # if (type(expression) == Pow and __is_denominator_sym(expression.args[0])) or __is_denominator_sym(expression):
+    #     return expression
+    for term in expand(expression).args:
+        count = base_remove_current_and_above_smallness(term, order)
+        if count < order:
+            simplified = Add(term, simplified)
+    return simplified
+
+
 def remove_fourth_and_above_smallness_from_expression(expression):
     simplified = Zero()
     # if (type(expression) == Pow and __is_denominator_sym(expression.args[0])) or __is_denominator_sym(expression):

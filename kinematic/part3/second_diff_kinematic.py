@@ -38,7 +38,10 @@ def calculate_second_diff(d_var, name):
     d_d_var_top, d_d_var_bot = fraction(together(d_d_var))
 
     d_d_var_top = expand_and_collect_term_before_derivatives_and_lambda(
-        remove_fourth_and_above_smallness_from_expression(expand(d_d_var_top, deep=True))
+        remove_required_and_above_smallness_from_expression(
+            expand(d_d_var_top, deep=True),
+            order=5
+        )
     )
     print("first collect in d_d_var_top and remove small term")
 
@@ -58,8 +61,9 @@ def calculate_second_diff(d_var, name):
 
     top_as_se = se.expand(se.sympify(top))
     top = expand_and_collect_term_before_derivatives_and_lambda(
-        remove_fourth_and_above_smallness_from_expression(
-            parse_2_sympy_expression(transform_to_simpy(str(top_as_se)))
+        remove_required_and_above_smallness_from_expression(
+            parse_2_sympy_expression(transform_to_simpy(str(top_as_se))),
+            order=5
         )
     )
     print("finished 2st collect and expand")
@@ -70,8 +74,9 @@ def calculate_second_diff(d_var, name):
     print("finished simplification denominator. 1")
 
     bot = trigsimp(
-        remove_fourth_and_above_smallness_from_expression(
-            expand(Mul(bot1, bot2), deep=True)
+        remove_required_and_above_smallness_from_expression(
+            expand(Mul(bot1, bot2), deep=True),
+            order=5
         )
     )
     print("finished simplification denominator. 2")
