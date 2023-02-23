@@ -71,7 +71,7 @@ for i in range(len(equations)):
             order=5
         )
         print(i, " = ", eq_i_simplified)
-        eq_i.write(transform_to_simpy(str(eq_i_simplified)))
+        eq_i.write(transform_to_simpy(str(simplify(eq_i_simplified, rational=True))))
 
 
 print("Eq1 ", expand(Eq1))
