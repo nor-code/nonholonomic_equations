@@ -72,13 +72,13 @@ det = a4*b3*c2*d1 - a3*b4*c2*d1 - a4*b2*c3*d1 + a2*b4*c3*d1 + a3*b2*c4*d1 - a2*b
 det = remove_required_and_above_smallness_from_expression(det, order=5)
 print("... det ...", det)
 
-A_inv = Matrix([[simplify(m11/det), simplify(m12/det), simplify(m13/det), simplify(m14/det)],
-                [simplify(m21/det), simplify(m22/det), simplify(m23/det), simplify(m24/det)],
-                [simplify(m31/det), simplify(m32/det), simplify(m33/det), simplify(m34/det)],
-                [simplify(m41/det), simplify(m42/det), simplify(m43/det), simplify(m44/det)]])
-print("inv A = ", A_inv)
+A_semi_inv = Matrix([[m11, m12, m13, m14],
+                [m21, m22, m23, m24],
+                [m31, m32, m33, m34],
+                [m41, m42, m43, m44]])
+print("inv A = ", A_semi_inv)
 
-solution = A_inv * b
+solution = (1/det) * A_semi_inv * b
 lambda1 = solution.row(0)[0]
 lambda2 = solution.row(1)[0]
 lambda3 = solution.row(2)[0]
@@ -87,12 +87,18 @@ lambda4 = solution.row(3)[0]
 
 def solve_transform_and_write_to_file(lambda_i, i):
     λ_i_top, λ_i_bottom = fraction(together(lambda_i))
-    top = expand_and_collect_term_before_derivatives_and_lambda(λ_i_top)
-    bottom = simplify(
-        simplification_expression(
-            expand(λ_i_bottom)
+
+    top = expand_and_collect_term_before_derivatives_and_lambda(
+        remove_required_and_above_smallness_from_expression(
+            λ_i_top, order=5
         )
     )
+
+    bottom = remove_required_and_above_smallness_from_expression(
+        expand(λ_i_bottom, deep=True),
+        order=5
+    )
+
     result = top / bottom
     with open('../../lambda/part1/lambda_' + str(i + 1) + '.txt', 'w') as out:
         out.write(transform_to_simpy(str(result)))
