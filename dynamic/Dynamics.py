@@ -1,3 +1,4 @@
+from utils.common import *
 from Kinematics import *
 from definitions.moments import *
 from definitions.lagrangian_multipliers import *
@@ -5,6 +6,7 @@ import time
 from sympy.solvers.solveset import linsolve, linear_eq_to_matrix
 from utils.Wolfram import Wolfram
 from utils.to_sympy_expression import transform_to_simpy
+from sympy import expand
 
 t0 = time.time()
 # кинетическая энергия сферической оболочки
@@ -64,7 +66,12 @@ Eq10 = diff(diff(T, diff(x8, t)), t)[0] - diff(T, x8)[0] - Q_τ - (B.row(9) * λ
 equations = [Eq1, Eq2, Eq3, Eq4, Eq5, Eq6, Eq7, Eq8, Eq9, Eq10]
 for i in range(len(equations)):
     with open('./dynamic/eq' + str(i + 1) + '.txt', 'w') as eq_i:
-        eq_i.write(transform_to_simpy(str(equations[i])))
+        eq_i_simplified = remove_required_and_above_smallness_from_expression(
+            simplification_expression(expand(equations[i], deep=True)),
+            order=5
+        )
+        print(i, " = ", eq_i_simplified)
+        eq_i.write(transform_to_simpy(str(eq_i_simplified)))
 
 
 print("Eq1 ", expand(Eq1))
