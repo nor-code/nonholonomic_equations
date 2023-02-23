@@ -87,13 +87,14 @@ def calculate_second_diff(d_var, name):
             expression = expand(simpl_top)
             if type(expression) == Add:
                 for tterm in expression.args:
-                    res += transform_to_simpy(str(tterm))
+                    res += parse_2_sympy_expression(transform_to_simpy(str(tterm)))
                     count += 1
             else:
-                res += transform_to_simpy(str(expression))
+                res += parse_2_sympy_expression(transform_to_simpy(str(expression)))
                 count += 1
-    print("finished 2st collect and expand", count)
-    print("res ", res)
+    print("finished expand and remove smallness term", count)
+    res = expand_and_collect_term_before_derivatives_and_lambda(res)
+    print("expand_and_collect_term_before_derivatives_and_lambda(res)")
 
     bot2 = remove_fourth_and_above_smallness_from_expression(
         expand(d_d_var_bot, deep=True)
@@ -111,9 +112,8 @@ def calculate_second_diff(d_var, name):
     with open('../../kinematic/part3/' + name + '_bottom' + '.txt', 'w') as out:
         out.write(transform_to_simpy(str(bot)))
 
-    result = top / map_name_2_symbol[name]
     with open('../../kinematic/part3/' + name + '.txt', 'w') as out:
-        out.write(transform_to_simpy(str(result)))
+        out.write(transform_to_simpy(str(res)))
 
 
 tasks = []
