@@ -141,9 +141,9 @@ def sub_expand(term, number):
             top = expand(simplification_expression(expand(expand_trig(top))))
 
             if type(top) == Mul:
-                simpl_top = remove_fourth_and_above_smallness_from_one_term(top)
+                simpl_top = remove_current_and_above_smallness_from_one_term(top, order=5)
             else:
-                simpl_top = remove_fourth_and_above_smallness_from_expression(top)
+                simpl_top = remove_required_and_above_smallness_from_expression(top, order=5)
 
             if simpl_top != sympy.core.numbers.Zero():
                 expression = expand(simpl_top / bot)

@@ -15,7 +15,8 @@ from utils.sympy_expression import parse_2_sympy_expression
 sys.setrecursionlimit(1000000)
 
 from utils.common import remove_third_and_above_smallness_from_expression, \
-    remove_third_and_above_smallness_from_one_term
+    remove_third_and_above_smallness_from_one_term, remove_required_and_above_smallness_from_expression, \
+    remove_current_and_above_smallness_from_one_term
 from utils.to_sympy_expression import transform_to_simpy
 from dict_coefficients_before_mixed_and_free_term import mixed_coeff_var, dict_free_term_equations
 from dict_inverse_matrix_of_second_diff import inverse_coeff_matrix
@@ -72,7 +73,7 @@ def simplify_and_expand_component(name, component, dict_var):
         t1 = time.time()
         new_top = Zero()
         for term_ in expanded_top.args:
-            top = remove_third_and_above_smallness_from_one_term(parse_2_sympy_expression(str(term_)))
+            top = remove_current_and_above_smallness_from_one_term(parse_2_sympy_expression(str(term_)))
             new_top = new_top + top
         t2 = time.time()
         print("simplified. term = %s. len(new_top) = %d, total time = %.2f [s]\n" % (term, len(new_top.args), (t2 - t1)/60))
@@ -90,7 +91,7 @@ def sub_task(main_term, terms, sub_number, _client):
     simpl_expr = 0
     t_1 = time.time()
     for _term_ in tqdm.tqdm(terms):
-        simpl_term = remove_third_and_above_smallness_from_one_term(
+        simpl_term =  remove_current_and_above_smallness_from_one_term(
             # parse_2_sympy_expression(transform_to_simpy(str(_term_)))
             _term_
         )

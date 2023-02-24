@@ -6,7 +6,8 @@ from sympy import fraction, expand, simplify
 from sympy.core.numbers import Zero
 
 from definitions.denominators import *
-from utils.common import remove_third_and_above_smallness_from_expression
+from utils.common import remove_third_and_above_smallness_from_expression, \
+    remove_required_and_above_smallness_from_expression
 from utils.sympy_expression import parse_2_sympy_expression
 from utils.to_sympy_expression import transform_to_simpy
 
@@ -158,14 +159,14 @@ for name, expr in dict_coeff.items():
         print("skipped ", name, "\n")
         continue
 
-    top = remove_third_and_above_smallness_from_expression(
+    top = remove_required_and_above_smallness_from_expression(
         expand(
             top.subs(name_2_symb_dict)
         )
     )
 
     if top != Zero():
-        bot = remove_third_and_above_smallness_from_expression(
+        bot = remove_required_and_above_smallness_from_expression(
             expand(
                 bot.subs(name_2_symb_dict)
             )
