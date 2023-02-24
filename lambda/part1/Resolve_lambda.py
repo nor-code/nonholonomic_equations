@@ -94,14 +94,16 @@ def solve_transform_and_write_to_file(lambda_i, i):
             order=5
         )
     )
-    print("i = ", i, " bottom.args[0] = ", bottom.args[0])
+    number = bottom.args[0]
+    print("i = ", i, " bottom.args[0] = ", number)
 
     top = expand_and_collect_term_before_derivatives_and_lambda(
         remove_required_and_above_smallness_from_expression(
-            expand(λ_i_top, deep=True)/bottom.args[0], order=5
+            expand(λ_i_top, deep=True)/number, order=5
         )
     )
 
+    bottom = bottom/number
     result = top / bottom
     with open('../../lambda/part1/lambda_' + str(i + 1) + '.txt', 'w') as out:
         out.write(transform_to_simpy(str(result)))
