@@ -88,15 +88,18 @@ lambda4 = solution.row(3)[0]
 def solve_transform_and_write_to_file(lambda_i, i):
     λ_i_top, λ_i_bottom = fraction(together(lambda_i))
 
-    top = expand_and_collect_term_before_derivatives_and_lambda(
+    bottom = simplify(
         remove_required_and_above_smallness_from_expression(
-            λ_i_top, order=5
+            expand(λ_i_bottom, deep=True),
+            order=5
         )
     )
+    print("i = ", i, " bottom.args[0] = ", bottom.args[0])
 
-    bottom = remove_required_and_above_smallness_from_expression(
-        expand(λ_i_bottom, deep=True),
-        order=5
+    top = expand_and_collect_term_before_derivatives_and_lambda(
+        remove_required_and_above_smallness_from_expression(
+            expand(λ_i_top, deep=True)/bottom.args[0], order=5
+        )
     )
 
     result = top / bottom
