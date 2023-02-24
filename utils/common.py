@@ -209,7 +209,7 @@ def simplification_expression(expression):
 
 def _add_simplify(coefficient, var):
     return Mul(
-        simplification_expression(trigsimp(coefficient)),
+        trigsimp(coefficient),
         var
     )
 
@@ -256,7 +256,8 @@ def expand_and_collect_term_before_derivatives_and_lambda(expression):
 
     print("begin free")
     free_term = simplify(
-        trigsimp(expand(expression)))  # simplification_expression(simplify(expression - trigsimp(expand(simplified))))
+        trigsimp(expand(expression))
+    )  # simplification_expression(simplify(expression - trigsimp(expand(simplified))))
     print("free ", free_term)
     simplified = Add(simplified, free_term)
 
