@@ -25,20 +25,27 @@ def _sub_step(equation, var, expression):
     return equation_top
 
 
-d_phi = parse_2_sympy_expression(open("../kinematic/part2/d_phi.txt").readline())
-d_delta = parse_2_sympy_expression(open("../kinematic/part2/d_del.txt").readline())
-d_eps = parse_2_sympy_expression(open("../kinematic/part2/d_eps.txt").readline())
-d_tau = parse_2_sympy_expression(open("../kinematic/part2/d_tau.txt").readline())
+d_phi_top = parse_2_sympy_expression(open("../kinematic/part2/d_phi.txt").readline())
+d_phi_bot = parse_2_sympy_expression(open("../kinematic/part2/d_phi_bottom.txt").readline())
+
+d_delta_top = parse_2_sympy_expression(open("../kinematic/part2/d_del.txt").readline())
+d_delta_bot = parse_2_sympy_expression(open("../kinematic/part2/d_del_bottom.txt").readline())
+
+d_eps_top = parse_2_sympy_expression(open("../kinematic/part2/d_eps.txt").readline())
+d_eps_bot = parse_2_sympy_expression(open("../kinematic/part2/d_eps_bottom.txt").readline())
+
+d_tau_top = parse_2_sympy_expression(open("../kinematic/part2/d_tau.txt").readline())
+d_tau_bot = parse_2_sympy_expression(open("../kinematic/part2/d_tau_bottom.txt").readline())
 
 d_d_phi = parse_2_sympy_expression(open("../kinematic/part4/d_d_phi.txt").readline())
 d_d_delta = parse_2_sympy_expression(open("../kinematic/part4/d_d_del.txt").readline())
 d_d_eps = parse_2_sympy_expression(open("../kinematic/part4/d_d_eps.txt").readline())
 d_d_tau = parse_2_sympy_expression(open("../kinematic/part4/d_d_tau.txt").readline())
 
-cd_phi = se.sympify(d_phi)
-cd_delta = se.sympify(d_delta)
-cd_eps = se.sympify(d_eps)
-cd_tau = se.sympify(d_tau)
+cd_phi = se.sympify(d_phi_top/d_phi_bot)
+cd_delta = se.sympify(d_delta_top/d_delta_bot)
+cd_eps = se.sympify(d_eps_top/d_eps_bot)
+cd_tau = se.sympify(d_tau_top/d_tau_bot)
 
 cd_d_phi = se.sympify(d_d_phi)
 cd_d_delta = se.sympify(d_d_delta)

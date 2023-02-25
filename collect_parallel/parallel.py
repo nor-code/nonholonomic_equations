@@ -14,7 +14,8 @@ from utils.sympy_expression import parse_2_sympy_expression
 sys.setrecursionlimit(100000)
 
 import argparse
-from utils.common import get_count_files_in_directory, remove_third_and_above_smallness_from_expression
+from utils.common import get_count_files_in_directory, remove_third_and_above_smallness_from_expression, \
+    remove_required_and_above_smallness_from_expression
 from utils.to_sympy_expression import transform_to_simpy
 from definitions.generic_coordinates import *
 
@@ -143,7 +144,7 @@ def collect_before_derivatives(arr, eq_number, name, d_one: Derivative, is_mixed
 
     # result_expression = Mul(simpl_coeff, syms)
     if type(result_expression) != Mul:
-        result_expression = remove_third_and_above_smallness_from_expression(result_expression)
+        result_expression = remove_required_and_above_smallness_from_expression(result_expression, order=5)
 
     result_expression = simplify(result_expression)
     with open('./eq' + str(eq_number) + '/' + name + '.txt', 'w') as out:
