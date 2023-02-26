@@ -1,6 +1,7 @@
 import time
 
 from Kinematics import *
+from utils.common import expand_and_collect_term_before_first_derivatives
 from utils.to_sympy_expression import transform_to_simpy
 
 

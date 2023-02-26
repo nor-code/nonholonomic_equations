@@ -167,15 +167,28 @@ def sub_expand(term, number):
     with open("./eq" + str(args.n) + "/term" + str(number) + '.json', 'w') as out:
         out.write(json.dumps(result_dict))
 
-    del result_dict
+    del result_dict, expanded_term
     print("---- end %d ----" % number)
     # print("sended to redis eq#_%d , count_term = %d" % (number, len(expanded_term.args)))
 
 
 print("count terms %d " % len(eq.args))
-
+eq, _ = fraction(together(eq))
+print("start")
 tasks = []
-for i, term in zip(range(len(eq.args)), eq.args):
+part_one = int(len(eq.args)/2)
+for i, term in zip(range(part_one), eq.args[:part_one]):
+    task = Process(target=sub_expand, args=(term, i))
+    task.start()
+    tasks.append(task)
+
+print("size task = %d" % len(tasks))
+for task in tasks:
+    task.join()
+
+print("LAST PART")
+task = []
+for i, term in zip(range(part_one, len(eq.args)), eq.args[part_one:]):
     task = Process(target=sub_expand, args=(term, i))
     task.start()
     tasks.append(task)

@@ -136,17 +136,17 @@ def simplification_expression(expression):
     """ упрощаем в предположении, что  α, γ и τ  мал """  # β
     simpl_raw = expression.subs(
         {
-            cos(x1): 1 - x1 ** 2 / 2 - x1 ** 4 / 24,
+            cos(x1): 1 - x1 ** 2 / 2 + x1 ** 4 / 24,
             sin(x1): x1 - x1 ** 3 / 6,
 
-            cos(x3): 1 - x3 ** 2 / 2 - x3 ** 4 / 24,
+            cos(x2): 1 - x2 ** 2 / 2 + x2 ** 4 / 24,
+            sin(x2): x2 - x2 ** 3 / 6,
+
+            cos(x3): 1 - x3 ** 2 / 2 + x3 ** 4 / 24,
             sin(x3): x3 - x3 ** 2 / 6,
 
-            cos(x8): 1 - x8 ** 2 / 2 - x8 ** 4 / 24,
-            sin(x8): x8 - x8 ** 3 / 6,
-
-            sin(x2): x2 - x2 ** 3 / 6,
-            cos(x2): 1 - x2 ** 2 / 2 - x2 ** 4 / 24,
+            cos(x8): 1 - x8 ** 2 / 2 + x8 ** 4 / 24,
+            sin(x8): x8 - x8 ** 3 / 6
         }
     )
     return simpl_raw
@@ -209,7 +209,7 @@ def simplification_expression(expression):
 
 def _add_simplify(coefficient, var):
     return Mul(
-        trigsimp(coefficient),
+        coefficient,#trigsimp(coefficient),
         var
     )
 
@@ -267,13 +267,13 @@ def expand_and_collect_term_before_derivatives_and_lambda(expression):
 
 
 def expand_and_collect_term_before_first_derivatives(expression):
-    expression = simplification_expression(expand(expression))
+    expression = expand(expression)
     simplified = 0
 
-    # коэффициенты перед diff(diff(var, t), t)
+    # коэффициенты перед diff(var, t)
     for d_var in first_diff_generic_vars:
-        before_second_diff = simplify(expand(collect(expression, d_var).coeff(d_var)))
+        before_second_diff = collect(expression, d_var).coeff(d_var)
         if not before_second_diff._eval_is_zero():
-            simplified = Add(simplified, _add_simplify(before_second_diff, d_var))
+            simplified = Add(simplified, Mul(before_second_diff, d_var))
 
     return simplified

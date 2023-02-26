@@ -3,6 +3,8 @@ from utils.common import *
 from utils.sympy_expression import parse_2_sympy_expression
 from multiprocessing import Process
 from sympy import linear_eq_to_matrix, together, fraction
+import sys
+sys.setrecursionlimit(10000000)
 
 t1 = time.time()
 
