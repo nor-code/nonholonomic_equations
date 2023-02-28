@@ -179,7 +179,11 @@ def sub_expand(term, number):
 
     result_dict = {}
     count = 0
-    if type(expanded_term) is not se.Add:
+    # if type(expanded_term) is not se.Add:
+    #     result_dict[count] = transform_to_simpy(str(expanded_term))
+    #     count += 1
+    # else:
+    if expanded_term == 0:
         result_dict[count] = transform_to_simpy(str(expanded_term))
         count += 1
     else:
