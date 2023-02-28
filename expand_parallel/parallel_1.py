@@ -176,26 +176,30 @@ print("count terms %d " % len(eq.args))
 eq, _ = fraction(together(eq))
 print("start")
 tasks = []
-part_one = int(len(eq.args)/2)
-for i, term in zip(range(part_one), eq.args[:part_one]):
+for i, term in zip(range(len(eq.args)), eq.args):
     task = Process(target=sub_expand, args=(term, i))
     task.start()
     tasks.append(task)
+    if i % 2 == 0:
+        for task in tasks:
+            task.join()
+        print("finished tasks. size of tasks = %d. create next tasks" % (len(tasks)))
+        tasks = []
 
-print("size task = %d" % len(tasks))
-for task in tasks:
-    task.join()
-
-print("LAST PART")
-task = []
-for i, term in zip(range(part_one, len(eq.args)), eq.args[part_one:]):
-    task = Process(target=sub_expand, args=(term, i))
-    task.start()
-    tasks.append(task)
-
-print("size task = %d" % len(tasks))
-for task in tasks:
-    task.join()
+# print("size task = %d" % len(tasks))
+# for task in tasks:
+#     task.join()
+#
+# print("LAST PART")
+# task = []
+# for i, term in zip(range(part_one, len(eq.args)), eq.args[part_one:]):
+#     task = Process(target=sub_expand, args=(term, i))
+#     task.start()
+#     tasks.append(task)
+#
+# print("size task = %d" % len(tasks))
+# for task in tasks:
+#     task.join()
 
 result = {}
 for i in range(counter.value - 1):
