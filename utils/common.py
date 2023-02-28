@@ -209,7 +209,7 @@ def simplification_expression(expression):
 
 def _add_simplify(coefficient, var):
     return Mul(
-        coefficient,#trigsimp(coefficient),
+        trigsimp(coefficient),
         var
     )
 
@@ -274,6 +274,6 @@ def expand_and_collect_term_before_first_derivatives(expression):
     for d_var in first_diff_generic_vars:
         before_second_diff = collect(expression, d_var).coeff(d_var)
         if not before_second_diff._eval_is_zero():
-            simplified = Add(simplified, Mul(before_second_diff, d_var))
+            simplified = Add(simplified, Mul(trigsimp(before_second_diff), d_var))
 
     return simplified
