@@ -7,10 +7,10 @@ from multiprocessing import Process
 
 print("решение системы { Eq6, Eq8, Eq9, Eq10 } относительно λ1, λ2, λ3, λ4")
 
-Eq6 = parse_2_sympy_expression(open("../../dynamic/eq6.txt").readline())
-Eq8 = parse_2_sympy_expression(open("../../dynamic/eq8.txt").readline())
-Eq9 = parse_2_sympy_expression(open("../../dynamic/eq9.txt").readline())
-Eq10 = parse_2_sympy_expression(open("../../dynamic/eq10.txt").readline())
+Eq6 = parse_2_sympy_expression(open("../../dynamic/small_velocity/eq6.txt").readline())  # open("../../dynamic/eq6.txt")
+Eq8 = parse_2_sympy_expression(open("../../dynamic/small_velocity/eq8.txt").readline())  # open("../../dynamic/eq6.txt")
+Eq9 = parse_2_sympy_expression(open("../../dynamic/small_velocity/eq9.txt").readline())  # open("../../dynamic/eq6.txt")
+Eq10 = parse_2_sympy_expression(open("../../dynamic/small_velocity/eq10.txt").readline()) # open("../../dynamic/eq6.txt")
 
 t1 = time.time()
 

@@ -17,19 +17,19 @@ t1 = time.time()
 def subs_lambda_to_equation(eq, i):
     global λ_1_expression, λ_2_expression, λ_3_expression, λ_4_expression
     eq_top, _ = fraction(together(eq.subs(λ_1, λ_1_expression)))
-    eq_top = remove_required_and_above_smallness_from_expression(expand(eq_top, deep=True), order=5)
+    eq_top = remove_required_and_above_smallness_from_expression(expand(eq_top, deep=True), order=2)  # order = 5
     print(str(i), " part 1 finished")
 
     eq_top, _ = fraction(together(eq_top.subs(λ_2, λ_2_expression)))
-    eq_top = remove_required_and_above_smallness_from_expression(expand(eq_top, deep=True), order=5)
+    eq_top = remove_required_and_above_smallness_from_expression(expand(eq_top, deep=True), order=2)  # order = 5
     print(str(i), " part 2 finished")
 
     eq_top, _ = fraction(together(eq_top.subs(λ_3, λ_3_expression)))
-    eq_top = remove_required_and_above_smallness_from_expression(expand(eq_top, deep=True), order=5)
+    eq_top = remove_required_and_above_smallness_from_expression(expand(eq_top, deep=True), order=2)  # order = 5
     print(str(i), " part 3 finished")
 
     eq_top, _ = fraction(together(eq_top.subs(λ_4, λ_4_expression)))
-    eq_top = remove_required_and_above_smallness_from_expression(expand(eq_top, deep=True), order=5)
+    eq_top = remove_required_and_above_smallness_from_expression(expand(eq_top, deep=True), order=2)  # order = 5
     print(str(i), " part 4 finished")
 
     eq_top = expand_and_collect_term_before_derivatives_and_lambda(eq_top)
@@ -38,12 +38,12 @@ def subs_lambda_to_equation(eq, i):
         out.write(transform_to_simpy(str(eq_top)))
 
 
-Eq1 = parse_2_sympy_expression(open("../../dynamic/eq1.txt").readline())
-Eq2 = parse_2_sympy_expression(open("../../dynamic/eq2.txt").readline())
-Eq3 = parse_2_sympy_expression(open("../../dynamic/eq3.txt").readline())
-Eq4 = parse_2_sympy_expression(open("../../dynamic/eq4.txt").readline())
-Eq5 = parse_2_sympy_expression(open("../../dynamic/eq5.txt").readline())
-Eq7 = parse_2_sympy_expression(open("../../dynamic/eq7.txt").readline())
+Eq1 = parse_2_sympy_expression(open("../../dynamic/small_velocity/eq1.txt").readline())  # open("../../dynamic/eq1.txt")
+Eq2 = parse_2_sympy_expression(open("../../dynamic/small_velocity/eq2.txt").readline())  # open("../../dynamic/eq2.txt")
+Eq3 = parse_2_sympy_expression(open("../../dynamic/small_velocity/eq3.txt").readline())  # open("../../dynamic/eq3.txt")
+Eq4 = parse_2_sympy_expression(open("../../dynamic/small_velocity/eq4.txt").readline())  # open("../../dynamic/eq4.txt")
+Eq5 = parse_2_sympy_expression(open("../../dynamic/small_velocity/eq5.txt").readline())  # open("../../dynamic/eq5.txt")
+Eq7 = parse_2_sympy_expression(open("../../dynamic/small_velocity/eq7.txt").readline())  # open("../../dynamic/eq6.txt")
 
 tasks = []
 eqns = [Eq1, Eq2, Eq3, Eq4, Eq5, Eq7]
@@ -58,4 +58,4 @@ for task in tasks:
 
 t2 = time.time()
 
-print("finished substitute lambdas in 1,2,3,4,5,7 equations. total time = %.2f " % ((t2 - t1) / 60))
+print("finished substitute lambdas in 1, 2, 3, 4, 5, 7 equations. total time = %.2f " % ((t2 - t1) / 60))
