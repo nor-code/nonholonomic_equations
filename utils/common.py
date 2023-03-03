@@ -71,7 +71,7 @@ def remove_required_and_above_smallness_from_expression(expression, order):
     simplified = Zero()
     # if (type(expression) == Pow and __is_denominator_sym(expression.args[0])) or __is_denominator_sym(expression):
     #     return expression
-    for term in tqdm.tqdm(expand(expression).args):
+    for term in expand(expression).args: #tqdm.tqdm(expand(expression).args):
         count = base_remove_current_and_above_smallness(term, order)
         if count < order:
             simplified = Add(term, simplified)
@@ -249,7 +249,7 @@ def expand_and_collect_term_before_derivatives_and_lambda(expression):
     # коэффициенты перед diff(diff(var, t), t)
     for d_d_var in second_diff_generic_coord:
         before_second_diff = collect(expression, d_d_var).coeff(d_d_var)
-        if not before_second_diff._eval_is_zero():
+        if type(before_second_diff) is Symbol or not before_second_diff._eval_is_zero():
             print(d_d_var, ": ", before_second_diff)
             expression = sympify(expression - expand(Mul(before_second_diff * d_d_var)))
             simplified = Add(simplified, _add_simplify(before_second_diff, d_d_var))
@@ -260,7 +260,7 @@ def expand_and_collect_term_before_derivatives_and_lambda(expression):
     # коэффициенты перед diff(var_i, t) * diff(var_j, t)
     for d_one_d_another in mixed_diff_of_generic_coordinates:
         before_mixed_diff = collect(expression, d_one_d_another, exact=True).coeff(d_one_d_another)
-        if not before_mixed_diff._eval_is_zero():
+        if type(before_mixed_diff) is Symbol or not before_mixed_diff._eval_is_zero():
             expression = sympify(expression - expand(Mul(before_mixed_diff, d_one_d_another)))
             sss = _add_simplify(before_mixed_diff, d_one_d_another)
             simplified = Add(simplified, sss)
@@ -272,10 +272,7 @@ def expand_and_collect_term_before_derivatives_and_lambda(expression):
     # коэффициенты перед λ_i
     for λ_i in λ:
         before_lambda = collect(expression, λ_i).coeff(λ_i)
-        if before_lambda.is_Symbol:
-            expression = sympify(expression - expand(Mul(before_lambda, λ_i)))
-            simplified = Add(simplified, _add_simplify(before_lambda, λ_i))
-        elif not before_lambda._eval_is_zero():
+        if before_lambda.is_Symbol or not before_lambda._eval_is_zero():
             expression = sympify(expression - expand(Mul(before_lambda, λ_i)))
             simplified = Add(simplified, _add_simplify(before_lambda, λ_i))
 

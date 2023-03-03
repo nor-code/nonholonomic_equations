@@ -1,0 +1,1 @@
+-J_pz*x8*diff(x7, t)**2 + 2*M*R**2*sin(x7)*diff(diff(x6, t), t)/3 + 2*M*R**2*diff(diff(x8, t), t)/3 + R*λ_1 - R*λ_3*(x2*sin(x7) + cos(x6)*cos(x7)) - R*λ_4*(x3*sin(x7) + sin(x6)*cos(x7)) + (-J_pz*sin(x7) - 2*M*R**2*sin(x7)/3 + 4*M*R**2*cos(x7)/3)*diff(x6, t)*diff(x7, t) + (J_pz*sin(x7)**2 + 4*M*R**2*sin(x7)**2/3 - 2*M*R**2/3)*x8*diff(x6, t)**2

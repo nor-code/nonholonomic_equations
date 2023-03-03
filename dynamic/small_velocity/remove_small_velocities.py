@@ -12,5 +12,5 @@ for indx in eqns_indx:
             simplified_eq_i += term_of_eq_i
     
     final_res = expand_and_collect_term_before_derivatives_and_lambda(simplified_eq_i)
-    with open("eq" + str(indx) + ".txt") as new_out:
+    with open("eq" + str(indx) + ".txt", 'w') as new_out:
         new_out.write(transform_to_simpy(str(final_res)))

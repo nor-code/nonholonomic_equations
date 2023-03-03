@@ -175,15 +175,12 @@ def sub_expand(term, number):
 
     expanded_term = multiply_in_series(each_dict)
 
-    print("expanded via symengine. total number = %d term = %d" % (number, len(expanded_term.args)))
+    print("expanded via symengine. total number = %d" % number)
 
     result_dict = {}
     count = 0
-    # if type(expanded_term) is not se.Add:
-    #     result_dict[count] = transform_to_simpy(str(expanded_term))
-    #     count += 1
-    # else:
-    if expanded_term == 0:
+
+    if type(expanded_term) in (se.Integer, int):
         result_dict[count] = transform_to_simpy(str(expanded_term))
         count += 1
     else:
@@ -224,16 +221,16 @@ for i, term in zip(range(len(eq.args)), eq.args):
     task = Process(target=sub_expand, args=(term, i))
     task.start()
     tasks.append(task)
-    if i % 2 == 0:
-        for task in tasks:
-            task.join()
-        print("finished tasks. size of tasks = %d. create next tasks" % (len(tasks)))
-        tasks = []
+    # if i % 2 == 0:
+    #     for task in tasks:
+    #         task.join()
+    #     print("finished tasks. size of tasks = %d. create next tasks" % (len(tasks)))
+    #     tasks = []
 
-# print("size task = %d" % len(tasks))
-# for task in tasks:
-#     task.join()
-#
+print("size task = %d" % len(tasks))
+for task in tasks:
+    task.join()
+
 # print("LAST PART")
 # task = []
 # for i, term in zip(range(part_one, len(eq.args)), eq.args[part_one:]):

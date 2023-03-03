@@ -1,7 +1,7 @@
 from sympy import Symbol, Matrix
 
 # ускорение свободного падения
-g = 10  # Symbol('g')
+g = Symbol('g')
 
 # радиус сферической оболочки
 R = Symbol('R')  # 0.081 m or 16.2 cm diametr
