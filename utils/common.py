@@ -1,13 +1,38 @@
-from sympy import cos, sin, nsimplify, expand, collect, Add, sympify, Mul, simplify, trigsimp, Pow
+import time
+
+import tqdm
+from sympy import cos, sin, expand, collect, Add, sympify, Mul, simplify, trigsimp, Pow, Derivative
 from sympy.core.numbers import Zero
 
-from definitions.constants import *
+from definitions.denominators import *
 from definitions.generic_coordinates import *
 from definitions.lagrangian_multipliers import *
-from definitions.moments import *
-from definitions.denominators import *
-import time
-import tqdm
+
+
+def is_remove_small_term_with_velocities(term, small_coordinates=None):
+    if small_coordinates is None:
+        small_coordinates = [x1, x2, x3, x8]
+
+    count = base_remove_current_and_above_smallness(term, 2)
+    if count >= 2:
+        return True
+
+    for sub_term in term.args:
+        if type(sub_term) == Pow and type(sub_term.args[0]) == Derivative:
+            derivative = sub_term.args[0]
+            variable = derivative.args[0]
+            if variable in small_coordinates:
+                count += sub_term.args[1]
+                if count >= 2:
+                    return True
+        elif type(sub_term) == Derivative:
+            variable = sub_term.args[0]
+            if variable in small_coordinates:
+                count += 1
+                if count >= 2:
+                    return True
+
+    return False
 
 
 def base_remove_current_and_above_smallness(term, order):
