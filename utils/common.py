@@ -87,7 +87,10 @@ def remove_required_and_above_smallness_from_expression(expression, order):
     for term in expand(expression).args: #tqdm.tqdm(expand(expression).args):
         count = base_remove_current_and_above_smallness(term, order)
         if count < order:
-            simplified = Add(term, simplified)
+            try:
+                simplified += term
+            except:
+                print()
     return simplified
 
 

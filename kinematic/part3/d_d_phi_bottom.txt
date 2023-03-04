@@ -1,1 +1,1 @@
-R*r*sin(x7)*cos(x6 - x5) + R*x2*sin(x7)*cos(x6 - x5) + R*sin(x7)**2*cos(x6 - x5) + R*sin(x7)*cos(x6 - x5)**3
+R*r*sin(x7)**2*cos(x6 - x5)**3

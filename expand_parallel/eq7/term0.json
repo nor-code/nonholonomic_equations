@@ -1,1 +1,1 @@
-{"0": "-M_\u03c8"}
+{"0": "J_wy*R*sin(x6 + 2*x5)*diff(y, t)*diff(x2, t)", "1": "-J_wy*R*sin(x6 - 2*x5)*diff(y, t)*diff(x2, t)", "2": "-J_wy*sin(2*x5)*diff(y, t)**2", "3": "J_wy*R*cos(x6 - 2*x5)*diff(y, t)*diff(x3, t)", "4": "-J_wy*R*cos(x6 + 2*x5)*diff(y, t)*diff(x3, t)", "5": "J_wx*R*sin(x6 - 2*x5)*diff(y, t)*diff(x2, t)", "6": "-J_wx*R*sin(x6 + 2*x5)*diff(y, t)*diff(x2, t)", "7": "J_wx*sin(2*x5)*diff(y, t)**2", "8": "J_wx*R*cos(x6 + 2*x5)*diff(y, t)*diff(x3, t)", "9": "-J_wx*R*cos(x6 - 2*x5)*diff(y, t)*diff(x3, t)"}

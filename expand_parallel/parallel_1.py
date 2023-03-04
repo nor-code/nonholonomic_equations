@@ -129,69 +129,35 @@ def time_benchmark(function):
 def sub_expand(term, number):
     global args, counter
 
-    each_dict = {}
+    expanded_term = se.expand(
+        se.sympify(term)
+    )
 
-    for i in tqdm.tqdm(range(len(term.args))):
-        component = term.args[i]
-        if type(component) is Pow and type(component.args[0]) is Add:
-            expanded_term = se.expand(se.sympify(component))
-            simpl_expanded_term = 0
-            for term_ in expanded_term.args:
-                top, bot = fraction(together(parse_2_sympy_expression(transform_to_simpy(str(term_)))))
-                top = expand(simplification_expression(expand(expand_trig(top))))
-
-                if type(top) == Mul:
-                    simpl_top = remove_current_and_above_smallness_from_one_term(top, order=5)
-                    simpl_expanded_term += simpl_top
-                else:
-                    simpl_top = remove_required_and_above_smallness_from_expression(top, order=5)
-                    simpl_expanded_term += simpl_top
-            each_dict[i] = simpl_expanded_term
-
-        else:
-            each_dict[i] = se.sympify(component)
-
-    def multiply_in_series(dict_expanded):
-        begin = 1
-        for element in dict_expanded.values():
-            expanded = se.expand(se.Mul(se.sympify(element), begin))
-            if type(expanded) is se.Integer or type(expanded) is se.Mul:
-                begin = expanded
-                continue
-
-            simplified = 0
-            for term_ in expanded.args:
-                top, bot = fraction(together(parse_2_sympy_expression(transform_to_simpy(str(term_)))))
-                top = expand(simplification_expression(expand(expand_trig(top))))
-
-                if type(top) == Mul:
-                    simpl_top = remove_current_and_above_smallness_from_one_term(top, order=5)
-                    simplified += simpl_top
-                else:
-                    simpl_top = remove_required_and_above_smallness_from_expression(top, order=5)
-                    simplified += simpl_top
-            begin = simplified
-        return begin
-
-    expanded_term = multiply_in_series(each_dict)
-
-    print("expanded via symengine. total number = %d" % number)
+    print("expanded via symengine. total number = %d term = %d" % (number, len(expanded_term.args)))
 
     result_dict = {}
     count = 0
+    if type(expanded_term) is not se.Add:
+        result_dict[count] = transform_to_simpy(
+            str(simplification_expression(parse_2_sympy_expression(transform_to_simpy(str(expanded_term)))))
+        )
 
-    if type(expanded_term) in (se.Integer, int):
-        result_dict[count] = transform_to_simpy(str(expanded_term))
         count += 1
     else:
         for term_ in expanded_term.args:
             top, bot = fraction(together(parse_2_sympy_expression(transform_to_simpy(str(term_)))))
             top = expand(simplification_expression(expand(expand_trig(top))))
 
+            simpl_top = Zero()
             if type(top) == Mul:
-                simpl_top = remove_current_and_above_smallness_from_one_term(top, order=5)
+                if not is_remove_small_term_with_velocities(top):
+                    simpl_top = trigsimp(top)
+            elif type(top) == Symbol:
+                simpl_top = top
             else:
-                simpl_top = remove_required_and_above_smallness_from_expression(top, order=5)
+                for _term_ in top.args:
+                    if not is_remove_small_term_with_velocities(_term_):
+                        simpl_top += trigsimp(_term_)
 
             if simpl_top != sympy.core.numbers.Zero():
                 expression = expand(simpl_top / bot)
@@ -221,26 +187,10 @@ for i, term in zip(range(len(eq.args)), eq.args):
     task = Process(target=sub_expand, args=(term, i))
     task.start()
     tasks.append(task)
-    # if i % 2 == 0:
-    #     for task in tasks:
-    #         task.join()
-    #     print("finished tasks. size of tasks = %d. create next tasks" % (len(tasks)))
-    #     tasks = []
 
 print("size task = %d" % len(tasks))
 for task in tasks:
     task.join()
-
-# print("LAST PART")
-# task = []
-# for i, term in zip(range(part_one, len(eq.args)), eq.args[part_one:]):
-#     task = Process(target=sub_expand, args=(term, i))
-#     task.start()
-#     tasks.append(task)
-#
-# print("size task = %d" % len(tasks))
-# for task in tasks:
-#     task.join()
 
 result = {}
 for i in range(counter.value - 1):
