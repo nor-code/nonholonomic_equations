@@ -74,6 +74,16 @@ def remove_required_and_above_smallness_from_expression(expression, order):
     simplified = Zero()
     # if (type(expression) == Pow and __is_denominator_sym(expression.args[0])) or __is_denominator_sym(expression):
     #     return expression
+    if type(expression) == Symbol:
+        return expression
+
+    if type(expression) == Mul:
+        smallness_order = base_remove_current_and_above_smallness(expression, order)
+        if smallness_order < order:
+            return expression
+        else:
+            return 0
+
     for term in expand(expression).args: #tqdm.tqdm(expand(expression).args):
         count = base_remove_current_and_above_smallness(term, order)
         if count < order:

@@ -1,1 +1,1 @@
--5184*R*r*x2**4*sin(x7)**8*cos(x6 - x5)**4
+R*r*sin(x7)*cos(x6 - x5) + R*x2*sin(x7)*cos(x6 - x5) + R*sin(x7)**2*cos(x6 - x5) + R*sin(x7)*cos(x6 - x5)**3

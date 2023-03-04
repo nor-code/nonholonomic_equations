@@ -25,7 +25,7 @@ def solve_transform_and_write_to_file(d_var, name, bottom_symbol):
             expand(
                 simplification_expression(expand(d_var_bot, deep=True, trig=True)), deep=True
             ),
-            order=5
+            order=2
         )
     )
 
@@ -33,11 +33,11 @@ def solve_transform_and_write_to_file(d_var, name, bottom_symbol):
         expand(
             simplification_expression(expand(d_var_top, deep=True, trig=True)), deep=True
         ),
-        order=5
+        order=2
     )
     top = expand_and_collect_term_before_first_derivatives(d_var_top)
 
-    result = top  # / bottom_symbol
+    result, bot = fraction(simplify(top / bot))
     with open('../../kinematic/part2/' + name + '.txt', 'w') as out:
         out.write(transform_to_simpy(str(result)))
 

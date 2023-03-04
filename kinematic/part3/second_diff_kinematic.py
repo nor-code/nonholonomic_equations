@@ -44,7 +44,7 @@ def calculate_second_diff(d_var, name):
 
     d_d_var_top = remove_required_and_above_smallness_from_expression(
         expand(d_d_var_top, deep=True),
-        order=5
+        order=2
     )
 
     print("first collect in d_d_var_top and remove small term")
@@ -65,46 +65,46 @@ def calculate_second_diff(d_var, name):
 
     top_as_se = se.expand(se.sympify(top))
     print("sym_engine expand finished")
-    # top = expand_and_collect_term_before_derivatives_and_lambda(
-    #     remove_required_and_above_smallness_from_expression(
-    #         parse_2_sympy_expression(transform_to_simpy(str(top_as_se))),
-    #         order=5
-    #     )
-    # )
 
     res = 0
     count = 0
-    for term_ in tqdm.tqdm(top_as_se.args):
-        term_ = parse_2_sympy_expression(transform_to_simpy(str(term_)))
-        top = expand(term_)
+    if type(top) == Mul:
+        res = top_as_se
+        count = 1
+    else:
+        for term_ in tqdm.tqdm(top_as_se.args):
+            term_ = parse_2_sympy_expression(transform_to_simpy(str(term_)))
+            top = expand(term_)
 
-        if type(top) == Mul:
-            simpl_top = remove_current_and_above_smallness_from_one_term(term_, order=5)
-        else:
-            simpl_top = remove_required_and_above_smallness_from_expression(term_, order=5)
-
-        if simpl_top != sympy.core.numbers.Zero():
-            expression = expand(simpl_top)
-            if type(expression) == Add:
-                for tterm in expression.args:
-                    res += parse_2_sympy_expression(transform_to_simpy(str(tterm)))
-                    count += 1
+            if type(top) == Mul:
+                simpl_top = remove_current_and_above_smallness_from_one_term(term_, order=2)
             else:
-                res += parse_2_sympy_expression(transform_to_simpy(str(expression)))
-                count += 1
+                simpl_top = remove_required_and_above_smallness_from_expression(term_, order=2)
+
+            if simpl_top != sympy.core.numbers.Zero():
+                expression = expand(simpl_top)
+                if type(expression) == Add:
+                    for tterm in expression.args:
+                        res += parse_2_sympy_expression(transform_to_simpy(str(tterm)))
+                        count += 1
+                else:
+                    res += parse_2_sympy_expression(transform_to_simpy(str(expression)))
+                    count += 1
+
     print("finished expand and remove smallness term", count)
     res = expand_and_collect_term_before_derivatives_and_lambda(res)
     print("expand_and_collect_term_before_derivatives_and_lambda(res)")
 
-    bot2 = remove_fourth_and_above_smallness_from_expression(
-        expand(d_d_var_bot, deep=True)
+    bot2 = remove_required_and_above_smallness_from_expression(
+        expand(d_d_var_bot, deep=True),
+        order=2
     )
     print("finished simplification denominator. 1")
 
     bot = trigsimp(
         remove_required_and_above_smallness_from_expression(
             expand(Mul(bot1, bot2), deep=True),
-            order=5
+            order=2
         )
     )
     print("finished simplification denominator. 2")
