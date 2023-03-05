@@ -87,54 +87,12 @@ tasks = []
 begin = time.time()
 final_dict = mixed_coeff_var | dict_free_term_equations | inverse_coeff_matrix
 print("size dict = ", len(final_dict.keys()))
-#
-# for row in [0, 1]:
-#     for col in range(21):
-#         task = Process(
-#             target=simplify_and_expand_component,
-#             args=("matrix_" + str(row) + "_" + str(col), Mixed_matrix.row(row)[col], final_dict)
-#         )
-#         task.start()
-#         tasks.append(task)
-#
-# for task in tasks:
-#     task.join()
-#
-# print("finished parallel multiplication 0 and 1 rows matrix")
 
-# for row in [2]:  # [2, 3]
-#     for col in [3, 8, 15, 16]:  # 8, 15, 16]:  # range(21):
-#         task = Process(
-#             target=simplify_and_expand_component_v_2,
-#             args=("matrix_" + str(row) + "_" + str(col), Mixed_matrix.row(row)[col], final_dict, client)
-#         )
-#         task.start()
-#         tasks.append(task)
-#
-# for task in tasks:
-#     task.join()
-# print("finished parallel multiplication 2 and 3 rows matrix")
-
-#
-# for row in [4]:
-#     for col in [3, 8, 9, 12, 13, 15, 16]:  # range(21):
-#         task = Process(
-#             target=simplify_and_expand_component,
-#             args=("matrix_" + str(row) + "_" + str(col), Mixed_matrix.row(row)[col], final_dict)
-#         )
-#         task.start()
-#         tasks.append(task)
-#
-# for task in tasks:
-#     task.join()
-# print("finished parallel multiplication 5 row matrix")
-
-
-for row in range(5):
-    for col in range(1):
+for row in [0, 1, 2, 3]:
+    for col in range(21):
         task = Process(
             target=simplify_and_expand_component,
-            args=("free_" + str(row) + "_" + str(col), Free_matrix.row(row)[col], final_dict, client)
+            args=("matrix_" + str(row) + "_" + str(col), Mixed_matrix.row(row)[col], final_dict)
         )
         task.start()
         tasks.append(task)
@@ -142,7 +100,7 @@ for row in range(5):
 for task in tasks:
     task.join()
 
-print("finished parallel multiplication free matrix")
+print("finished parallel multiplication [0, 1, 2, 3] rows matrix")
 end = time.time()
 
 print("total time = %.2f [m]" % ((end - begin)/60))
