@@ -1,0 +1,1 @@
+4*C_Mz*M_p*R*g*r**2*x2*sin(x7)**2*cos(x6 - x5)**3*cos(x5) + 4*C_Mz*M_p*R*g*r**2*x3*sin(x7)**2*sin(x5)*cos(x6 - x5)**3 + 4*C_mz*R*g*m*r**2*x2*sin(x7)**2*cos(x6 - x5)**3*cos(x5) + 4*C_mz*R*g*m*r**2*x3*sin(x7)**2*sin(x5)*cos(x6 - x5)**3 - 4*M_φ*R**2*r*sin(x7)**2*cos(x6 - x5)**3

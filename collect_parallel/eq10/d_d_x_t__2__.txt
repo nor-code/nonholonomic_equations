@@ -1,0 +1,1 @@
+8*R**2*r*(6*C_Mz*M_p*x1*cos(x6)*cos(x7) - 3*C_Mz*M_p*x3*sin(x7) - 3*C_Mz*M_p*sin(x6)*cos(x7) + 3*C_mz*m*x2*sin(x7) + 3*C_mz*m*cos(x6)*cos(x7) + M*R + 3*M_p*R + 3*R*m)*sin(x7)**4*cos(x6 - x5)**3*diff(diff(x, t), t)
