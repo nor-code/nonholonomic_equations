@@ -1,68 +1,45 @@
-import time
-from multiprocessing import Process
+from sympy import Matrix
 
-from sympy import Matrix, expand
-from definitions.coefficient_for_resolve import *
-from utils.common import remove_third_and_above_smallness_from_expression
-from utils.to_sympy_expression import replace_space_to_multiplication_sym, transform_to_simpy
-import tqdm
 from definitions.generic_coordinates import *
-from utils.sympy_expression import parse_2_sympy_expression
-from definitions.coefficient_for_resolve import *
-from coefficient_dict import main_var_subs
 from utils.common import remove_required_and_above_smallness_from_expression
-
+from utils.sympy_expression import parse_2_sympy_expression
+from utils.to_sympy_expression import transform_to_simpy
 
 a1 = parse_2_sympy_expression(open(
     "../../collect_parallel/eq3/d_d_x_t__2__.txt").readline()).coeff(diff(diff(x, t), t))
 a2 = parse_2_sympy_expression(open(
     "../../collect_parallel/eq3/d_d_y_t__2__.txt").readline()).coeff(diff(diff(y, t), t))
 a3 = parse_2_sympy_expression(open(
-    "../../collect_parallel/eq3/d_d_α_t__2__.txt").readline()).coeff(diff(diff(x1, t), t))
-a4 = parse_2_sympy_expression(open(
     "../../collect_parallel/eq3/d_d_β_t__2__.txt").readline()).coeff(diff(diff(x2, t), t))
-a5 = parse_2_sympy_expression(open(
+a4 = parse_2_sympy_expression(open(
     "../../collect_parallel/eq3/d_d_γ_t__2__.txt").readline()).coeff(diff(diff(x3, t), t))
-
 
 b1 = parse_2_sympy_expression(open(
     "../../collect_parallel/eq6/d_d_x_t__2__.txt").readline()).coeff(diff(diff(x, t), t))
 b2 = parse_2_sympy_expression(open(
     "../../collect_parallel/eq6/d_d_y_t__2__.txt").readline()).coeff(diff(diff(y, t), t))
 b3 = parse_2_sympy_expression(open(
-    "../../collect_parallel/eq6/d_d_α_t__2__.txt").readline()).coeff(diff(diff(x1, t), t))
-b4 = parse_2_sympy_expression(open(
     "../../collect_parallel/eq6/d_d_β_t__2__.txt").readline()).coeff(diff(diff(x2, t), t))
-b5 = parse_2_sympy_expression(open(
+b4 = parse_2_sympy_expression(open(
     "../../collect_parallel/eq6/d_d_γ_t__2__.txt").readline()).coeff(diff(diff(x3, t), t))
-b7 = parse_2_sympy_expression(open(
-    "../../collect_parallel/eq6/d_d_ψ_t__2__.txt").readline()).coeff(diff(diff(x5, t), t))
 
 c1 = parse_2_sympy_expression(open(
      "../../collect_parallel/eq8/d_d_x_t__2__.txt").readline()).coeff(diff(diff(x, t), t))
 c2 = parse_2_sympy_expression(open(
     "../../collect_parallel/eq8/d_d_y_t__2__.txt").readline()).coeff(diff(diff(y, t), t))
 c3 = parse_2_sympy_expression(open(
-    "../../collect_parallel/eq8/d_d_α_t__2__.txt").readline()).coeff(diff(diff(x1, t), t))
-c4 = parse_2_sympy_expression(open(
     "../../collect_parallel/eq8/d_d_β_t__2__.txt").readline()).coeff(diff(diff(x2, t), t))
-c5 = parse_2_sympy_expression(open(
+c4 = parse_2_sympy_expression(open(
     "../../collect_parallel/eq8/d_d_γ_t__2__.txt").readline()).coeff(diff(diff(x3, t), t))
-c7 = parse_2_sympy_expression(open(
-    "../../collect_parallel/eq8/d_d_ψ_t__2__.txt").readline()).coeff(diff(diff(x5, t), t))
 
 d1 = parse_2_sympy_expression(open(
     "../../collect_parallel/eq9/d_d_x_t__2__.txt").readline()).coeff(diff(diff(x, t), t))
 d2 = parse_2_sympy_expression(open(
     "../../collect_parallel/eq9/d_d_y_t__2__.txt").readline()).coeff(diff(diff(y, t), t))
 d3 = parse_2_sympy_expression(open(
-    "../../collect_parallel/eq9/d_d_α_t__2__.txt").readline()).coeff(diff(diff(x1, t), t))
-d4 = parse_2_sympy_expression(open(
     "../../collect_parallel/eq9/d_d_β_t__2__.txt").readline()).coeff(diff(diff(x2, t), t))
-d5 = parse_2_sympy_expression(open(
+d4 = parse_2_sympy_expression(open(
     "../../collect_parallel/eq9/d_d_γ_t__2__.txt").readline()).coeff(diff(diff(x3, t), t))
-d7 = parse_2_sympy_expression(open(
-    "../../collect_parallel/eq9/d_d_ψ_t__2__.txt").readline()).coeff(diff(diff(x5, t), t))
 
 print("___READED ALL COEFFICIENT___")
 
