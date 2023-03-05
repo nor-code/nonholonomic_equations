@@ -7,10 +7,10 @@ from multiprocessing import Process
 
 print("решение системы { Eq6, Eq8, Eq9, Eq10 } относительно λ1, λ2, λ3, λ4")
 
-Eq6 = parse_2_sympy_expression(open("../../dynamic/small_velocity/eq6.txt").readline())  # open("../../dynamic/eq6.txt")
-Eq8 = parse_2_sympy_expression(open("../../dynamic/small_velocity/eq8.txt").readline())  # open("../../dynamic/eq6.txt")
-Eq9 = parse_2_sympy_expression(open("../../dynamic/small_velocity/eq9.txt").readline())  # open("../../dynamic/eq6.txt")
-Eq10 = parse_2_sympy_expression(open("../../dynamic/small_velocity/eq10.txt").readline()) # open("../../dynamic/eq6.txt")
+Eq6 = parse_2_sympy_expression(open("../../dynamic/small_velocity/eq1.txt").readline())  # open("../../dynamic/eq6.txt")
+Eq8 = parse_2_sympy_expression(open("../../dynamic/small_velocity/eq2.txt").readline())  # open("../../dynamic/eq6.txt")
+Eq9 = parse_2_sympy_expression(open("../../dynamic/small_velocity/eq4.txt").readline())  # open("../../dynamic/eq6.txt")
+Eq10 = parse_2_sympy_expression(open("../../dynamic/small_velocity/eq5.txt").readline()) # open("../../dynamic/eq6.txt")
 
 t1 = time.time()
 
@@ -95,8 +95,14 @@ def solve_transform_and_write_to_file(lambda_i, i):
             order=2
         )
     )
-    number = bottom.args[0]
-    print("i = ", i, " bottom.args[0] = ", number)
+
+    if type(bottom) == Symbol:
+        number = bottom
+    elif type(bottom) == One:
+        number = 1
+    else:
+        number = bottom.args[0]
+    print("i = ", i, " bottom.args[0] (number) = ", number)
 
     top = expand_and_collect_term_before_derivatives_and_lambda(
         remove_required_and_above_smallness_from_expression(
@@ -111,7 +117,7 @@ def solve_transform_and_write_to_file(lambda_i, i):
 
 
 tasks = []
-solutions = [lambda1, lambda2, lambda3, lambda4]
+solutions = [lambda1, lambda2]
 for i in range(len(solutions)):
     task = Process(target=solve_transform_and_write_to_file, args=(solutions[i], i))
     task.start()

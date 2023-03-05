@@ -1,1 +1,1 @@
-48*C_mz*R**3*m*r*(-x2*sin(x6) + x3*cos(x6))*sin(x7)**4*cos(x6 - x5)**3*cos(x5)*diff(x, t)*diff(x5, t)
+0

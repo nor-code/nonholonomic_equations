@@ -96,12 +96,12 @@ parser.add_argument('--n', type=int)
 args = parser.parse_args()
 
 map_eq = {
-    1: parse_2_sympy_expression(open("../lambda/part2/eq_1_without_lambda.txt").readline()),
-    2: parse_2_sympy_expression(open("../lambda/part2/eq_2_without_lambda.txt").readline()),
     3: parse_2_sympy_expression(open("../lambda/part2/eq_3_without_lambda.txt").readline()),
-    4: parse_2_sympy_expression(open("../lambda/part2/eq_4_without_lambda.txt").readline()),
-    5: parse_2_sympy_expression(open("../lambda/part2/eq_5_without_lambda.txt").readline()),
-    7: parse_2_sympy_expression(open("../lambda/part2/eq_7_without_lambda.txt").readline())
+    6: parse_2_sympy_expression(open("../lambda/part2/eq_6_without_lambda.txt").readline()),
+    7: parse_2_sympy_expression(open("../lambda/part2/eq_7_without_lambda.txt").readline()),
+    8: parse_2_sympy_expression(open("../lambda/part2/eq_8_without_lambda.txt").readline()),
+    9: parse_2_sympy_expression(open("../lambda/part2/eq_9_without_lambda.txt").readline()),
+    10: parse_2_sympy_expression(open("../lambda/part2/eq_10_without_lambda.txt").readline())
 }
 
 lock = Lock()
@@ -183,6 +183,7 @@ print("count terms %d " % len(eq.args))
 eq, _ = fraction(together(eq))
 print("start")
 tasks = []
+print("----> ", transform_to_simpy(str(eq)))
 for i, term in zip(range(len(eq.args)), eq.args):
     task = Process(target=sub_expand, args=(term, i))
     task.start()

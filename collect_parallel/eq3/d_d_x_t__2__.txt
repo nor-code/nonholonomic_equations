@@ -1,1 +1,1 @@
-16*R*r*(-3*C_Mz*M_p*R*r*x3*sin(x7)**2*cos(x6 - x5) - 3*C_mz*R**2*m*x2*sin(x6)*sin(x7)**2*sin(x5) + 3*C_mz*R**2*m*x3*sin(x7)**2*sin(x5)*cos(x6) + 3*C_mz*R*m*r*x2*sin(x7)**2*cos(x6 - x5) + 3*J_pz*r*x2*cos(x7)*cos(x5) + 3*J_pz*r*x3*sin(x5)*cos(x7) + 2*M*R**2*r*x2*cos(x7)*cos(x5) + 2*M*R**2*r*x3*sin(x5)*cos(x7))*sin(x7)**2*cos(x6 - x5)**3*diff(diff(x, t), t)
+0

@@ -25,12 +25,12 @@ parser.add_argument('--n', type=int)
 args = parser.parse_args()
 
 map_dir_eq_path = {
-    1: "../expand_parallel/eq1",
-    2: "../expand_parallel/eq2",
     3: "../expand_parallel/eq3",
-    4: "../expand_parallel/eq4",
-    5: "../expand_parallel/eq5",
-    7: "../expand_parallel/eq7"
+    6: "../expand_parallel/eq6",
+    7: "../expand_parallel/eq7",
+    8: "../expand_parallel/eq8",
+    9: "../expand_parallel/eq9",
+    10: "../expand_parallel/eq10"
 }
 final_independent_coordinates = [x, y, x1, x2, x3, x5]
 

@@ -38,16 +38,16 @@ def subs_lambda_to_equation(eq, i):
         out.write(transform_to_simpy(str(eq_top)))
 
 
-Eq1 = parse_2_sympy_expression(open("../../dynamic/small_velocity/eq1.txt").readline())  # open("../../dynamic/eq1.txt")
-Eq2 = parse_2_sympy_expression(open("../../dynamic/small_velocity/eq2.txt").readline())  # open("../../dynamic/eq2.txt")
-Eq3 = parse_2_sympy_expression(open("../../dynamic/small_velocity/eq3.txt").readline())  # open("../../dynamic/eq3.txt")
-Eq4 = parse_2_sympy_expression(open("../../dynamic/small_velocity/eq4.txt").readline())  # open("../../dynamic/eq4.txt")
-Eq5 = parse_2_sympy_expression(open("../../dynamic/small_velocity/eq5.txt").readline())  # open("../../dynamic/eq5.txt")
-Eq7 = parse_2_sympy_expression(open("../../dynamic/small_velocity/eq7.txt").readline())  # open("../../dynamic/eq6.txt")
+Eq3 = parse_2_sympy_expression(open("../../dynamic/small_velocity/eq3.txt").readline())  # open("../../dynamic/eq1.txt")
+Eq6 = parse_2_sympy_expression(open("../../dynamic/small_velocity/eq6.txt").readline())  # open("../../dynamic/eq2.txt")
+Eq7 = parse_2_sympy_expression(open("../../dynamic/small_velocity/eq7.txt").readline())  # open("../../dynamic/eq3.txt")
+Eq8 = parse_2_sympy_expression(open("../../dynamic/small_velocity/eq8.txt").readline())  # open("../../dynamic/eq4.txt")
+Eq9 = parse_2_sympy_expression(open("../../dynamic/small_velocity/eq9.txt").readline())  # open("../../dynamic/eq5.txt")
+Eq10 = parse_2_sympy_expression(open("../../dynamic/small_velocity/eq10.txt").readline())  # open("../../dynamic/eq6.txt")
 
 tasks = []
-eqns = [Eq1, Eq2, Eq3, Eq4, Eq5, Eq7]
-numbers = [1, 2, 3, 4, 5, 7]
+eqns = [Eq3, Eq6, Eq7, Eq8, Eq9, Eq10]
+numbers = [3, 6, 7, 8, 9, 10]
 for i in range(len(eqns)):
     task = Process(target=subs_lambda_to_equation, args=(eqns[i], numbers[i]))
     task.start()

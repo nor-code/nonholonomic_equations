@@ -2,7 +2,7 @@ import time
 
 import tqdm
 from sympy import cos, sin, expand, collect, Add, sympify, Mul, simplify, trigsimp, Pow, Derivative
-from sympy.core.numbers import Zero
+from sympy.core.numbers import Zero, One
 
 from definitions.denominators import *
 from definitions.generic_coordinates import *
@@ -74,7 +74,7 @@ def remove_required_and_above_smallness_from_expression(expression, order):
     simplified = Zero()
     # if (type(expression) == Pow and __is_denominator_sym(expression.args[0])) or __is_denominator_sym(expression):
     #     return expression
-    if type(expression) == Symbol:
+    if type(expression) in (Symbol, One):
         return expression
 
     if type(expression) == Mul:
