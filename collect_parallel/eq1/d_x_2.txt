@@ -1,1 +1,1 @@
-0
+16*r**2*(3*sqrt(2)*J_pz*sin(x7 + pi/4) - 6*J_pz*sin(x7)**3 - 3*J_pz*sin(x7)**2*cos(x7) - 10*M*R**2*sin(x7)**3 + 2*M*R**2*sin(x7)**2*cos(x7) + 8*M*R**2*sin(x7) - 2*M*R**2*cos(x7))*x8*cos(x6 - x5)**4*cos(x7)**2*diff(x, t)**2

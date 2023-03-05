@@ -1,1 +1,1 @@
-0
+-16*R*r*(3*C_mz*R**2*m*sin(x7)**2*sin(x5) + 3*J_pz*r*sin(x6 - x5)*cos(x7) + 2*M*R**2*r*sin(x6 - x5)*cos(x7))*sin(x7)*sin(x5)*cos(x6 - x5)**2*cos(x7)*diff(x, t)*diff(x2, t)
