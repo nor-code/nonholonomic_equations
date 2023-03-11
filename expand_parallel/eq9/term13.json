@@ -1,1 +1,0 @@
-{"0": "96*C_Mz*M_p*R**2*r*sin(x7)**4*cos(x6)**4*cos(x5)**3*diff(y, t)*diff(x1, t)", "1": "96*C_Mz*M_p*R**2*r*sin(x6)**3*sin(x7)**4*sin(x5)**3*cos(x6)*diff(y, t)*diff(x1, t)", "2": "288*C_Mz*M_p*R**2*r*sin(x6)**2*sin(x7)**4*sin(x5)**2*cos(x6)**2*cos(x5)*diff(y, t)*diff(x1, t)", "3": "288*C_Mz*M_p*R**2*r*sin(x6)*sin(x7)**4*sin(x5)*cos(x6)**3*cos(x5)**2*diff(y, t)*diff(x1, t)"}

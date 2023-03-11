@@ -7,24 +7,19 @@ from multiprocessing import Process
 
 print("решение системы { Eq6, Eq8, Eq9, Eq10 } относительно λ1, λ2, λ3, λ4")
 
-Eq6 = parse_2_sympy_expression(open("../../dynamic/small_velocity/eq1.txt").readline())  # open("../../dynamic/eq6.txt")
-Eq8 = parse_2_sympy_expression(open("../../dynamic/small_velocity/eq2.txt").readline())  # open("../../dynamic/eq6.txt")
-Eq9 = parse_2_sympy_expression(open("../../dynamic/small_velocity/eq4.txt").readline())  # open("../../dynamic/eq6.txt")
-Eq10 = parse_2_sympy_expression(open("../../dynamic/small_velocity/eq5.txt").readline()) # open("../../dynamic/eq6.txt")
+Eq1 = parse_2_sympy_expression(open("../../dynamic/small_velocity/eq1.txt").readline())  # open("../../dynamic/eq6.txt")
+Eq2 = parse_2_sympy_expression(open("../../dynamic/small_velocity/eq2.txt").readline())  # open("../../dynamic/eq6.txt")
+Eq4 = parse_2_sympy_expression(open("../../dynamic/small_velocity/eq4.txt").readline())  # open("../../dynamic/eq6.txt")
+Eq5 = parse_2_sympy_expression(open("../../dynamic/small_velocity/eq5.txt").readline())  # open("../../dynamic/eq6.txt")
 
 t1 = time.time()
 
-Eq6 = expand_and_collect_term_before_derivatives_and_lambda(Eq6)
-Eq8 = expand_and_collect_term_before_derivatives_and_lambda(Eq8)
-Eq9 = expand_and_collect_term_before_derivatives_and_lambda(Eq9)
-Eq10 = expand_and_collect_term_before_derivatives_and_lambda(Eq10)
+print("Eq6 ", Eq1)
+print("Eq8 ", Eq2)
+print("Eq9 ", Eq4)
+print("Eq5 ", Eq5)
 
-print("Eq6 ", Eq6)
-print("Eq8 ", Eq8)
-print("Eq9 ", Eq9)
-print("Eq10 ", Eq10)
-
-(A, b) = linear_eq_to_matrix([Eq6, Eq8, Eq9, Eq10], [λ_1, λ_2, λ_3, λ_4])
+(A, b) = linear_eq_to_matrix([Eq1, Eq2, Eq4, Eq5], [λ_1, λ_2, λ_3, λ_4])
 a1, a2, a3, a4 = A.row(0)[0], A.row(0)[1], A.row(0)[2], A.row(0)[3]
 b1, b2, b3, b4 = A.row(1)[0], A.row(1)[1], A.row(1)[2], A.row(1)[3]
 c1, c2, c3, c4 = A.row(2)[0], A.row(2)[1], A.row(2)[2], A.row(2)[3]
@@ -79,7 +74,7 @@ A_semi_inv = Matrix([[m11, m12, m13, m14],
                 [m41, m42, m43, m44]])
 print("inv A = ", A_semi_inv)
 
-solution = (1/det) * A_semi_inv * b
+solution = (1 / det) * A_semi_inv * b
 lambda1 = solution.row(0)[0]
 lambda2 = solution.row(1)[0]
 lambda3 = solution.row(2)[0]
@@ -96,28 +91,21 @@ def solve_transform_and_write_to_file(lambda_i, i):
         )
     )
 
-    if type(bottom) == Symbol:
-        number = bottom
-    elif type(bottom) == One:
-        number = 1
-    else:
-        number = bottom.args[0]
-    print("i = ", i, " bottom.args[0] (number) = ", number)
-
+    simplified_top_i = 0
+    for term_i in expand(λ_i_top, deep=True).args:
+        if not is_remove_small_term_with_velocities(term_i):
+            simplified_top_i += term_i
     top = expand_and_collect_term_before_derivatives_and_lambda(
-        remove_required_and_above_smallness_from_expression(
-            expand(λ_i_top, deep=True)/number, order=2
-        )
+        simplified_top_i
     )
 
-    bottom = bottom/number
     result = top / bottom
     with open('../../lambda/part1/lambda_' + str(i + 1) + '.txt', 'w') as out:
         out.write(transform_to_simpy(str(result)))
 
 
 tasks = []
-solutions = [lambda1, lambda2]
+solutions = [lambda1, lambda2, lambda3, lambda4]
 for i in range(len(solutions)):
     task = Process(target=solve_transform_and_write_to_file, args=(solutions[i], i))
     task.start()

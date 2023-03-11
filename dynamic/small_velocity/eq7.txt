@@ -1,1 +1,1 @@
-C_mz*m*(x1*sin(x5) - cos(x5))*diff(x, t)*diff(x4, t) - C_mz*m*(x1*cos(x5) + sin(x5))*diff(y, t)*diff(x4, t) + J_wz*diff(diff(x5, t), t) - M_ψ + (J_wx - J_wy)*sin(2*x5)*diff(x4, t)**2/2 + (C_mz**2*m + J_wx)*sin(x5)*diff(x2, t)*diff(x4, t) - (C_mz**2*m + J_wy)*cos(x5)*diff(x3, t)*diff(x4, t)
+J_wz*diff(diff(x5, t), t) - M_ψ

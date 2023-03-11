@@ -1,1 +1,0 @@
-24*R**3*(C_mz**2*m*cos(x7) + C_mz*R*m*cos(x6) + J_wx*sin(x6)**2*cos(x7) - J_wy*sin(x6)**2*cos(x7) + J_wy*cos(x7))*sin(x7)**4*cos(x6 - x5)*cos(x6)*diff(x2, t)*diff(x5, t)

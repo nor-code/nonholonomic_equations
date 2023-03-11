@@ -12,13 +12,13 @@ from definitions.denominators import *
 
 t1 = time.time()
 
-d_phi = parse_2_sympy_expression(open('../../kinematic/part1/kin_eq0.txt').readline())
-d_del = parse_2_sympy_expression(open('../../kinematic/part1/kin_eq1.txt').readline())
+d_gamma = parse_2_sympy_expression(open('../../kinematic/part1/kin_eq0.txt').readline())
+d_phi = parse_2_sympy_expression(open('../../kinematic/part1/kin_eq1.txt').readline())
 d_eps = parse_2_sympy_expression(open('../../kinematic/part1/kin_eq2.txt').readline())
 d_tau = parse_2_sympy_expression(open('../../kinematic/part1/kin_eq3.txt').readline())
 
 
-def solve_transform_and_write_to_file(d_var, name, bottom_symbol):
+def solve_transform_and_write_to_file(d_var, name):
     d_var_top, d_var_bot = fraction(together(d_var))
     bot = simplify(
         remove_required_and_above_smallness_from_expression(
@@ -46,16 +46,11 @@ def solve_transform_and_write_to_file(d_var, name, bottom_symbol):
 
 
 tasks = []
-d_vars = [d_phi, d_del, d_eps, d_tau]
-names = ['d_phi', 'd_del', 'd_eps', 'd_tau']
-name_2_symb_dict = {
-    'd_phi': d_phi_bot,
-    'd_del': d_del_bot,
-    'd_eps': d_eps_bot,
-    'd_tau': d_tau_bot
-}
+d_vars = [d_gamma, d_phi, d_eps, d_tau]
+names = ['d_gamma', 'd_phi', 'd_eps', 'd_tau']
+
 for i in range(len(d_vars)):
-    task = Process(target=solve_transform_and_write_to_file, args=(d_vars[i], names[i], name_2_symb_dict[names[i]]))
+    task = Process(target=solve_transform_and_write_to_file, args=(d_vars[i], names[i]))
     task.start()
     tasks.append(task)
 

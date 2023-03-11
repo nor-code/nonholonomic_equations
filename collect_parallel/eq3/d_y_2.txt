@@ -1,1 +1,0 @@
-C_mz*m*(x1*cos(x5) + sin(x5))*diff(y, t)**2

@@ -1,1 +1,0 @@
-{"0": "4*C_mz*R*m*r*x3*sin(x6)**2*sin(x7)**2*sin(x5)**4*diff(x, t)*diff(y, t)", "1": "4*C_mz*R*m*r*x3*sin(x7)**2*sin(x5)**2*cos(x6)**2*cos(x5)**2*diff(x, t)*diff(y, t)", "2": "8*C_mz*R*m*r*x3*sin(x6)*sin(x7)**2*sin(x5)**3*cos(x6)*cos(x5)*diff(x, t)*diff(y, t)"}

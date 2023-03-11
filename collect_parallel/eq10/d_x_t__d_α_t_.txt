@@ -1,1 +1,0 @@
-48*C_Mz*M_p*R**2*r*sin(x7)**4*cos(x6 - x5)**3*cos(x6)*cos(x7)*diff(x, t)*diff(x1, t)

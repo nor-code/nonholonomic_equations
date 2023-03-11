@@ -1,1 +1,1 @@
-R*sin(x6)*diff(x3, t) + R*cos(x6)*diff(x2, t) - diff(y, t)
+-R*diff(x2, t) + diff(y, t)

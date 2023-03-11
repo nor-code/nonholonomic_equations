@@ -1,1 +1,0 @@
-{"0": "C_mz**2*m*r*cos(x6 - 2*x5)*diff(y, t)*diff(x3, t)/2", "1": "-C_mz**2*m*r*cos(x6 + 2*x5)*diff(y, t)*diff(x3, t)/2", "2": "2*C_mz**2*m*r*cos(x6)*cos(x5)**2*diff(y, t)*diff(x3, t)", "3": "J_wy*r*cos(x6 - 2*x5)*diff(y, t)*diff(x3, t)/2", "4": "-J_wy*r*cos(x6 + 2*x5)*diff(y, t)*diff(x3, t)/2", "5": "2*J_wy*r*cos(x6)*cos(x5)**2*diff(y, t)*diff(x3, t)"}

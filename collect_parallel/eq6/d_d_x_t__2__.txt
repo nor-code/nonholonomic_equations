@@ -1,1 +1,0 @@
-4*R*r*(-C_Mz*M_p*r*x1*sin(x5) - C_Mz*M_p*r*cos(x5) + C_mz*R*m*x1*cos(x5) + C_mz*R*m*sin(x5) - C_mz*m*r*x1*cos(x5) - C_mz*m*r*sin(x5))*sin(x7)**2*cos(x6 - x5)**3*diff(diff(x, t), t)

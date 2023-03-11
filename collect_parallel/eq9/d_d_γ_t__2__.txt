@@ -1,1 +1,0 @@
-48*R**2*(C_Mz**2*M_p*r*sin(x6)*cos(x6 - x5) - C_Mz*M_p*R*r*cos(x6 - x5) + C_mz**2*R*m*sin(x6)*cos(x6 - x5) + C_mz**2*m*r*sin(x6)*cos(x6 - x5) - C_mz*R**2*m*sin(x6)*cos(x5) + J_py*r*sin(x6)*cos(x6 - x5) + J_wx*R*sin(x6)*cos(x6)*cos(x5) + J_wy*R*sin(x6)**2*sin(x5) + J_wy*r*sin(x6)*cos(x6 - x5))*sin(x7)**4*cos(x6 - x5)**2*diff(diff(x3, t), t)

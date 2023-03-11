@@ -32,7 +32,12 @@ def subs_lambda_to_equation(eq, i):
     eq_top = remove_required_and_above_smallness_from_expression(expand(eq_top, deep=True), order=2)  # order = 5
     print(str(i), " part 4 finished")
 
-    eq_top = expand_and_collect_term_before_derivatives_and_lambda(eq_top)
+    simplified_eq_top = 0
+    for term_i in expand(eq_top, deep=True).args:
+        if not is_remove_small_term_with_velocities(term_i):
+            simplified_eq_top += term_i
+
+    eq_top = expand_and_collect_term_before_derivatives_and_lambda(simplified_eq_top)
     print(str(i), " expand and collect term")
     with open("../../lambda/part2/eq_" + str(i) + "_without_lambda.txt", 'w') as out:
         out.write(transform_to_simpy(str(eq_top)))

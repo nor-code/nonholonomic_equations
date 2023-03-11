@@ -1,1 +1,0 @@
--(2*C_Mz*M_p*r*cos(x6 - x5) + C_mz**2*m*sin(x5) + C_mz*R*m*sin(x5)*cos(x6) + J_wy*sin(x5))*diff(y, t)*diff(x2, t)

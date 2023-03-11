@@ -11,7 +11,7 @@ from definitions.lagrangian_multipliers import *
 
 def is_remove_small_term_with_velocities(term, small_coordinates=None):
     if small_coordinates is None:
-        small_coordinates = [x1, x2, x3, x8]
+        small_coordinates = [x, y, x1, x2, x3, x4, x5, x6, x7, x8]
 
     count = base_remove_current_and_above_smallness(term, 2)
     if count >= 2:
@@ -37,9 +37,12 @@ def is_remove_small_term_with_velocities(term, small_coordinates=None):
 
 def base_remove_current_and_above_smallness(term, order, small_coordinates=None):
     if small_coordinates is None:
-        small_coordinates = [x1, x2, x3, x8]
+        small_coordinates = [x1, x2, x3, x4, x5, x6, x7, x8]
 
     count = 0
+    if type(term) == Derivative:
+        return count
+
     for tterm in term.args:
         if tterm in small_coordinates:
             count += 1
@@ -74,7 +77,7 @@ def remove_required_and_above_smallness_from_expression(expression, order):
     simplified = Zero()
     # if (type(expression) == Pow and __is_denominator_sym(expression.args[0])) or __is_denominator_sym(expression):
     #     return expression
-    if type(expression) in (Symbol, One):
+    if type(expression) in (Symbol, One, Derivative):
         return expression
 
     if type(expression) == Mul:
@@ -138,17 +141,26 @@ def simplification_expression(expression):
     """ упрощаем в предположении, что  α, γ и τ  мал """  # β
     simpl_raw = expression.subs(
         {
-            cos(x1): 1 - x1 ** 2 / 2 + x1 ** 4 / 24,
-            sin(x1): x1 - x1 ** 3 / 6,
+            cos(x1): 1,
+            sin(x1): x1,
 
-            cos(x2): 1 - x2 ** 2 / 2 + x2 ** 4 / 24,
-            sin(x2): x2 - x2 ** 3 / 6,
+            cos(x2): 1,
+            sin(x2): x2,
 
-            cos(x3): 1 - x3 ** 2 / 2 + x3 ** 4 / 24,
-            sin(x3): x3 - x3 ** 2 / 6,
+            cos(x3): 1,
+            sin(x3): x3,
 
-            cos(x8): 1 - x8 ** 2 / 2 + x8 ** 4 / 24,
-            sin(x8): x8 - x8 ** 3 / 6
+            cos(x5): 1,
+            sin(x5): x5,
+
+            cos(x6): 1,
+            sin(x6): x6,
+
+            cos(x7): 1,
+            sin(x7): x7,
+
+            cos(x8): 1,
+            sin(x8): x8
         }
     )
     return simpl_raw

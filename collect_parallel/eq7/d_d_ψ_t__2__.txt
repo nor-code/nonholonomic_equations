@@ -1,1 +1,0 @@
-2*J_wz*r**2*cos(x6 - x5)**2*diff(diff(x5, t), t)

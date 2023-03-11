@@ -1,18 +1,37 @@
 import time
 
+from sympy import simplify
+
 from Kinematics import *
-from utils.common import expand_and_collect_term_before_first_derivatives
+from utils.common import expand_and_collect_term_before_first_derivatives, simplification_expression, \
+    remove_required_and_above_smallness_from_expression, is_remove_small_term_with_velocities
 from utils.to_sympy_expression import transform_to_simpy
 
 
 t1 = time.time()
 
+def remove_small_term(eq_i):
+    res = 0
+    for term_of_eq_i in eq_i.args:
+        if not is_remove_small_term_with_velocities(term_of_eq_i):
+            res += term_of_eq_i
+    return res
+
+
+eq1 = remove_small_term(remove_required_and_above_smallness_from_expression(simplification_expression(nonholonomic_links[0]), order=2))
+eq2 = remove_small_term(remove_required_and_above_smallness_from_expression(simplification_expression(nonholonomic_links[1]), order=2))
+eq3 = remove_small_term(remove_required_and_above_smallness_from_expression(simplification_expression(nonholonomic_links[2]), order=2))
+eq4 = remove_small_term(remove_required_and_above_smallness_from_expression(simplification_expression(nonholonomic_links[3]), order=2))
+eq5 = remove_small_term(remove_required_and_above_smallness_from_expression(simplification_expression(nonholonomic_links[4]), order=2))
+
 # A0 = 0, A1 != 0, b != 0
 (A0, A1), b = linear_ode_to_matrix(
-    [nonholonomic_links[0], nonholonomic_links[1], nonholonomic_links[2], nonholonomic_links[4]],
-    [Derivative(x4, t), Derivative(x6, t), Derivative(x7, t), Derivative(x8, t)],
+    [eq1, eq2, eq3, eq4],
+    [Derivative(x3, t), Derivative(x4, t), Derivative(x7, t), Derivative(x8, t)],
     t, 1
 )
+
+b = -b
 
 print("A1 = ", A1)
 A1 = sym.simplify(A1)
@@ -22,8 +41,8 @@ A1_inv = A1.inv()
 print("inv A1 = ", A1_inv)
 
 solution = A1_inv * b
-print("d_phi ", solution.row(0)[0])
-print("d_del ", solution.row(1)[0])
+print("d_gamma ", solution.row(0)[0])
+print("d_phi ", solution.row(1)[0])
 print("d_eps ", solution.row(2)[0])
 print("d_tau ", solution.row(3)[0])
 

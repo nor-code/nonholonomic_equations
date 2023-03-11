@@ -1,1 +1,1 @@
-R*sin(x5)*diff(x2, t) - R*cos(x5)*diff(x3, t) + sin(x6 - x5)*diff(y, t) + sqrt(2)*cos(x6 - x5)*cos(x7 + pi/4)*diff(x, t)
+diff(x, t)

@@ -1,1 +1,1 @@
-2*M*R**2*diff(diff(x7, t), t)/3 + R*λ_2 - R*λ_3*sin(x6) + R*λ_4*cos(x6) - (3*J_pz + 4*M*R**2)*sin(2*x7)*diff(x6, t)**2/6 + (J_pz*sin(x7) - 2*sqrt(2)*M*R**2*cos(x7 + pi/4)/3)*x8*diff(diff(x6, t), t) + (J_pz*sin(x7) + 2*M*R**2*sin(x7)/3 - 4*M*R**2*cos(x7)/3)*diff(x6, t)*diff(x8, t)
+2*M*R**2*diff(diff(x7, t), t)/3 + R*λ_2 - R*λ_3*x6 + R*λ_4

@@ -1,1 +1,0 @@
--C_mz*R*m*r*(cos(2*x6 - 2*x5) + cos(2*x6) + cos(2*x5) + 1)*diff(x, t)*diff(x2, t)/2
