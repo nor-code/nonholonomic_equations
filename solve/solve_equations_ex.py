@@ -28,10 +28,13 @@ def system_eq(y, t):
 
     dy1dx = [u,
              eq1,
+
              v,
              eq2,
+
              p,
              eq3,
+
              q,
              eq4,
 
@@ -43,15 +46,17 @@ def system_eq(y, t):
     return dy1dx
 
 
-t = np.linspace(0, 26, 1000)
+t = np.linspace(0, 30, 10_000)
 
 y0 = [0, 0,
       0, 0,
-      pi / 10, 0,
+      pi/12, pi/12,
       0, 0,
-      pi / 15, 0,
-      0, 0
-      ]
+      0,
+      0,
+      0,
+      0
+]
 
 sol = odeint(system_eq, y0, t, rtol=1e-9)
 
@@ -112,5 +117,10 @@ ax[5][0].plot(t, sol[:, 10])
 ax[5][1].set_xlabel('t')
 ax[5][1].set_ylabel('τ')
 ax[5][1].plot(t, sol[:, 11])
+
+fig1, ax1 = plt.subplots(1, 1)
+ax1.set_xlabel('x')
+ax1.set_ylabel('y')
+ax1.plot(sol[:, 0], sol[:, 2])
 
 plt.show()

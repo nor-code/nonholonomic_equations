@@ -1,0 +1,1 @@
+{"0": "3*M*R*r*diff(diff(y, t), t)", "1": "3*R*m*r*diff(diff(y, t), t)", "2": "-3*C_mz*m*r*diff(diff(y, t), t)", "3": "3*M_p*R*r*diff(diff(y, t), t)"}

@@ -181,9 +181,11 @@ def sub_expand(term, number):
 
 print("count terms %d " % len(eq.args))
 eq, _ = fraction(together(eq))
-print("start")
 tasks = []
 print("----> ", transform_to_simpy(str(eq)))
+if type(eq) == Mul:
+    eq = expand(eq)
+
 for i, term in zip(range(len(eq.args)), eq.args):
     task = Process(target=sub_expand, args=(term, i))
     task.start()

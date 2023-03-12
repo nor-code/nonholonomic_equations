@@ -1,35 +1,6 @@
 from sympy import *
 import re
-
-from utils.common import remove_required_and_above_smallness_from_expression, simplification_expression, \
-    is_remove_small_term_with_velocities
 from utils.sympy_expression import parse_2_sympy_expression
-
-# second_diff_dict = {
-#     r'diff(diff(x, t), t)': '\\frac{d^{2}}{d t^{2}} x',
-#     r'diff(diff(y, t), t)': '\\fraction{d^{2}}{d t^{2}} y',
-#     r'diff(diff(α, t), t)': '\\fraction{d^{2}}{d t^{2}} \\\\alpha',
-#     r'diff(diff(β, t), t)': '\\fraction{d^{2}}{d t^{2}} \\\\beta',
-#     r'diff(diff(γ, t), t)': '\\fraction{d^{2}}{d t^{2}} \\\\gamma',
-#     r'diff(diff(φ, t), t)': '\\fraction{d^{2}}{d t^{2}} \\\\phi',
-#     r'diff(diff(ψ, t), t)': '\\fraction{d^{2}}{d t^{2}} \\\\psi',
-#     r'diff(diff(δ, t), t)': '\\fraction{d^{2}}{d t^{2}} \\\\delta',
-#     r'diff(diff(ε, t), t)': '\\fraction{d^{2}}{d t^{2}} \\\\epsilon',
-#     r'diff(diff(τ, t), t)': '\\fraction{d^{2}}{d t^{2}} \\\\tau'
-# }
-#
-# first_diff_dict = {
-#     r'diff(x, t)': '\\frac{d}{d t} x',
-#     r'diff(y, t)': '\\fraction{d}{d t} y',
-#     r'diff(α, t)': '\\fraction{d}{d t} \\\\alpha',
-#     r'diif(β, t)': '\\fraction{d}{d t} \\\\beta',
-#     r'diff(γ, t)': '\\fraction{d}{d t} \\\\gamma',
-#     r'diff(φ, t)': '\\fraction{d}{d t} \\\\phi',
-#     r'diff(ψ, t)': '\\fraction{d}{d t} \\\\psi',
-#     r'diff(δ, t)': '\\fraction{d}{d t} \\\\delta',
-#     r'diff(ε, t)': '\\fraction{d}{d t} \\\\epsilon',
-#     r'diff(τ, t)': '\\fraction{d}{d t} \\\\tau'
-# }
 
 regexp_dict = {
     r'x\{\\left\(t \\right\)\}': 'x',
@@ -52,6 +23,11 @@ regexp_dict = {
     r'τ\^\{': '\\\\tau^{',
     r'\}\{\\left\(t \\right\)\}': '}'
 }
+last_dict = {
+    "λ": "\\\\bm{\\\\lambda}",
+    "M_\{φ\}": "\\\\bm{M}_\\\\phi",
+    "M_\{ψ\}": "\\\\bm{M}_\\\\psi"
+}
 
 
 def print_in_latex(expression):
@@ -64,6 +40,9 @@ def print_in_latex(expression):
 
     for key in regexp_dict.keys():
         row = re.sub(re.compile(key), regexp_dict[key], row)
+
+    for key in last_dict.keys():
+        row = re.sub(re.compile(key), last_dict[key], row)
     return row
 
 
@@ -118,3 +97,51 @@ def print_in_latex(expression):
 # print(print_in_latex(parse_2_sympy_expression(open('../dynamic/eq9.txt').readline())))
 # print("\neq10")
 # print(print_in_latex(parse_2_sympy_expression(open('../dynamic/eq10.txt').readline())))
+
+print("kin_eq0.txt")
+print(print_in_latex(parse_2_sympy_expression(open('../kinematic/part1/kin_eq0.txt').readline())))
+print("\nkin_eq1.txt")
+print(print_in_latex(parse_2_sympy_expression(open('../kinematic/part1/kin_eq1.txt').readline())))
+print("\nkin_eq2.txt")
+print(print_in_latex(parse_2_sympy_expression(open('../kinematic/part1/kin_eq2.txt').readline())))
+print("\nkin_eq3.txt")
+print(print_in_latex(parse_2_sympy_expression(open('../kinematic/part1/kin_eq3.txt').readline())))
+
+print("\n\neq1")
+print(print_in_latex(parse_2_sympy_expression(open('../dynamic/small_velocity/eq1.txt').readline())))
+print("\neq2")
+print(print_in_latex(parse_2_sympy_expression(open('../dynamic/small_velocity/eq2.txt').readline())))
+print("\neq3")
+print(print_in_latex(parse_2_sympy_expression(open('../dynamic/small_velocity/eq3.txt').readline())))
+print("\neq4")
+print(print_in_latex(parse_2_sympy_expression(open('../dynamic/small_velocity/eq4.txt').readline())))
+print("\neq5")
+print(print_in_latex(parse_2_sympy_expression(open('../dynamic/small_velocity/eq5.txt').readline())))
+print("\neq6")
+print(print_in_latex(parse_2_sympy_expression(open('../dynamic/small_velocity/eq6.txt').readline())))
+print("\neq7")
+print(print_in_latex(parse_2_sympy_expression(open('../dynamic/small_velocity/eq7.txt').readline())))
+print("\neq8")
+print(print_in_latex(parse_2_sympy_expression(open('../dynamic/small_velocity/eq8.txt').readline())))
+print("\neq9")
+print(print_in_latex(parse_2_sympy_expression(open('../dynamic/small_velocity/eq9.txt').readline())))
+print("\neq10")
+print(print_in_latex(parse_2_sympy_expression(open('../dynamic/small_velocity/eq10.txt').readline())))
+
+print("\n\nlambda1")
+print("\\bm{\\lambda_{1}} = ", print_in_latex(parse_2_sympy_expression(open('../lambda/part1/lambda_1.txt').readline())))
+print("\nlambda2")
+print("\\bm{\\lambda_{2}} = ", print_in_latex(parse_2_sympy_expression(open('../lambda/part1/lambda_2.txt').readline())))
+print("\nlambda3")
+print("\\bm{\\lambda_{3}} = ", print_in_latex(parse_2_sympy_expression(open('../lambda/part1/lambda_3.txt').readline())))
+print("\nlambda4")
+print("\\bm{\\lambda_{4}} = ", print_in_latex(parse_2_sympy_expression(open('../lambda/part1/lambda_4.txt').readline())))
+
+print("\n\neq_6_without_lambda.txt")
+print("\\bm{\\lambda_{1}} = ", print_in_latex(parse_2_sympy_expression(open('../lambda/part2/eq_6_without_lambda.txt').readline())))
+print("\neq_8_without_lambda.txt")
+print("\\bm{\\lambda_{2}} = ", print_in_latex(parse_2_sympy_expression(open('../lambda/part2/eq_8_without_lambda.txt').readline())))
+print("\neq_9_without_lambda.txt")
+print("\\bm{\\lambda_{3}} = ", print_in_latex(parse_2_sympy_expression(open('../lambda/part2/eq_9_without_lambda.txt').readline())))
+print("\neq_10_without_lambda.txt")
+print("\\bm{\\lambda_{4}} = ", print_in_latex(parse_2_sympy_expression(open('../lambda/part2/eq_10_without_lambda.txt').readline())))

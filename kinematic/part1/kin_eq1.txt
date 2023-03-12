@@ -1,0 +1,1 @@
+-R*diff(x2, t)/r + diff(y, t)/r
