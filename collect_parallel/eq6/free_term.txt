@@ -1,1 +1,1 @@
-C_Mz*M_p*g*r**2*x2 + C_mz*g*m*r**2*x2 - M_φ*R*r
+-C_Mz*M_p*g*r**2*x2 - C_mz*g*m*r**2*x2 - M_φ*R*r

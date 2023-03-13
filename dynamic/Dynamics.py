@@ -24,10 +24,10 @@ T_w = 1 / 2 * m * V_B.T * V_B + 1 / 2 * (J_w * Matrix([[p_w], [q_w], [r_w]])).T 
 T = T_s + T_p + T_w
 
 # силовая функция силы тяжести для платформы
-U_p = -(M_p * g * P_x_X * R_cm_p)[2]  # Matrix([[0], [0], [C_Mz]])
+U_p = - (M_p * g) * (R - (P_x_X * R_cm_p)[2])  # Matrix([[0], [0], [C_Mz]])
 
 # силовая функция силы тяжести для колеса
-U_w = -(m * g * P_x_X * R_cm_w)[2]  # Matrix([[0], [0], [C_mz]])
+U_w = - (m * g) * (R - (P_x_X * R_cm_w)[2])  # Matrix([[0], [0], [C_mz]])
 
 # обобщённые силы
 Q_x = 0  # diff(U_w, x) + diff(U_p, x)

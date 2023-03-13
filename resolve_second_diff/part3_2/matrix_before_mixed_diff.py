@@ -16,7 +16,7 @@ sys.setrecursionlimit(1000000)
 
 from utils.common import remove_third_and_above_smallness_from_expression, \
     remove_third_and_above_smallness_from_one_term, remove_required_and_above_smallness_from_expression, \
-    remove_current_and_above_smallness_from_one_term
+    remove_current_and_above_smallness_from_one_term, simplify_determinant, simplify_free_term
 from utils.to_sympy_expression import transform_to_simpy
 from dict_coefficients_before_mixed_and_free_term import mixed_coeff_var, dict_free_term_equations
 from dict_inverse_matrix_of_second_diff import inverse_coeff_matrix
@@ -49,7 +49,7 @@ print("multiplication end")
 
 
 # TODO домножить на 1/det !!!
-def simplify_and_expand_component(name, component, dict_var):
+def simplify_and_expand_component(name, component, dict_var, is_free):
     result = 0
     begin = time.time()
     print("component = ", component, " \n")
@@ -60,6 +60,9 @@ def simplify_and_expand_component(name, component, dict_var):
 
     end = time.time()
     print("FINISHED. component: %s. time of execution = %.2f [m] \n" % (str(component), ((end - begin)/60)))
+
+    if is_free:
+        result = simplify_free_term(result)
 
     with open('' + name + '.txt', 'w') as out:
         out.write(transform_to_simpy(str(result)))
@@ -74,7 +77,7 @@ for row in [0, 1, 2]:
     for col in range(10):
         task = Process(
             target=simplify_and_expand_component,
-            args=("matrix_" + str(row) + "_" + str(col), Mixed_matrix.row(row)[col], final_dict)
+            args=("matrix_" + str(row) + "_" + str(col), Mixed_matrix.row(row)[col], final_dict, False)
         )
         task.start()
         tasks.append(task)
@@ -86,7 +89,7 @@ for row in range(3):
     for col in range(1):
         task = Process(
             target=simplify_and_expand_component,
-            args=("free_" + str(row) + "_" + str(col), Free_matrix.row(row)[col], final_dict)
+            args=("free_" + str(row) + "_" + str(col), Free_matrix.row(row)[col], final_dict, True)
         )
         task.start()
         tasks.append(task)

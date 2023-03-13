@@ -4,9 +4,11 @@ import tqdm
 from sympy import cos, sin, expand, collect, Add, sympify, Mul, simplify, trigsimp, Pow, Derivative
 from sympy.core.numbers import Zero, One, Integer
 
+from definitions.constants import C_Mz, C_mz, r, R, J_px, J_py, J_wx, J_wy
 from definitions.denominators import *
 from definitions.generic_coordinates import *
 from definitions.lagrangian_multipliers import *
+from definitions.moments import M_φ, M_ψ
 
 
 def is_remove_small_term_with_velocities(term, small_coordinates=None):
@@ -172,6 +174,41 @@ def _add_simplify(coefficient, var):
         var
     )
 
+
+def simplify_determinant(det_expression):
+    coefficients = [C_Mz**6, C_mz**6, C_Mz**5, C_mz**5, C_Mz ** 4, C_mz ** 4, C_Mz**3, C_mz**3, R ** 4, r ** 4, C_Mz ** 2, C_mz ** 2, R ** 2, r ** 2,
+                    J_px**2, J_py**2, J_wx**2, J_wy**2, J_px, J_py, J_wx, J_wy, C_Mz, C_mz]
+    res = 0
+    for coefficient in coefficients:
+        part = collect(det_expression, coefficient).coeff(coefficient)
+        det_expression = sympify(det_expression - expand(Mul(part, coefficient)))
+        inner_res = part
+        simpl_inner_res = 0
+        for inner_coefficient in coefficients:
+            inner_part = collect(inner_res, inner_coefficient).coeff(inner_coefficient)
+            inner_res = sympify(inner_res - expand(Mul(inner_part, inner_coefficient)))
+            simpl_inner_res += sympify(inner_part) * inner_coefficient
+        res += (simpl_inner_res + inner_res) * coefficient
+    return res + det_expression
+
+
+def simplify_free_term(expression):
+    free_symbols = [M_φ, M_ψ, x1, x2, x3, x6, x7, x8]
+    other = [C_Mz ** 6, C_mz ** 6, C_Mz ** 5, C_mz ** 5, C_Mz ** 4, C_mz ** 4,
+             C_Mz ** 3, C_mz ** 3, R ** 4,r ** 4, C_Mz ** 2, C_mz ** 2, R ** 2,
+             r ** 2, J_px ** 2, J_py ** 2, J_wx ** 2, J_wy ** 2, J_px, J_py, J_wx, J_wy, C_Mz, C_mz]
+    res = 0
+    for coefficient in free_symbols:
+        part = collect(expression, coefficient).coeff(coefficient)
+        expression = sympify(expression - expand(Mul(part, coefficient)))
+        inner_res = part
+        simpl_inner_res = 0
+        for inner_coefficient in other:
+            inner_part = collect(inner_res, inner_coefficient).coeff(inner_coefficient)
+            inner_res = sympify(inner_res - expand(Mul(inner_part, inner_coefficient)))
+            simpl_inner_res += sympify(inner_part) * inner_coefficient
+        res += (simpl_inner_res + inner_res) * coefficient
+    return res + expression
 
 def expand_and_collect_term_before_derivatives_and_lambda(expression):
     bedin = time.time()

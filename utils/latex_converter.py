@@ -145,3 +145,26 @@ print("\neq_9_without_lambda.txt")
 print("\\bm{\\lambda_{3}} = ", print_in_latex(parse_2_sympy_expression(open('../lambda/part2/eq_9_without_lambda.txt').readline())))
 print("\neq_10_without_lambda.txt")
 print("\\bm{\\lambda_{4}} = ", print_in_latex(parse_2_sympy_expression(open('../lambda/part2/eq_10_without_lambda.txt').readline())))
+
+
+print("\n\neq_6_subs_kinematic_restriction.txt")
+print(print_in_latex(parse_2_sympy_expression(open("../collect_parallel/eq6/d_d_x_t__2__.txt").readline())))
+print(print_in_latex(parse_2_sympy_expression(open("../collect_parallel/eq6/d_d_y_t__2__.txt").readline())))
+print(print_in_latex(parse_2_sympy_expression(open("../collect_parallel/eq6/d_d_β_t__2__.txt").readline())))
+print("\neq_9_subs_kinematic_restriction.txt")
+print(print_in_latex(parse_2_sympy_expression(open("../collect_parallel/eq9/d_d_x_t__2__.txt").readline())))
+print(print_in_latex(parse_2_sympy_expression(open("../collect_parallel/eq9/d_d_y_t__2__.txt").readline())))
+print(print_in_latex(parse_2_sympy_expression(open("../collect_parallel/eq9/d_d_β_t__2__.txt").readline())))
+print("\neq_10_subs_kinematic_restriction.txt")
+print(print_in_latex(parse_2_sympy_expression(open("../collect_parallel/eq10/d_d_x_t__2__.txt").readline())))
+print(print_in_latex(parse_2_sympy_expression(open("../collect_parallel/eq10/d_d_y_t__2__.txt").readline())))
+print(print_in_latex(parse_2_sympy_expression(open("../collect_parallel/eq10/d_d_β_t__2__.txt").readline())))
+
+
+print("\n\n free term")
+print(print_in_latex(parse_2_sympy_expression(open("../resolve_second_diff/part3_2/free_0_0.txt").readline())))
+print(print_in_latex(parse_2_sympy_expression(open("../resolve_second_diff/part3_2/free_1_0.txt").readline())))
+print(print_in_latex(parse_2_sympy_expression(open("../resolve_second_diff/part3_2/free_2_0.txt").readline())))
+
+print("\n\n det")
+print(print_in_latex(parse_2_sympy_expression(open("../resolve_second_diff/part2_2/component_det.txt").readline())))

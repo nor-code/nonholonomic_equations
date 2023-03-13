@@ -23,23 +23,29 @@ eq3 = free_3
 
 eq4 = free_7
 
+
+R_p = 0.08
+
+inertia = {
+    J_px: M_p * R_p ** 2 / 4 + M_p * C_Mz ** 2,
+    J_py: M_p * R_p ** 2 / 4 + M_p * C_Mz ** 2,
+    J_pz: M_p * R_p ** 2 / 4,
+    J_wx: m * r ** 2 / 4 + m * C_mz ** 2,
+    J_wy: m * r ** 2 / 2 + m * C_mz ** 2,
+    J_wz: m * r ** 2 / 4
+}
+
 param_dict = {
-    C_mz: 0.081 - 0.026,
+    C_mz: (0.081 - 0.026),
     C_Mz: 0.01,
     R: 0.081,
     r: 0.026,
-    m: 0.11,
-    M: 0.138,
-    M_p: 0.6,
-    J_px: 1,
-    J_py: 1,
-    J_pz: 1,
-    J_wx: 1,
-    J_wy: 1,
-    J_wz: 1
+    m: 0.05,
+    M: 0.137,
+    M_p: 0.65,
 }
 
-det = parse_2_sympy_expression(open("../../resolve_second_diff/part2_2/component_det.txt").readline()).subs(param_dict)
+det = parse_2_sympy_expression(open("../../resolve_second_diff/part2_2/component_det.txt").readline()).subs(inertia).subs(param_dict)
 with open("eqns/det.txt", "w") as out:
     out.write(transform_to_simpy(str(det)))
 print("init determinant expression")

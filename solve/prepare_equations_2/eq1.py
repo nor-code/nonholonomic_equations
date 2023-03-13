@@ -1,7 +1,7 @@
 from main_file import *
 
 mixed_coeff_eq1 = {
-    free_1: parse_2_sympy_expression(open("../../resolve_second_diff/part3_2/free_0_0.txt").readline()).subs(param_dict)
+    free_1: parse_2_sympy_expression(open("../../resolve_second_diff/part3_2/free_0_0.txt").readline()).subs(inertia).subs(param_dict)
 }
 
 eq1 = eq1.subs(mixed_coeff_eq1)

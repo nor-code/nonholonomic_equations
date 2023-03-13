@@ -1,8 +1,8 @@
-from sympy import Matrix, expand
+from sympy import Matrix, expand, simplify
 from multiprocessing import Process
 from definitions.generic_coordinates import *
 from definitions.coefficient_for_resolve import *
-from utils.common import remove_required_and_above_smallness_from_expression
+from utils.common import remove_required_and_above_smallness_from_expression, simplify_determinant
 from utils.sympy_expression import parse_2_sympy_expression
 from utils.to_sympy_expression import transform_to_simpy
 import tqdm
@@ -68,6 +68,7 @@ def simplify_and_expand_component(name, component, dict_var):
 
         result = result + s
 
+    result = simplify_determinant(result)
     with open('component_' + name + '.txt', 'w') as out:
         out.write(transform_to_simpy(str(result)))
 
