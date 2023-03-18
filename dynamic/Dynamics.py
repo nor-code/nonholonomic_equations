@@ -14,7 +14,7 @@ T_s = 1 / 2 * M * V_O.T * V_O + 1 / 2 * (J_s * Matrix([[p_s], [q_s], [r_s]])).T 
 
 # кинетическа энергия платформы
 # в с.к. O_x1_x2_x3
-T_p = 1 / 2 * M_p * V_C.T * V_C + 1 / 2 * (J_p * Matrix([[p_p], [q_p], [r_s]])).T * Matrix([[p_p], [q_p], [r_s]])
+T_p = 1 / 2 * M_p * V_C.T * V_C + 1 / 2 * (J_p * Matrix([[p_p], [q_p], [r_p]])).T * Matrix([[p_p], [q_p], [r_p]])
 
 # кинетическая энергия колеса
 # в с.к. O_x1_x2_x3
