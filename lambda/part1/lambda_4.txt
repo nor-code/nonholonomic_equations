@@ -1,1 +1,1 @@
-(C_Mz*M_p*diff(diff(x, t), t) - C_mz*m*diff(diff(y, t), t) + g*(C_Mz*M_p + C_mz*m)*x2 + (C_mz**2*m + J_wx)*diff(diff(x4, t), t) + (C_Mz**2*M_p + C_mz**2*m + J_px + J_wx)*diff(diff(x2, t), t))/R
+(g*(C_Mz*M_p + C_mz*m)*x2 + (-C_Mz*M_p - C_mz*m)*diff(diff(y, t), t) + (C_mz**2*m + J_wx)*diff(diff(x4, t), t) + (C_Mz**2*M_p + C_mz**2*m + J_px + J_wx)*diff(diff(x2, t), t))/R

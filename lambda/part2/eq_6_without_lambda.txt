@@ -1,1 +1,1 @@
--C_Mz*M_p*g*r*x2 - C_Mz*M_p*r*diff(diff(x, t), t) - C_mz*g*m*r*x2 - M_φ*R + (-C_mz*R*m + C_mz*m*r)*diff(diff(y, t), t) + (C_mz**2*R*m - C_mz**2*m*r + J_wx*R - J_wx*r)*diff(diff(x4, t), t) + (-C_Mz**2*M_p*r + C_mz**2*R*m - C_mz**2*m*r - J_px*r + J_wx*R - J_wx*r)*diff(diff(x2, t), t)
+-C_Mz*M_p*g*r*x2 - C_mz*g*m*r*x2 - M_φ*R + (C_Mz*M_p*r - C_mz*R*m + C_mz*m*r)*diff(diff(y, t), t) + (C_mz**2*R*m - C_mz**2*m*r + J_wx*R - J_wx*r)*diff(diff(x4, t), t) + (-C_Mz**2*M_p*r + C_mz**2*R*m - C_mz**2*m*r - J_px*r + J_wx*R - J_wx*r)*diff(diff(x2, t), t)

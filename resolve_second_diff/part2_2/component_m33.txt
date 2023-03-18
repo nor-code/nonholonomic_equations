@@ -1,1 +1,1 @@
--3*C_Mz*C_mz**2*M_p*m*r**2 + C_Mz*(3*C_mz*M_p*m*r**3 - 5*M*M_p*R*r**3 - 3*M_p**2*R*r**3 - 3*M_p*R*m*r**3) + r**2*(3*C_Mz*C_mz*M_p*R*m - 3*C_Mz*J_wx*M_p)
+0

@@ -14,11 +14,11 @@ def system_eq(y, t):
     x, u, y, v, x2, p, x5, q, x3, x4, x7, x8 = y
 
     g = 10
-    det = 2.09975733853859e-11
+    det = 5.22081647244234e-11
 
-    eq1 = (2.7589984045378e-12*g*x2 - 2.27070405278269e-12*g*x3) / det
-    eq2 = (1.19541495238255e-11*g*x2) / det
-    eq3 = (-2.28779850713968e-10*g*x2 + 5.8423230602685e-11*g*x3) / det
+    eq1 = (-4.3731972343125e-12*g*x3) / det
+    eq2 = (1.85870132529682e-11*g*x2) / det
+    eq3 = (-1.05690771180335e-9*g*x2) / det
     eq4 = 0
 
     eq5 = 12.3456790123457 * u
@@ -46,11 +46,11 @@ def system_eq(y, t):
     return dy1dx
 
 
-t = np.linspace(0, 30, 10000)
+t = np.linspace(0, 15, 10000)
 
 y0 = [0, 0,
       0, 0,
-      pi/12, 0,
+      pi/3, 0,
       0, 0,
       pi/3,
       0,
@@ -120,20 +120,31 @@ ax[5][1].plot(t, sol[:, 11])
 
 ### траектория y-x
 fig1, ax1 = plt.subplots(1, 1)
-ax1.set_xlabel('x')
-ax1.set_ylabel('y')
+ax1.set_xlabel('x, [m]')
+ax1.set_ylabel('y, [m]', rotation="horizontal")
 ax1.plot(sol[:, 0], sol[:, 2])
+
 
 ### на одном графике φ, β, x, y
 fig1, ax2 = plt.subplots(1, 1)
 ax2.plot(t, sol[:, 4], 'r', linewidth=3, label='β')
-ax2.plot(t, sol[:, 10], 'b', linewidth=1.1, label='φ')
-ax2.plot(t, sol[:, 0], 'g', linewidth=1.6, label='x')
-ax2.plot(t, sol[:, 2], 'm', linewidth=1.1, label='y')
+ax2.plot(t, sol[:, 10], 'g', linewidth=2.1, label='φ')
+ax2.plot(t, sol[:, 8], 'b', linewidth=1.5, label='γ')
+# ax2.plot(t, sol[:, 0], 'g', linewidth=1.6, label='x')
+# ax2.plot(t, sol[:, 2], 'm', linewidth=1.1, label='y')
+
 ax2.legend(loc='best')
-ax2.set_xlabel('t', loc='center')
+ax2.set_xlabel('t, [s]', loc='center')
+ax2.set_ylabel('[rad]', loc='center', rotation="horizontal")
 ax2.set_title('φ, β, x, y')
 ax2.grid()
+
+fig3, ax3 = plt.subplots(1, 1)
+ax3.set_xlabel('t, [s]')
+ax3.set_ylabel('y, [m]', rotation="horizontal")
+ax3.plot(t, sol[:, 0], label='x', linewidth=3)
+ax3.plot(t, sol[:, 2], label='y')
+ax3.legend(loc='best')
 
 
 plt.show()
