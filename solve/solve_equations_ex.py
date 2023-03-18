@@ -136,7 +136,7 @@ ax2.plot(t, sol[:, 8], 'b', linewidth=1.5, label='γ')
 ax2.legend(loc='best')
 ax2.set_xlabel('t, [s]', loc='center')
 ax2.set_ylabel('[rad]', loc='center', rotation="horizontal")
-ax2.set_title('φ, β, x, y')
+ax2.set_title('φ, β, y')
 ax2.grid()
 
 fig3, ax3 = plt.subplots(1, 1)
