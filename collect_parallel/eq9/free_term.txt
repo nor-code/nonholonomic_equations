@@ -1,1 +1,1 @@
-3*C_Mz*M_p*g*r*x2 + 3*C_mz*g*m*r*x2
+6*C_Mx*M_p*R**2*g*r*x6*cos(x1) - 6*C_Mx*M_p*R**2*g*r*sin(x1) - 6*C_My*M_p*R**2*g*r*x6*sin(x1) - 6*C_My*M_p*R**2*g*r*cos(x1) + 6*C_Mz*M_p*R**2*g*r*x2*cos(x1) - 6*C_Mz*M_p*R**2*g*r*x3*sin(x1) + 6*C_mz*R**2*g*m*r*x2*cos(x1) - 6*C_mz*R**2*g*m*r*x3*sin(x1)

@@ -1,1 +1,0 @@
-{"0": "3*J_wy*diff(diff(x, t), t)", "1": "3*C_Mz*M_p*R*diff(diff(x, t), t)", "2": "3*C_mz*R*m*diff(diff(x, t), t)", "3": "3*J_py*diff(diff(x, t), t)", "4": "3*C_mz**2*m*diff(diff(x, t), t)", "5": "3*C_Mz**2*M_p*diff(diff(x, t), t)"}

@@ -1,1 +1,1 @@
-diff(x, t)
+-R*sin(x7)*diff(x6, t) + diff(x, t)

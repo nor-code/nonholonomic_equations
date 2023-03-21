@@ -1,1 +1,1 @@
--C_mz*m*diff(diff(y, t), t) - M_φ - r*λ_4 + λ_3*(r*x1 + r*x5) + (C_mz**2*m + J_wx)*diff(diff(x2, t), t) + (C_mz**2*m + J_wx)*diff(diff(x4, t), t)
+C_mz*m*sin(x1)*diff(diff(x, t), t) + C_mz*m*sin(x1)*diff(y, t)*diff(x1, t) + C_mz*m*cos(x1)*diff(x, t)*diff(x1, t) - C_mz*m*cos(x1)*diff(diff(y, t), t) - M_φ + r*λ_3*(x5*cos(x1) + sin(x1)) + r*λ_4*(x5*sin(x1) - cos(x1)) + (-C_mz**2*m - J_wx)*diff(x1, t)*diff(x3, t) + (C_mz**2*m + J_wx)*diff(diff(x2, t), t) + (C_mz**2*m + J_wx)*diff(diff(x4, t), t) + (-C_mz**2*m*x3 - J_wx*x3)*diff(diff(x1, t), t)

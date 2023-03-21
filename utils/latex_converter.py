@@ -28,9 +28,13 @@ last_dict = {
     "M_\{φ\}": "\\\\bm{M}_\\\\phi",
     "M_\{ψ\}": "\\\\bm{M}_\\\\psi"
 }
+free_dict = {
+    r'\\left\(': '\\\\Bigg(\\\\Bigg.',
+    r'\\right\)': '\\\\Bigg. \\\\Bigg)'
+}
 
 
-def print_in_latex(expression):
+def print_in_latex(expression, isFree=False):
     """
     преобразуем к латех формату
     :param row: переменная в sympy формате
@@ -43,6 +47,10 @@ def print_in_latex(expression):
 
     for key in last_dict.keys():
         row = re.sub(re.compile(key), last_dict[key], row)
+
+    if isFree:
+        for key in free_dict.keys():
+            row = re.sub(re.compile(key), free_dict[key], row)
     return row
 
 
@@ -166,9 +174,9 @@ print(print_in_latex(parse_2_sympy_expression(open("../collect_parallel/eq10/d_d
 print("free = ", print_in_latex(parse_2_sympy_expression(open("../collect_parallel/eq10/free_term.txt").readline())))
 
 print("\n\n free term")
-print(print_in_latex(parse_2_sympy_expression(open("../resolve_second_diff/part3_2/free_0_0.txt").readline())))
-print(print_in_latex(parse_2_sympy_expression(open("../resolve_second_diff/part3_2/free_1_0.txt").readline())))
-print(print_in_latex(parse_2_sympy_expression(open("../resolve_second_diff/part3_2/free_2_0.txt").readline())))
+print(print_in_latex(parse_2_sympy_expression(open("../resolve_second_diff/part3_2/free_0_0.txt").readline()), isFree=True))
+print(print_in_latex(parse_2_sympy_expression(open("../resolve_second_diff/part3_2/free_1_0.txt").readline()), isFree=True))
+print(print_in_latex(parse_2_sympy_expression(open("../resolve_second_diff/part3_2/free_2_0.txt").readline()), isFree=True))
 
 print("\n\n det")
 print(print_in_latex(parse_2_sympy_expression(open("../resolve_second_diff/part2_2/component_det.txt").readline())))

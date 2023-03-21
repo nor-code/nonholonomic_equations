@@ -1,1 +1,1 @@
--C_Mz*M_p*g*r**2*x2 - C_mz*g*m*r**2*x2 - M_φ*R*r
+-2*C_Mx*M_p*R**2*g*r**2*x5 + 2*C_My*M_p*R**2*g*r**2 - 2*C_Mz*M_p*R**2*g*r**2*x2 - 2*C_mz*R**2*g*m*r**2*x2 - 2*M_φ*R**3*r

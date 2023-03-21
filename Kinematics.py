@@ -74,9 +74,11 @@ V_X = expand(V_T_w[0] - V_T_s[0])
 V_Y = expand(V_T_w[1] - V_T_s[1])
 V_Z = expand(V_T_w[2] - V_T_s[2])
 
+# Rr = Matrix([[0], [0], [-R]])
+# V_S = V_O + Matrix([[p_s], [q_s], [r_s]]).cross(Rr)
 # сферическая оболочка движется без проскальзывания по поверхности
 V_S_X = expand(diff(x, t) - R * q_s)
-V_S_Y = expand(diff(y, t) - R * p_s)
+V_S_Y = expand(diff(y, t) + R * p_s)
 
 # угловая скорость колеса = угловой скорости оболочки TODO пока не вводим эту гипотезу
 # sphere_angular_velocity = P_y_Y * (r_s * e_x3)

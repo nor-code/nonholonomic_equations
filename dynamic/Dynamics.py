@@ -68,7 +68,7 @@ for i in range(len(equations)):
     with open('./dynamic/eq' + str(i + 1) + '.txt', 'w') as eq_i:
         eq_i_simplified = remove_required_and_above_smallness_from_expression(
             simplification_expression(expand(equations[i], deep=True)),
-            order=5
+            order=2
         )
         print(i, " = ", eq_i_simplified)
         eq_i.write(transform_to_simpy(str(simplify(eq_i_simplified, rational=True))))

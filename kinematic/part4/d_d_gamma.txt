@@ -1,1 +1,1 @@
-diff(diff(x, t), t)/R
+(-R**2*x2*diff(diff(x1, t), t) + R**2*sin(x1)*sin(x7)**2*diff(x1, t)*diff(x6, t) - R**2*sin(x7)**2*cos(x1)*diff(diff(x6, t), t) - R**2*diff(x1, t)*diff(x2, t) + R*(x6*sin(x1) + cos(x1))*diff(y, t)*diff(x1, t) - R*(x6*cos(x1) - sin(x1))*diff(diff(y, t), t) + R*(sin(2*x7) - 1)*cos(x1)*diff(y, t)*diff(x6, t) - R*sin(x1)*cos(x7)*diff(x, t)*diff(x1, t) + R*cos(x1)*cos(x7)*diff(diff(x, t), t) + sin(x7)*cos(x1)*diff(x, t)*diff(y, t))/R**2

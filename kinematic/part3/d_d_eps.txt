@@ -1,1 +1,1 @@
-diff(diff(y, t), t)
+-diff(diff(y, t), t)

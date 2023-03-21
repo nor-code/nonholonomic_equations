@@ -4,7 +4,7 @@ import tqdm
 from sympy import cos, sin, expand, collect, Add, sympify, Mul, simplify, trigsimp, Pow, Derivative
 from sympy.core.numbers import Zero, One, Integer
 
-from definitions.constants import C_Mz, C_mz, r, R, J_px, J_py, J_wx, J_wy
+from definitions.constants import C_Mz, C_mz, r, R, J_px, J_py, J_wx, J_wy, C_Mx, C_My
 from definitions.denominators import *
 from definitions.generic_coordinates import *
 from definitions.lagrangian_multipliers import *
@@ -13,7 +13,7 @@ from definitions.moments import M_φ, M_ψ
 
 def is_remove_small_term_with_velocities(term, small_coordinates=None):
     if small_coordinates is None:
-        small_coordinates = [x, y, x1, x2, x3, x4, x5, x6, x7, x8]
+        small_coordinates = [x, y, x2, x3, x4, x5, x6, x8]
 
     count = base_remove_current_and_above_smallness(term, 2)
     if count >= 2:
@@ -39,7 +39,7 @@ def is_remove_small_term_with_velocities(term, small_coordinates=None):
 
 def base_remove_current_and_above_smallness(term, order, small_coordinates=None):
     if small_coordinates is None:
-        small_coordinates = [x1, x2, x3, x4, x5, x6, x7, x8]
+        small_coordinates = [x2, x3, x4, x5, x6, x8]
 
     count = 0
     if type(term) == Derivative:
@@ -77,9 +77,9 @@ def __is_denominator_sym(symbol):
 
 def remove_required_and_above_smallness_from_expression(expression, order):
     simplified = Zero()
-    # if (type(expression) == Pow and __is_denominator_sym(expression.args[0])) or __is_denominator_sym(expression):
-    #     return expression
-    if type(expression) in (Symbol, One, Derivative, Integer):
+
+    if type(expression) in (Symbol, One, Derivative, Integer) \
+            or (type(expression) is Pow and type(expression.args[0]) is Symbol):
         return expression
 
     if type(expression) == Mul:
@@ -89,7 +89,7 @@ def remove_required_and_above_smallness_from_expression(expression, order):
         else:
             return 0
 
-    for term in expand(expression).args: #tqdm.tqdm(expand(expression).args):
+    for term in expand(expression).args:
         count = base_remove_current_and_above_smallness(term, order)
         if count < order:
             try:
@@ -143,8 +143,8 @@ def simplification_expression(expression):
     """ упрощаем в предположении, что  α, γ и τ  мал """  # β
     simpl_raw = expression.subs(
         {
-            cos(x1): 1,
-            sin(x1): x1,
+            # cos(x1): 1,
+            # sin(x1): x1,
 
             cos(x2): 1,
             sin(x2): x2,
@@ -158,8 +158,8 @@ def simplification_expression(expression):
             cos(x6): 1,
             sin(x6): x6,
 
-            cos(x7): 1,
-            sin(x7): x7,
+            # cos(x7): 1,
+            # sin(x7): x7,
 
             cos(x8): 1,
             sin(x8): x8
@@ -176,7 +176,10 @@ def _add_simplify(coefficient, var):
 
 
 def simplify_determinant(det_expression):
-    coefficients = [C_Mz**6, C_mz**6, C_Mz**5, C_mz**5, C_Mz ** 4, C_mz ** 4, C_Mz**3, C_mz**3, R ** 4, r ** 4, C_Mz ** 2, C_mz ** 2, R ** 2, r ** 2,
+    coefficients = [C_Mz**6, C_mz**6, C_Mz**5, C_mz**5, C_Mz ** 4, C_mz ** 4, C_Mz**3, C_mz**3,
+                    C_Mx ** 6, C_Mx ** 5, C_Mx ** 4, C_Mx ** 3,
+                    C_My ** 6, C_My ** 5, C_My ** 4, C_My ** 3,
+                    R ** 4, r ** 4, C_Mz ** 2, C_mz ** 2, R ** 2, r ** 2,
                     J_px**2, J_py**2, J_wx**2, J_wy**2, J_px, J_py, J_wx, J_wy, C_Mz, C_mz]
     res = 0
     for coefficient in coefficients:
@@ -196,6 +199,8 @@ def simplify_free_term(expression):
     free_symbols = [M_φ, M_ψ, x1, x2, x3, x6, x7, x8]
     other = [C_Mz ** 6, C_mz ** 6, C_Mz ** 5, C_mz ** 5, C_Mz ** 4, C_mz ** 4,
              C_Mz ** 3, C_mz ** 3, R ** 4,r ** 4, C_Mz ** 2, C_mz ** 2, R ** 2,
+             C_Mx ** 6, C_Mx ** 5, C_Mx ** 4, C_Mx ** 3, C_Mx ** 2,
+             C_My ** 6, C_My ** 5, C_My ** 4, C_My ** 3, C_My ** 2,
              r ** 2, J_px ** 2, J_py ** 2, J_wx ** 2, J_wy ** 2, J_px, J_py, J_wx, J_wy, C_Mz, C_mz]
     res = 0
     for coefficient in free_symbols:

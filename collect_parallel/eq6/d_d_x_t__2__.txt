@@ -1,1 +1,1 @@
-0
+2*R*(C_Mx*C_My*M_p*r**2*cos(x1)*cos(x7) - C_Mz*M_p*R*r**2*sin(x1) + C_mz**2*R**2*m*sin(x1)*cos(x7) - C_mz**2*R*m*r*sin(x1)*cos(x7) + C_mz*R**2*m*r*sin(x1) - C_mz*R*m*r**2*sin(x1) + J_wx*R**2*sin(x1)*cos(x7) - J_wx*R*r*sin(x1)*cos(x7))*diff(diff(x, t), t)

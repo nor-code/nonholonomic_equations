@@ -32,7 +32,7 @@ map_dir_eq_path = {
     9: "../expand_parallel/eq9",
     10: "../expand_parallel/eq10"
 }
-final_independent_coordinates = [x, y, x2, x5]
+final_independent_coordinates = [x, y, x1, x2, x5, x6]
 
 second_derivatives = [diff(diff(var, t), t) for var in final_independent_coordinates]
 second_dict_name = dict(
