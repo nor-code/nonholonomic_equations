@@ -7,7 +7,7 @@ from utils.to_sympy_expression import transform_to_simpy
 
 eqns_indx = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 for indx in eqns_indx:
-    eq_i = expand(parse_2_sympy_expression(open("../eq" + str(indx) + ".txt").readline()), deep=True)
+    eq_i = expand(parse_2_sympy_expression(open("../eq" + str(indx) + ".txt").readline()), deep=True, trig=True)
     simplified_eq_i = 0
     for term_of_eq_i in eq_i.args:
         if not is_remove_small_term_with_velocities(term_of_eq_i):

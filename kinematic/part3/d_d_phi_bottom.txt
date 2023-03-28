@@ -1,1 +1,1 @@
-R*r
+cos_x20*cos_x80*r

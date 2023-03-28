@@ -1,1 +1,1 @@
--diff(y, t)/R
+-(-R*cos_x70*sin_x80*diff(x6, t) + diff(y, t))/(R*cos_x80)

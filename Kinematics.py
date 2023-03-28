@@ -99,7 +99,7 @@ def build_row(link, parser):
     row = Matrix([range(size_generic_vars)])
 
     for coordinate in generic_vars:
-        coefficient = trigsimp(group_by_coordinate(coordinate, link))
+        coefficient = group_by_coordinate(coordinate, link)
         print(coordinate, ": ", parser.transformForWolframMathematica(str(coefficient)))
         position = generic_vars.index(coordinate, 0, size_generic_vars)
         row[position] = coefficient

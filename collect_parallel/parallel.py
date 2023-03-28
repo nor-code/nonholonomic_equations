@@ -144,7 +144,7 @@ def collect_before_derivatives(arr, eq_number, name, d_one: Derivative, is_mixed
 
     # result_expression = Mul(simpl_coeff, syms)
     if type(result_expression) != Mul:
-        result_expression = remove_required_and_above_smallness_from_expression(result_expression, order=5)
+        result_expression = remove_required_and_above_smallness_from_expression(result_expression, order=2)
 
     result_expression = simplify(result_expression)
     with open('./eq' + str(eq_number) + '/' + name + '.txt', 'w') as out:

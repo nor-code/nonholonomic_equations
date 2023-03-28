@@ -7,6 +7,7 @@ from sympy.solvers.solveset import linsolve, linear_eq_to_matrix
 from utils.Wolfram import Wolfram
 from utils.to_sympy_expression import transform_to_simpy
 from sympy import expand
+from utils.latex_converter import print_in_latex
 
 t0 = time.time()
 # кинетическая энергия сферической оболочки
@@ -28,6 +29,7 @@ U_p = - (M_p * g) * (R - (P_x_X * R_cm_p)[2])  # Matrix([[0], [0], [C_Mz]])
 
 # силовая функция силы тяжести для колеса
 U_w = - (m * g) * (R - (P_x_X * R_cm_w)[2])  # Matrix([[0], [0], [C_mz]])
+print(print_in_latex(U_w))
 
 # обобщённые силы
 Q_x = 0  # diff(U_w, x) + diff(U_p, x)
@@ -130,11 +132,10 @@ def get_row_coef_before_second_diff(equation):
 
     total_result = ""
     for second_diff in second_diff_generic_coord:
-        coeff = trigsimp(
-            collect(
-                expand(equation), second_diff
-            ).coeff(second_diff)
-        ) * second_diff
+        coeff = collect(
+            expand(equation, deep=True), second_diff
+        ).coeff(second_diff) * second_diff
+
         position = second_diff_generic_coord.index(second_diff, 0, len(second_diff_generic_coord))
 
         wolfram_coef = parser.transformForWolframMathematica(str(coeff))

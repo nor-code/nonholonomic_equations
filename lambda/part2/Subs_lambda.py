@@ -6,6 +6,8 @@ from sympy import linear_eq_to_matrix, together, fraction
 import sys
 sys.setrecursionlimit(10000000)
 
+ORDER = 2
+
 t1 = time.time()
 
 λ_1_expression = parse_2_sympy_expression(open("../../lambda/part1/lambda_1.txt").readline())
@@ -15,21 +17,21 @@ t1 = time.time()
 
 
 def subs_lambda_to_equation(eq, i):
-    global λ_1_expression, λ_2_expression, λ_3_expression, λ_4_expression
+    global λ_1_expression, λ_2_expression, λ_3_expression, λ_4_expression, ORDER
     eq_top, _ = fraction(together(eq.subs(λ_1, λ_1_expression)))
-    eq_top = remove_required_and_above_smallness_from_expression(expand(eq_top, deep=True), order=2)  # order = 5
+    eq_top = remove_required_and_above_smallness_from_expression(expand(eq_top, deep=True), order=ORDER)  # order = 5
     print(str(i), " part 1 finished")
 
     eq_top, _ = fraction(together(eq_top.subs(λ_2, λ_2_expression)))
-    eq_top = remove_required_and_above_smallness_from_expression(expand(eq_top, deep=True), order=2)  # order = 5
+    eq_top = remove_required_and_above_smallness_from_expression(expand(eq_top, deep=True), order=ORDER)  # order = 5
     print(str(i), " part 2 finished")
 
     eq_top, _ = fraction(together(eq_top.subs(λ_3, λ_3_expression)))
-    eq_top = remove_required_and_above_smallness_from_expression(expand(eq_top, deep=True), order=2)  # order = 5
+    eq_top = remove_required_and_above_smallness_from_expression(expand(eq_top, deep=True), order=ORDER)  # order = 5
     print(str(i), " part 3 finished")
 
     eq_top, _ = fraction(together(eq_top.subs(λ_4, λ_4_expression)))
-    eq_top = remove_required_and_above_smallness_from_expression(expand(eq_top, deep=True), order=2)  # order = 5
+    eq_top = remove_required_and_above_smallness_from_expression(expand(eq_top, deep=True), order=ORDER)  # order = 5
     print(str(i), " part 4 finished")
 
     simplified_eq_top = 0

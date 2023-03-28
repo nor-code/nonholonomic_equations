@@ -37,7 +37,15 @@ M_p = se.Symbol('M_p')  # 656 g
 m = se.Symbol('m')  # 0.05
 
 # координаты ц.м. платформы по оси O_x1 , O_x2 и O_x3
+C_Mx = se.Symbol('C_Mx')
+C_My = se.Symbol('C_My')
 C_Mz = se.Symbol('C_Mz')
+
+# константы, появлющиеся, когда возникает смещение ц.м. вычисляются непосредственно перед решением диффуров
+sin_x20 = se.Symbol('sin_x20')
+cos_x20 = se.Symbol('cos_x20')
+sin_x30 = se.Symbol('sin_x30')
+cos_x30 = se.Symbol('cos_x30')
 
 # координаты ц.м. колеса по оси O_x1, O_x2 и O_x3
 C_mz = se.Symbol('C_mz')

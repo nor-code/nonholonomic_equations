@@ -1,1 +1,1 @@
-(-R*sin(x7)*diff(diff(x6, t), t) + cos(x7)*diff(y, t)*diff(x6, t) + diff(diff(x, t), t))/R
+-sin_x70*diff(diff(x6, t), t) + diff(diff(x, t), t)/R

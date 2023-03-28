@@ -1,1 +1,1 @@
-8*sqrt(2)*M*R**2*r*x8*sin(x7 + pi/4)*diff(y, t)**2
+0

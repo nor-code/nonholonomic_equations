@@ -28,6 +28,16 @@ M_p = Symbol('M_p')  # 656 g
 # масса колеса
 m = Symbol('m')  # 0.05
 
+# константы, появлющиеся, когда возникает смещение ц.м. вычисляются непосредственно перед решением диффуров
+sin_x20 = Symbol('sin_x20')
+cos_x20 = Symbol('cos_x20')
+sin_x30 = Symbol('sin_x30')
+cos_x30 = Symbol('cos_x30')
+sin_x70 = Symbol('sin_x70')
+cos_x70 = Symbol('cos_x70')
+sin_x80 = Symbol('sin_x80')
+cos_x80 = Symbol('cos_x80')
+
 # координаты ц.м. платформы по оси O_x1 , O_x2 и O_x3
 C_Mx = Symbol('C_Mx')
 C_My = Symbol('C_My')

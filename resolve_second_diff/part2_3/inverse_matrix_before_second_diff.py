@@ -1,11 +1,12 @@
 import time
 from multiprocessing import Process
 
-from sympy import Matrix, expand
+from sympy import Matrix, expand, simplify
 from definitions.coefficient_for_resolve import *
 from definitions.constants import C_My, C_Mx
 from utils.common import remove_third_and_above_smallness_from_expression, \
     remove_required_and_above_smallness_from_expression, simplify_determinant
+from utils.sympy_expression import parse_2_sympy_expression
 from utils.to_sympy_expression import replace_space_to_multiplication_sym, transform_to_simpy
 import tqdm
 from coefficient_dict import main_vars_subs
@@ -117,7 +118,6 @@ def simplify_and_expand_component(name, component, dict_var):
         while index < total:
             s = s * term.args[index]
             s = s.subs(dict_var)
-            s = s.subs({C_Mx: 0, C_My: 0})
             s = remove_required_and_above_smallness_from_expression(expand(s), order=2)
             index += 1
 

@@ -30,14 +30,17 @@ d_phi = d_phi_top / d_phi_bot
 d_eps = d_eps_top / d_eps_bot
 d_tau = d_tau_top / d_tau_bot
 
+ORDER = 2
+
 
 def calculate_second_diff(d_var, name):
+    global ORDER
     d_d_var = diff(d_var, t)
     d_d_var_top, d_d_var_bot = fraction(together(d_d_var))
 
     d_d_var_top = remove_required_and_above_smallness_from_expression(
         expand(d_d_var_top, deep=True),
-        order=2
+        order=ORDER
     )
 
     print("first collect in d_d_var_top and remove small term")
@@ -70,9 +73,9 @@ def calculate_second_diff(d_var, name):
             top = expand(term_)
 
             if type(top) == Mul:
-                simpl_top = remove_current_and_above_smallness_from_one_term(term_, order=2)
+                simpl_top = remove_current_and_above_smallness_from_one_term(term_, order=ORDER)
             else:
-                simpl_top = remove_required_and_above_smallness_from_expression(term_, order=2)
+                simpl_top = remove_required_and_above_smallness_from_expression(term_, order=ORDER)
 
             if simpl_top != sympy.core.numbers.Zero():
                 expression = expand(simpl_top)
@@ -90,14 +93,14 @@ def calculate_second_diff(d_var, name):
 
     bot2 = remove_required_and_above_smallness_from_expression(
         expand(d_d_var_bot, deep=True),
-        order=2
+        order=ORDER
     )
     print("finished simplification denominator. 1")
 
     bot = trigsimp(
         remove_required_and_above_smallness_from_expression(
             expand(Mul(bot1, bot2), deep=True),
-            order=2
+            order=ORDER
         )
     )
     print("finished simplification denominator. 2")

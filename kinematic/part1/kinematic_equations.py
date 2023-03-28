@@ -5,10 +5,12 @@ from sympy import simplify
 from Kinematics import *
 from utils.common import expand_and_collect_term_before_first_derivatives, simplification_expression, \
     remove_required_and_above_smallness_from_expression, is_remove_small_term_with_velocities
+from utils.latex_converter import print_in_latex
 from utils.to_sympy_expression import transform_to_simpy
 
 
 t1 = time.time()
+
 
 def remove_small_term(eq_i):
     res = 0
@@ -18,11 +20,19 @@ def remove_small_term(eq_i):
     return res
 
 
-eq1 = remove_small_term(remove_required_and_above_smallness_from_expression(simplification_expression(nonholonomic_links[0]), order=2))
-eq2 = remove_small_term(remove_required_and_above_smallness_from_expression(simplification_expression(nonholonomic_links[1]), order=2))
-eq3 = remove_small_term(remove_required_and_above_smallness_from_expression(simplification_expression(nonholonomic_links[2]), order=2))
-eq4 = remove_small_term(remove_required_and_above_smallness_from_expression(simplification_expression(nonholonomic_links[3]), order=2))
-eq5 = remove_small_term(remove_required_and_above_smallness_from_expression(simplification_expression(nonholonomic_links[4]), order=2))
+ORDER = 2
+eq1 = remove_small_term(remove_required_and_above_smallness_from_expression(simplification_expression(nonholonomic_links[0]), order=ORDER))
+eq2 = remove_small_term(remove_required_and_above_smallness_from_expression(simplification_expression(nonholonomic_links[1]), order=ORDER))
+eq3 = remove_small_term(remove_required_and_above_smallness_from_expression(simplification_expression(nonholonomic_links[2]), order=ORDER))
+eq4 = remove_small_term(remove_required_and_above_smallness_from_expression(simplification_expression(nonholonomic_links[3]), order=ORDER))
+eq5 = remove_small_term(remove_required_and_above_smallness_from_expression(simplification_expression(nonholonomic_links[4]), order=ORDER))
+
+print(print_in_latex(eq1))
+print(print_in_latex(eq2))
+print(print_in_latex(eq3))
+print(print_in_latex(eq4))
+print(print_in_latex(eq5))
+
 
 # A0 = 0, A1 != 0, b != 0
 (A0, A1), b = linear_ode_to_matrix(

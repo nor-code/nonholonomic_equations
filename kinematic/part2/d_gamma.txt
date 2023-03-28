@@ -1,1 +1,1 @@
--R*x2*diff(x1, t) - R*sin(x7)**2*cos(x1)*diff(x6, t) - (x6*cos(x1) - sin(x1))*diff(y, t) + cos(x1)*cos(x7)*diff(x, t)
+-R*sin_x20*diff(x1, t) - R*(cos_x20*cos_x70*sin_x70*sin_x80**2 + cos_x20*cos_x80**2*sin_x70**2 - cos_x70**2*sin_x20*sin_x80**2 - cos_x70*cos_x80**2*sin_x20*sin_x70)*diff(x6, t) + (cos_x20*cos_x70 + sin_x20*sin_x70)*diff(x, t)
