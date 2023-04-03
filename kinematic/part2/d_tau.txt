@@ -1,1 +1,1 @@
--R*sin_x70*diff(x6, t) + diff(x, t)
+diff(x, t)

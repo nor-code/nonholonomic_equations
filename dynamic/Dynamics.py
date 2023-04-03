@@ -12,15 +12,15 @@ from utils.latex_converter import print_in_latex
 t0 = time.time()
 # кинетическая энергия сферической оболочки
 T_s = 1 / 2 * M * V_O.T * V_O + 1 / 2 * (J_s * Matrix([[p_s], [q_s], [r_s]])).T * Matrix([[p_s], [q_s], [r_s]])
-
+print("T_s = ", print_in_latex(T_s))
 # кинетическа энергия платформы
 # в с.к. O_x1_x2_x3
 T_p = 1 / 2 * M_p * V_C.T * V_C + 1 / 2 * (J_p * Matrix([[p_p], [q_p], [r_p]])).T * Matrix([[p_p], [q_p], [r_p]])
-
+print("T_s = ", print_in_latex(T_s))
 # кинетическая энергия колеса
 # в с.к. O_x1_x2_x3
 T_w = 1 / 2 * m * V_B.T * V_B + 1 / 2 * (J_w * Matrix([[p_w], [q_w], [r_w]])).T * Matrix([[p_w], [q_w], [r_w]])
-
+print("T_w = ", print_in_latex(T_s))
 # кинетическая энергия системы
 T = T_s + T_p + T_w
 
@@ -37,8 +37,8 @@ Q_y = 0  # diff(U_w, y) + diff(U_p, y)
 Q_α = diff(U_w, x1) + diff(U_p, x1)
 Q_β = diff(U_w, x2) + diff(U_p, x2)
 Q_γ = diff(U_w, x3) + diff(U_p, x3)
-Q_φ = M_φ  # P_x_X * Matrix([[M_φ * cos(x5)], [M_φ * sin(x5)], [0]])
-Q_ψ = M_ψ  # P_x_X * Matrix([[0], [0], [M_ψ]])
+Q_φ = 0 #M_φ  # P_x_X * Matrix([[M_φ * cos(x5)], [M_φ * sin(x5)], [0]])
+Q_ψ = 0 #M_ψ  # P_x_X * Matrix([[0], [0], [M_ψ]])
 Q_δ = diff(U_w, x6) + diff(U_p, x6)
 Q_ε = diff(U_w, x7) + diff(U_p, x7)
 Q_τ = diff(U_w, x8) + diff(U_p, x8)
@@ -54,16 +54,25 @@ print("t1 - t0 = ", (t1 - t0)/60, " min")
 
 # динамические уравнения
 Eq1 = diff(diff(T, diff(x, t)), t)[0] - diff(T, x)[0] - Q_x - (B.row(0) * λ)[0]
+print("Eq1 = ", print_in_latex(Eq1))
 Eq2 = diff(diff(T, diff(y, t)), t)[0] - diff(T, y)[0] - Q_y - (B.row(1) * λ)[0]
+print("Eq2 = ", print_in_latex(Eq2))
 Eq3 = diff(diff(T, diff(x1, t)), t)[0] - diff(T, x1)[0] - Q_α - (B.row(2) * λ)[0]
+print("Eq3 = ", print_in_latex(Eq3))
 Eq4 = diff(diff(T, diff(x2, t)), t)[0] - diff(T, x2)[0] - Q_β - (B.row(3) * λ)[0]
+print("Eq4 = ", print_in_latex(Eq4))
 Eq5 = diff(diff(T, diff(x3, t)), t)[0] - diff(T, x3)[0] - Q_γ - (B.row(4) * λ)[0]
+print("Eq5 = ", print_in_latex(Eq5))
 Eq6 = diff(diff(T, diff(x4, t)), t)[0] - diff(T, x4)[0] - Q_φ - (B.row(5) * λ)[0]
+print("Eq6 = ", print_in_latex(Eq6))
 Eq7 = diff(diff(T, diff(x5, t)), t)[0] - diff(T, x5)[0] - Q_ψ - (B.row(6) * λ)[0]
+print("Eq7 = ", print_in_latex(Eq7))
 Eq8 = diff(diff(T, diff(x6, t)), t)[0] - diff(T, x6)[0] - Q_δ - (B.row(7) * λ)[0]
+print("Eq8 = ", print_in_latex(Eq8))
 Eq9 = diff(diff(T, diff(x7, t)), t)[0] - diff(T, x7)[0] - Q_ε - (B.row(8) * λ)[0]
+print("Eq9 = ", print_in_latex(Eq9))
 Eq10 = diff(diff(T, diff(x8, t)), t)[0] - diff(T, x8)[0] - Q_τ - (B.row(9) * λ)[0]
-
+print("Eq10 = ", print_in_latex(Eq10))
 
 equations = [Eq1, Eq2, Eq3, Eq4, Eq5, Eq6, Eq7, Eq8, Eq9, Eq10]
 for i in range(len(equations)):
@@ -124,7 +133,7 @@ print("eq 10: ", Q_τ, "\n")
 
 print("____________EQUATIONS_____________")
 for eq in equations:
-    print(eq, " \n\n")
+    print(eq, " \n")
 
 def get_row_coef_before_second_diff(equation):
     row = Matrix([range(size_generic_vars)])

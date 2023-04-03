@@ -186,28 +186,35 @@ print("----> ", transform_to_simpy(str(eq)))
 if type(eq) == Mul:
     eq = expand(eq)
 
-for i, term in zip(range(len(eq.args)), eq.args):
-    task = Process(target=sub_expand, args=(term, i))
-    task.start()
-    tasks.append(task)
+# если после раскрытия выражения тип Mul, то получается на входе только одно слагаемое
+if type(eq) == Mul:
+    with open("./eq" + str(args.n) + "/term" + str(0) + '.json', 'w') as out:
+        result_dict = {0: transform_to_simpy(str(eq))}
+        out.write(json.dumps(result_dict))
+    print("just one term in input")
+else:
+    for i, term in zip(range(len(eq.args)), eq.args):
+        task = Process(target=sub_expand, args=(term, i))
+        task.start()
+        tasks.append(task)
 
-print("size task = %d" % len(tasks))
-for task in tasks:
-    task.join()
+    print("size task = %d" % len(tasks))
+    for task in tasks:
+        task.join()
 
-result = {}
-for i in range(counter.value - 1):
-    try:
-        decoded = client.get(str(args.n) + str(i)).decode('utf-8')
-        result[i] = decoded
-    except:
-        result[i] = str(0)
-        # print("exception. i = %d" % i)
+    result = {}
+    for i in range(counter.value - 1):
+        try:
+            decoded = client.get(str(args.n) + str(i)).decode('utf-8')
+            result[i] = decoded
+        except:
+            result[i] = str(0)
+            # print("exception. i = %d" % i)
 
-print("counter = ", counter.value)
-print("map size = ", len(result.keys()))
+    print("counter = ", counter.value)
+    print("map size = ", len(result.keys()))
 
-with open('expand_expression' + str(args.n) + '.json', 'w') as out:
-    out.write(json.dumps(result))
+    with open('expand_expression' + str(args.n) + '.json', 'w') as out:
+        out.write(json.dumps(result))
 
 print("FINISH")

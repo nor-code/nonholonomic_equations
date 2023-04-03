@@ -172,7 +172,7 @@ def get_count_files_in_directory(path):
     return count
 
 
-def simplification_expression(expression, offset=True):
+def simplification_expression(expression, offset=False):
     """ упрощаем в предположении, что  α, γ и τ  мал """  # β
     trig_replace_dict = {
         cos(x1): 1,

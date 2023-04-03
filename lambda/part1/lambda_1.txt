@@ -1,1 +1,1 @@
-((M*cos_x20*cos_x30 + M_p*cos_x20*cos_x30 + cos_x20*cos_x30*m)*diff(diff(x, t), t) + (-C_Mx*M_p*cos_x20*cos_x30*sin_x30 + C_Mz*M_p*cos_x20*cos_x30**2 + C_mz*cos_x20*cos_x30**2*m)*diff(diff(x3, t), t) + (-C_Mx*M_p*cos_x20*cos_x30*sin_x20*sin_x30 - C_My*M_p*cos_x20**2*cos_x30*sin_x30**2 - C_My*M_p*cos_x20*cos_x30**3*sin_x20 + C_Mz*M_p*cos_x20*cos_x30**2*sin_x20 + C_mz*cos_x20*cos_x30**2*m*sin_x20)*diff(diff(x1, t), t))/(cos_x20*cos_x30 - 2*cos_x20*sin_x30*x3 - cos_x30*sin_x20*x2)
+(C_Mz*M_p + C_mz*m)*diff(diff(x3, t), t) + (M + M_p + m)*diff(diff(x, t), t)

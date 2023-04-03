@@ -1,1 +1,1 @@
-2*M*R**2*sin_x70*diff(diff(x6, t), t)/3 + 2*M*R**2*diff(diff(x8, t), t)/3 + R*λ_1 + λ_3*(-R*cos_x20*cos_x30*cos_x70 - R*cos_x20*cos_x30*sin_x70*x2 + R*cos_x20*cos_x30*sin_x70*x7 + R*cos_x20*cos_x70*sin_x30*x3 + R*cos_x30*cos_x70*sin_x20*x2 - R*cos_x30*cos_x70*sin_x20*x7 - R*cos_x30*sin_x20*sin_x70 + R*sin_x20*sin_x30*sin_x70*x3 + R*sin_x30*sin_x70*x1) + λ_4*(-R*cos_x20*cos_x30*cos_x70*x6 - R*cos_x30*sin_x20*sin_x70*x1 - R*cos_x30*sin_x70*x3 - R*cos_x70*sin_x30*x7 - R*sin_x30*sin_x70)
+2*M*R**2*diff(diff(x8, t), t)/3 + R*λ_1 - R*λ_3 - R*λ_4*x6

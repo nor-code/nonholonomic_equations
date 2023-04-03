@@ -47,59 +47,59 @@ dict_for_subs = {
 
 main_vars_subs = {
     a1: parse_2_sympy_expression(open(
-        "../../collect_parallel/eq3/d_d_x_t__2__.txt").readline()).coeff(diff(diff(x, t), t)).subs(inertia).subs(dict_for_subs),
+        "../../collect_parallel/eq3/d_d_x_t__2__.txt").readline()).coeff(diff(diff(x, t), t)).subs(inertia).subs(dict_for_subs, simultaneous=True),
     a2: parse_2_sympy_expression(open(
-        "../../collect_parallel/eq3/d_d_y_t__2__.txt").readline()).coeff(diff(diff(y, t), t)).subs(inertia).subs(dict_for_subs),
+        "../../collect_parallel/eq3/d_d_y_t__2__.txt").readline()).coeff(diff(diff(y, t), t)).subs(inertia).subs(dict_for_subs, simultaneous=True),
     a3: parse_2_sympy_expression(open(
-        "../../collect_parallel/eq3/d_d_α_t__2__.txt").readline()).coeff(diff(diff(x1, t), t)).subs(inertia).subs(dict_for_subs),
+        "../../collect_parallel/eq3/d_d_α_t__2__.txt").readline()).coeff(diff(diff(x1, t), t)).subs(inertia).subs(dict_for_subs, simultaneous=True),
     a4: parse_2_sympy_expression(open(
-        "../../collect_parallel/eq3/d_d_β_t__2__.txt").readline()).coeff(diff(diff(x2, t), t)).subs(inertia).subs(dict_for_subs),
+        "../../collect_parallel/eq3/d_d_β_t__2__.txt").readline()).coeff(diff(diff(x2, t), t)).subs(inertia).subs(dict_for_subs, simultaneous=True),
     a5: parse_2_sympy_expression(open(
-        "../../collect_parallel/eq3/d_d_δ_t__2__.txt").readline()).coeff(diff(diff(x6, t), t)).subs(inertia).subs(dict_for_subs),
+        "../../collect_parallel/eq3/d_d_δ_t__2__.txt").readline()).coeff(diff(diff(x6, t), t)).subs(inertia).subs(dict_for_subs, simultaneous=True),
 
     b1: parse_2_sympy_expression(open(
-        "../../collect_parallel/eq6/d_d_x_t__2__.txt").readline()).coeff(diff(diff(x, t), t)).subs(inertia).subs(dict_for_subs),
+        "../../collect_parallel/eq6/d_d_x_t__2__.txt").readline()).coeff(diff(diff(x, t), t)).subs(inertia).subs(dict_for_subs, simultaneous=True),
     b2: parse_2_sympy_expression(open(
-        "../../collect_parallel/eq6/d_d_y_t__2__.txt").readline()).coeff(diff(diff(y, t), t)).subs(inertia).subs(dict_for_subs),
+        "../../collect_parallel/eq6/d_d_y_t__2__.txt").readline()).coeff(diff(diff(y, t), t)).subs(inertia).subs(dict_for_subs, simultaneous=True),
     b3: parse_2_sympy_expression(open(
-        "../../collect_parallel/eq6/d_d_α_t__2__.txt").readline()).coeff(diff(diff(x1, t), t)).subs(inertia).subs(dict_for_subs),
+        "../../collect_parallel/eq6/d_d_α_t__2__.txt").readline()).coeff(diff(diff(x1, t), t)).subs(inertia).subs(dict_for_subs, simultaneous=True),
     b4: parse_2_sympy_expression(open(
-        "../../collect_parallel/eq6/d_d_β_t__2__.txt").readline()).coeff(diff(diff(x2, t), t)).subs(inertia).subs(dict_for_subs),
+        "../../collect_parallel/eq6/d_d_β_t__2__.txt").readline()).coeff(diff(diff(x2, t), t)).subs(inertia).subs(dict_for_subs, simultaneous=True),
     b5: parse_2_sympy_expression(open(
-        "../../collect_parallel/eq6/d_d_δ_t__2__.txt").readline()).coeff(diff(diff(x6, t), t)).subs(inertia).subs(dict_for_subs),
+        "../../collect_parallel/eq6/d_d_δ_t__2__.txt").readline()).coeff(diff(diff(x6, t), t)).subs(inertia).subs(dict_for_subs, simultaneous=True),
 
     c1: parse_2_sympy_expression(open(
-         "../../collect_parallel/eq8/d_d_x_t__2__.txt").readline()).coeff(diff(diff(x, t), t)).subs(inertia).subs(dict_for_subs),
+         "../../collect_parallel/eq8/d_d_x_t__2__.txt").readline()).coeff(diff(diff(x, t), t)).subs(inertia).subs(dict_for_subs, simultaneous=True),
     c2: parse_2_sympy_expression(open(
-        "../../collect_parallel/eq8/d_d_y_t__2__.txt").readline()).coeff(diff(diff(y, t), t)).subs(inertia).subs(dict_for_subs),
+        "../../collect_parallel/eq8/d_d_y_t__2__.txt").readline()).coeff(diff(diff(y, t), t)).subs(inertia).subs(dict_for_subs, simultaneous=True),
     c3: parse_2_sympy_expression(open(
-        "../../collect_parallel/eq8/d_d_α_t__2__.txt").readline()).coeff(diff(diff(x1, t), t)).subs(inertia).subs(dict_for_subs),
+        "../../collect_parallel/eq8/d_d_α_t__2__.txt").readline()).coeff(diff(diff(x1, t), t)).subs(inertia).subs(dict_for_subs, simultaneous=True),
     c4: parse_2_sympy_expression(open(
-        "../../collect_parallel/eq8/d_d_β_t__2__.txt").readline()).coeff(diff(diff(x2, t), t)).subs(inertia).subs(dict_for_subs),
+        "../../collect_parallel/eq8/d_d_β_t__2__.txt").readline()).coeff(diff(diff(x2, t), t)).subs(inertia).subs(dict_for_subs, simultaneous=True),
     c5: parse_2_sympy_expression(open(
-        "../../collect_parallel/eq8/d_d_δ_t__2__.txt").readline()).coeff(diff(diff(x6, t), t)).subs(inertia).subs(dict_for_subs),
+        "../../collect_parallel/eq8/d_d_δ_t__2__.txt").readline()).coeff(diff(diff(x6, t), t)).subs(inertia).subs(dict_for_subs, simultaneous=True),
 
     d1: parse_2_sympy_expression(open(
-        "../../collect_parallel/eq9/d_d_x_t__2__.txt").readline()).coeff(diff(diff(x, t), t)).subs(inertia).subs(dict_for_subs),
+        "../../collect_parallel/eq9/d_d_x_t__2__.txt").readline()).coeff(diff(diff(x, t), t)).subs(inertia).subs(dict_for_subs, simultaneous=True),
     d2: parse_2_sympy_expression(open(
-        "../../collect_parallel/eq9/d_d_y_t__2__.txt").readline()).coeff(diff(diff(y, t), t)).subs(inertia).subs(dict_for_subs),
+        "../../collect_parallel/eq9/d_d_y_t__2__.txt").readline()).coeff(diff(diff(y, t), t)).subs(inertia).subs(dict_for_subs, simultaneous=True),
     d3: parse_2_sympy_expression(open(
-        "../../collect_parallel/eq9/d_d_α_t__2__.txt").readline()).coeff(diff(diff(x1, t), t)).subs(inertia).subs(dict_for_subs),
+        "../../collect_parallel/eq9/d_d_α_t__2__.txt").readline()).coeff(diff(diff(x1, t), t)).subs(inertia).subs(dict_for_subs, simultaneous=True),
     d4: parse_2_sympy_expression(open(
-        "../../collect_parallel/eq9/d_d_β_t__2__.txt").readline()).coeff(diff(diff(x2, t), t)).subs(inertia).subs(dict_for_subs),
+        "../../collect_parallel/eq9/d_d_β_t__2__.txt").readline()).coeff(diff(diff(x2, t), t)).subs(inertia).subs(dict_for_subs, simultaneous=True),
     d5: parse_2_sympy_expression(open(
-        "../../collect_parallel/eq9/d_d_δ_t__2__.txt").readline()).coeff(diff(diff(x6, t), t)).subs(inertia).subs(dict_for_subs),
+        "../../collect_parallel/eq9/d_d_δ_t__2__.txt").readline()).coeff(diff(diff(x6, t), t)).subs(inertia).subs(dict_for_subs, simultaneous=True),
 
     e1: parse_2_sympy_expression(open(
-        "../../collect_parallel/eq10/d_d_x_t__2__.txt").readline()).coeff(diff(diff(x, t), t)).subs(inertia).subs(dict_for_subs),
+        "../../collect_parallel/eq10/d_d_x_t__2__.txt").readline()).coeff(diff(diff(x, t), t)).subs(inertia).subs(dict_for_subs, simultaneous=True),
     e2: parse_2_sympy_expression(open(
-        "../../collect_parallel/eq10/d_d_y_t__2__.txt").readline()).coeff(diff(diff(y, t), t)).subs(inertia).subs(dict_for_subs),
+        "../../collect_parallel/eq10/d_d_y_t__2__.txt").readline()).coeff(diff(diff(y, t), t)).subs(inertia).subs(dict_for_subs, simultaneous=True),
     e3: parse_2_sympy_expression(open(
-        "../../collect_parallel/eq10/d_d_α_t__2__.txt").readline()).coeff(diff(diff(x1, t), t)).subs(inertia).subs(dict_for_subs),
+        "../../collect_parallel/eq10/d_d_α_t__2__.txt").readline()).coeff(diff(diff(x1, t), t)).subs(inertia).subs(dict_for_subs, simultaneous=True),
     e4: parse_2_sympy_expression(open(
-        "../../collect_parallel/eq10/d_d_β_t__2__.txt").readline()).coeff(diff(diff(x2, t), t)).subs(inertia).subs(dict_for_subs),
+        "../../collect_parallel/eq10/d_d_β_t__2__.txt").readline()).coeff(diff(diff(x2, t), t)).subs(inertia).subs(dict_for_subs, simultaneous=True),
     e5: parse_2_sympy_expression(open(
-        "../../collect_parallel/eq10/d_d_δ_t__2__.txt").readline()).coeff(diff(diff(x6, t), t)).subs(inertia).subs(dict_for_subs),
+        "../../collect_parallel/eq10/d_d_δ_t__2__.txt").readline()).coeff(diff(diff(x6, t), t)).subs(inertia).subs(dict_for_subs, simultaneous=True),
 }
 
 other_vars_subs = {

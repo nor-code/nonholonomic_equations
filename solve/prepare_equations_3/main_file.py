@@ -30,12 +30,11 @@ eq5 = free_5
 eq7 = free_7
 
 
+x20 = 0.207
+x30 = 0.21
 
-x20 = 1.04
-x30 = 0.61
-
-x70 = 1.04
-x80 = 0.61
+x70 = 0.207
+x80 = 0.21
 
 inertia = {
     J_px: M_p * R_p ** 2 / 4 + M_p * C_Mz ** 2,
@@ -49,8 +48,8 @@ inertia = {
 param_dict = {
     C_mz: (0.081 - 0.026),
     C_Mz: 0.01,
-    C_Mx: 0.01,
-    C_My: 0.01,
+    C_Mx: 0.003,
+    C_My: 0.0005,
 
     g: 10,
     R: 0.081,
@@ -74,7 +73,7 @@ param_dict = {
     M_ψ: 0
 }
 
-det = parse_2_sympy_expression(open("../../resolve_second_diff/part2_2/component_det.txt").readline()).subs(inertia).subs(param_dict)
+det = parse_2_sympy_expression(open("../../resolve_second_diff/part2_3/component_det.txt").readline()).subs(inertia).subs(param_dict)
 with open("eqns/det.txt", "w") as out:
     out.write(transform_to_simpy(str(det)))
 print("init determinant expression")

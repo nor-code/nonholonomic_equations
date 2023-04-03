@@ -1,1 +1,1 @@
--λ_1 + (M + M_p + m)*diff(diff(x, t), t) + (-C_Mx*M_p*sin_x30 + C_Mz*M_p*cos_x30 + C_mz*cos_x30*m)*diff(diff(x3, t), t) + (-C_Mx*M_p*sin_x20*sin_x30 - C_My*M_p*cos_x20*sin_x30**2 - C_My*M_p*cos_x30**2*sin_x20 + C_Mz*M_p*cos_x30*sin_x20 + C_mz*cos_x30*m*sin_x20)*diff(diff(x1, t), t)
+-λ_1 + (C_Mz*M_p + C_mz*m)*diff(diff(x3, t), t) + (M + M_p + m)*diff(diff(x, t), t)

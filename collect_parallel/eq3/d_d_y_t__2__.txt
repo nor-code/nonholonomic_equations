@@ -1,1 +1,1 @@
-M_p*R*cos_x20**2*cos_x30**2*(C_Mx*cos_x20**2*sin_x30**2 + C_Mx*cos_x20*cos_x30**2*sin_x20 - C_My*cos_x20*sin_x20*sin_x30**3 - C_My*cos_x30**2*sin_x20**2*sin_x30)*diff(diff(y, t), t)
+0

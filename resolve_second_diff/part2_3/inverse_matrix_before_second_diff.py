@@ -123,7 +123,7 @@ def simplify_and_expand_component(name, component, dict_var):
 
         result = result + s
 
-    result = simplify_determinant(result)
+    # result = simplify_determinant(result)
     with open('component_' + name + '.txt', 'w') as out:
         out.write(transform_to_simpy(str(result)))
 

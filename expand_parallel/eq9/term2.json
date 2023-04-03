@@ -1,0 +1,1 @@
+{"0": "3*C_Mz**2*M_p*r*diff(diff(x2, t), t)", "1": "3*C_mz**2*m*r*diff(diff(x2, t), t)", "2": "3*J_px*r*diff(diff(x2, t), t)", "3": "3*C_mz*R*m*r*diff(diff(x2, t), t)", "4": "3*C_Mz*M_p*R*r*diff(diff(x2, t), t)", "5": "3*J_wx*r*diff(diff(x2, t), t)"}
