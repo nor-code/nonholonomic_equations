@@ -214,7 +214,7 @@ else:
     print("counter = ", counter.value)
     print("map size = ", len(result.keys()))
 
-    with open('expand_expression' + str(args.n) + '.json', 'w') as out:
-        out.write(json.dumps(result))
+    # with open('expand_expression' + str(args.n) + '.json', 'w') as out:
+    #     out.write(json.dumps(result))
 
 print("FINISH")

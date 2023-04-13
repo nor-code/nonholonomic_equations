@@ -4,6 +4,7 @@ from multiprocessing import Process
 from sympy import Matrix, expand, simplify
 from definitions.coefficient_for_resolve import *
 from definitions.constants import C_My, C_Mx
+from definitions.generic_coordinates import x20, x30
 from utils.common import remove_third_and_above_smallness_from_expression, \
     remove_required_and_above_smallness_from_expression, simplify_determinant
 from utils.sympy_expression import parse_2_sympy_expression
@@ -119,6 +120,7 @@ def simplify_and_expand_component(name, component, dict_var):
             s = s * term.args[index]
             s = s.subs(dict_var)
             s = remove_required_and_above_smallness_from_expression(expand(s), order=2)
+            s = remove_required_and_above_smallness_from_expression(s, order=3, small_params=[x20, x30])
             index += 1
 
         result = result + s

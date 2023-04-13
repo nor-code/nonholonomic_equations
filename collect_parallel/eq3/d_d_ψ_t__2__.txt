@@ -1,1 +1,1 @@
-0
+J_wz*R*diff(diff(x5, t), t)

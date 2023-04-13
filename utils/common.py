@@ -19,6 +19,25 @@ def is_remove_small_with_parameters(term):
     return False
 
 
+def _sub_step_of_remove_small_params(_term, _order, _small_param):
+    count = 0
+    for sub_term in _term.args:
+        if type(sub_term) == Pow and type(sub_term.args[0]) == Derivative:
+            derivative = sub_term.args[0]
+            variable = derivative.args[0]
+            if variable in _small_param:
+                count += sub_term.args[1]
+                if count >= _order:
+                    return count
+        elif type(sub_term) == Derivative:
+            variable = sub_term.args[0]
+            if variable in _small_param:
+                count += 1
+                if count >= _order:
+                    return count
+    return count
+
+
 def is_remove_small_term_with_velocities(term, small_coordinates=None):
     if small_coordinates is None:
         small_coordinates = [x, y, x1, x2, x3, x4, x5, x6, x7, x8]
@@ -28,20 +47,14 @@ def is_remove_small_term_with_velocities(term, small_coordinates=None):
     if count >= order:
         return True
 
-    for sub_term in term.args:
-        if type(sub_term) == Pow and type(sub_term.args[0]) == Derivative:
-            derivative = sub_term.args[0]
-            variable = derivative.args[0]
-            if variable in small_coordinates:
-                count += sub_term.args[1]
-                if count >= 2:
-                    return True
-        elif type(sub_term) == Derivative:
-            variable = sub_term.args[0]
-            if variable in small_coordinates:
-                count += 1
-                if count >= 2:
-                    return True
+    count += _sub_step_of_remove_small_params(term, _order=order, _small_param=small_coordinates)
+    if count >= order:
+        return True
+
+    # удаляем выше второго порядка малости члены содержащие x20, x30 (x70 = x20, x80 = x30)
+    order_small_started_position = base_remove_current_and_above_smallness(term, order=order, small_variables=[x20, x30])
+    if order_small_started_position > order:
+        return True
 
     return False
 
@@ -73,8 +86,8 @@ def remove_fourth_and_above_smallness_from_one_term(term):
         return 0
 
 
-def remove_current_and_above_smallness_from_one_term(term, order):
-    if base_remove_current_and_above_smallness(term, order) < order:
+def remove_current_and_above_smallness_from_one_term(term, order, small_params=None):
+    if base_remove_current_and_above_smallness(term, order, small_variables=small_params) < order:
         return term
     else:
         return 0
@@ -84,7 +97,7 @@ def __is_denominator_sym(symbol):
     return symbol in [d_phi_bot, d_eps_bot, d_tau_bot, d_del_bot, d_d_phi_bot, d_d_eps_bot, d_d_tau_bot, d_d_del_bot]
 
 
-def remove_required_and_above_smallness_from_expression(expression, order):
+def remove_required_and_above_smallness_from_expression(expression, order, small_params=None):
     simplified = Zero()
 
     if type(expression) in (Symbol, One, Derivative, Integer) \
@@ -92,14 +105,14 @@ def remove_required_and_above_smallness_from_expression(expression, order):
         return expression
 
     if type(expression) == Mul:
-        smallness_order = base_remove_current_and_above_smallness(expression, order)
+        smallness_order = base_remove_current_and_above_smallness(expression, order, small_variables=small_params)
         if smallness_order < order:
             return expression
         else:
             return 0
 
     for term in expand(expression).args:
-        count = base_remove_current_and_above_smallness(term, order)
+        count = base_remove_current_and_above_smallness(term, order, small_variables=small_params)
         if count < order:
             try:
                 simplified += term
@@ -197,17 +210,29 @@ def simplification_expression(expression, offset=False):
         sin(x8): x8
     }
     if offset:
-        trig_replace_dict[cos(x2)] = cos_x20 - x2 * sin_x20
-        trig_replace_dict[cos(x3)] = cos_x30 - x3 * sin_x30
+        trig_replace_dict[cos(x2)] = 1 - x2 * x20
+        trig_replace_dict[cos(x3)] = 1 - x3 * x30
 
-        trig_replace_dict[sin(x2)] = sin_x20 + x2 * cos_x20
-        trig_replace_dict[sin(x3)] = sin_x30 + x3 * cos_x30
+        trig_replace_dict[sin(x2)] = x20 + x2
+        trig_replace_dict[sin(x3)] = x30 + x3
 
-        trig_replace_dict[cos(x7)] = cos_x70 - x7 * sin_x70
-        trig_replace_dict[cos(x8)] = cos_x80 - x8 * sin_x80
+        trig_replace_dict[cos(x7)] = 1 - x2 * x20  # 1 - x7 * x70
+        trig_replace_dict[cos(x8)] = 1 - x3 * x30  # 1 - x8 * x80
 
-        trig_replace_dict[sin(x7)] = sin_x70 + x7 * cos_x70
-        trig_replace_dict[sin(x8)] = sin_x80 + x8 * cos_x80
+        trig_replace_dict[sin(x7)] = x20 + x2  # x70 + x7
+        trig_replace_dict[sin(x8)] = x30 + x3  # x80 + x8
+
+        # trig_replace_dict[cos(x2)] = cos(x20) - x2 * sin(x20)
+    #         trig_replace_dict[cos(x3)] = cos(x30) - x3 * sin(x30)
+    #
+    #         trig_replace_dict[sin(x2)] = sin(x20) + x2 * cos(x20)
+    #         trig_replace_dict[sin(x3)] = sin(x30) + x3 * cos(x30)
+    #
+    #         trig_replace_dict[cos(x7)] = cos(x70) - x7 * sin(x70)
+    #         trig_replace_dict[cos(x8)] = cos(x80) - x8 * sin(x80)
+    #
+    #         trig_replace_dict[sin(x7)] = sin(x70) + x7 * cos(x70)
+    #         trig_replace_dict[sin(x8)] = sin(x80) + x8 * cos(x80)
 
     simpl_raw = expression.subs(
         trig_replace_dict

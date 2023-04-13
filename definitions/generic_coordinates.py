@@ -23,6 +23,11 @@ x6 = Function('δ')(t)
 x7 = Function('ε')(t)
 x8 = Function('τ')(t)
 
+x20 = Symbol('β_')
+x30 = Symbol('γ_')
+x70 = Symbol('ε_')
+x80 = Symbol('τ_')
+
 # список обобщённых координат
 generic_vars = [x, y, x1, x2, x3, x4, x5, x6, x7, x8]
 

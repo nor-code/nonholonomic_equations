@@ -1,0 +1,1 @@
+J_wz*diff(diff(x1, t), t)

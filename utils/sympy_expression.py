@@ -44,6 +44,10 @@ local_dictionary = {
     'x6': x6,
     'x7': x7,
     'x8': x8,
+    'x20': x20,
+    'x30': x30,
+    'x70': x70,
+    'x80': x80
 }
 
 dictionary = for_resolve_second_diff | local_dictionary | right_parts

@@ -29,6 +29,12 @@ inverse_coeff_matrix = {
     m43: parse_2_sympy_expression(open("../part2_3/component_m43.txt").readline()),
     m44: parse_2_sympy_expression(open("../part2_3/component_m44.txt").readline()),
     m45: parse_2_sympy_expression(open("../part2_3/component_m45.txt").readline()),
+
+    m51: parse_2_sympy_expression(open("../part2_3/component_m51.txt").readline()),
+    m52: parse_2_sympy_expression(open("../part2_3/component_m52.txt").readline()),
+    m53: parse_2_sympy_expression(open("../part2_3/component_m53.txt").readline()),
+    m54: parse_2_sympy_expression(open("../part2_3/component_m54.txt").readline()),
+    m55: parse_2_sympy_expression(open("../part2_3/component_m55.txt").readline()),
 }
 t2 = time.time()
 print("initialized dict for inverse matrix. time of initialization = %.2f [m]" % ((t2 - t1)/60))

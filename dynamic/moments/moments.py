@@ -10,7 +10,7 @@ from sympy import expand, sqrt
 from utils.latex_converter import print_in_latex
 from math import asin
 
-#TODO создать функцию, которая будет это высчитывать и подствать в common.py
+# TODO создать функцию, которая будет это высчитывать и подствать в common.py
 
 vector_R = Matrix([[0], [0], [-R]])
 mom_g_platform = (P_x_X * R_cm_p - vector_R).cross(Matrix([[0], [0], [-M_p * g]]))

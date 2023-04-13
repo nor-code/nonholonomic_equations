@@ -53,31 +53,20 @@ print("multiplication end")
 
 
 # TODO домножить на 1/det !!!
-def simplify_and_expand_component(name, component, dict_var):
+def simplify_and_expand_component(name, component, dict_var, is_free):
     result = 0
     begin = time.time()
     print("component = ", component, " \n")
     for term in component.args:
         expr = term.subs(dict_var)
-        top, bot = fraction(expr)
-
-        t1 = time.time()
-        expanded_top = se.expand(se.sympify(top))
-        del top
-        t2 = time.time()
-        print("expanded. term = %s. len(term) = %d, total = %.2f [s]" % (term, len(expanded_top.args), (t2 - t1)))
-
-        t1 = time.time()
-        new_top = Zero()
-        for term_ in expanded_top.args:
-            top = remove_current_and_above_smallness_from_one_term(parse_2_sympy_expression(str(term_)))
-            new_top = new_top + top
-        t2 = time.time()
-        print("simplified. term = %s. len(new_top) = %d, total time = %.2f [s]\n" % (term, len(new_top.args), (t2 - t1)/60))
-        result = result + new_top/bot
+        top = remove_current_and_above_smallness_from_one_term(expand(expr), order=2)
+        result = result + top
 
     end = time.time()
     print("FINISHED. component: %s. time of execution = %.2f [m] \n" % (str(component), ((end - begin)/60)))
+
+    # if is_free:
+    #     result = simplify_free_term(result)
 
     with open('' + name + '.txt', 'w') as out:
         out.write(transform_to_simpy(str(result)))
@@ -88,17 +77,19 @@ begin = time.time()
 final_dict = mixed_coeff_var | dict_free_term_equations | inverse_coeff_matrix
 print("size dict = ", len(final_dict.keys()))
 
-for row in [0, 1, 2, 3]:
-    for col in range(21):
+
+for row in range(4):
+    for col in range(1):
         task = Process(
             target=simplify_and_expand_component,
-            args=("matrix_" + str(row) + "_" + str(col), Mixed_matrix.row(row)[col], final_dict)
+            args=("free_" + str(row) + "_" + str(col), Free_matrix.row(row)[col], final_dict, True)
         )
         task.start()
         tasks.append(task)
 
 for task in tasks:
     task.join()
+
 
 print("finished parallel multiplication [0, 1, 2, 3] rows matrix")
 end = time.time()

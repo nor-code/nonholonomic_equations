@@ -27,21 +27,21 @@ dict_for_subs = {
     C_My: 0.01,
 
     R: 0.081,
-    # R_p: 0.08,
+    R_p: 0.08,
     r: 0.026,
     m: 0.05,
     M: 0.137,
     M_p: 0.65,
 
-    sin_x20: sin(x20),
-    sin_x30: sin(x30),
-    sin_x70: sin(x70),
-    sin_x80: sin(x80),
-
-    cos_x20: cos(x20),
-    cos_x30: cos(x30),
-    cos_x70: cos(x70),
-    cos_x80: cos(x80),
+    # sin_x20: sin(x20),
+    # sin_x30: sin(x30),
+    # sin_x70: sin(x70),
+    # sin_x80: sin(x80),
+    #
+    # cos_x20: cos(x20),
+    # cos_x30: cos(x30),
+    # cos_x70: cos(x70),
+    # cos_x80: cos(x80),
 
 }
 
