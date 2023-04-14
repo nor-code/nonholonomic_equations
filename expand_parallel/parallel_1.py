@@ -28,8 +28,8 @@ def _sub_step(equation, var, expression):
 d_gamma_top = parse_2_sympy_expression(open("../kinematic/part2/d_gamma.txt").readline())
 d_gamma_bot = parse_2_sympy_expression(open("../kinematic/part2/d_gamma_bottom.txt").readline())
 
-d_phi_top = parse_2_sympy_expression(open("../kinematic/part2/d_phi.txt").readline())
-d_phi_bot = parse_2_sympy_expression(open("../kinematic/part2/d_phi_bottom.txt").readline())
+d_beta_top = parse_2_sympy_expression(open("../kinematic/part2/d_beta.txt").readline())
+d_beta_bot = parse_2_sympy_expression(open("../kinematic/part2/d_beta_bottom.txt").readline())
 
 d_eps_top = parse_2_sympy_expression(open("../kinematic/part2/d_eps.txt").readline())
 d_eps_bot = parse_2_sympy_expression(open("../kinematic/part2/d_eps_bottom.txt").readline())
@@ -38,17 +38,17 @@ d_tau_top = parse_2_sympy_expression(open("../kinematic/part2/d_tau.txt").readli
 d_tau_bot = parse_2_sympy_expression(open("../kinematic/part2/d_tau_bottom.txt").readline())
 
 d_d_gamma = parse_2_sympy_expression(open("../kinematic/part4/d_d_gamma.txt").readline())
-d_d_phi = parse_2_sympy_expression(open("../kinematic/part4/d_d_phi.txt").readline())
+d_d_beta = parse_2_sympy_expression(open("../kinematic/part4/d_d_beta.txt").readline())
 d_d_eps = parse_2_sympy_expression(open("../kinematic/part4/d_d_eps.txt").readline())
 d_d_tau = parse_2_sympy_expression(open("../kinematic/part4/d_d_tau.txt").readline())
 
 cd_gamma = se.sympify(d_gamma_top/d_gamma_bot)
-cd_phi = se.sympify(d_phi_top/d_phi_bot)
+cd_beta = se.sympify(d_beta_top/d_beta_bot)
 cd_eps = se.sympify(d_eps_top/d_eps_bot)
 cd_tau = se.sympify(d_tau_top/d_tau_bot)
 
 cd_d_gamma = se.sympify(d_d_gamma)
-cd_d_phi = se.sympify(d_d_phi)
+cd_d_beta = se.sympify(d_d_beta)
 cd_d_eps = se.sympify(d_d_eps)
 cd_d_tau = se.sympify(d_d_tau)
 
@@ -59,12 +59,12 @@ def subs_kinematic(equation):
     eq = eq.subs(
         {
             se.diff(se_gama, timet): cd_gamma,
-            se.diff(phi, timet): cd_phi,
+            se.diff(se_beta, timet): cd_beta,
             se.diff(eps, timet): cd_eps,
             se.diff(tau, timet): cd_tau,
 
             se.diff(se_gama, timet, timet): cd_d_gamma,
-            se.diff(phi, timet, timet): cd_d_phi,
+            se.diff(se_beta, timet, timet): cd_d_beta,
             se.diff(eps, timet, timet): cd_d_eps,
             se.diff(tau, timet, timet): cd_d_tau,
         }

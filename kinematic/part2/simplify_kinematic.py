@@ -11,8 +11,8 @@ from utils.to_sympy_expression import *
 
 t1 = time.time()
 
-d_gamma = parse_2_sympy_expression(open('../../kinematic/part1/kin_eq0.txt').readline())
-d_phi = parse_2_sympy_expression(open('../../kinematic/part1/kin_eq1.txt').readline())
+d_beta = parse_2_sympy_expression(open('../../kinematic/part1/kin_eq0.txt').readline())
+d_gamma = parse_2_sympy_expression(open('../../kinematic/part1/kin_eq1.txt').readline())
 d_eps = parse_2_sympy_expression(open('../../kinematic/part1/kin_eq2.txt').readline())
 d_tau = parse_2_sympy_expression(open('../../kinematic/part1/kin_eq3.txt').readline())
 
@@ -48,8 +48,8 @@ def solve_transform_and_write_to_file(d_var, name):
 
 
 tasks = []
-d_vars = [d_gamma, d_phi, d_eps, d_tau]
-names = ['d_gamma', 'd_phi', 'd_eps', 'd_tau']
+d_vars = [d_beta, d_gamma, d_eps, d_tau]
+names = ['d_beta', 'd_gamma', 'd_eps', 'd_tau']
 
 for i in range(len(d_vars)):
     task = Process(target=solve_transform_and_write_to_file, args=(d_vars[i], names[i]))

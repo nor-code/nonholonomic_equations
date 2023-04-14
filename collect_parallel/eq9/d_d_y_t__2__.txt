@@ -1,1 +1,1 @@
-R*(-3*C_Mz*M_p*r - 3*C_mz**2*m - 3*C_mz*R*m - 3*C_mz*m*r - 3*J_wx - 5*M*R*r - 3*M_p*R*r - 3*R*m*r)*diff(diff(y, t), t)
+(-3*C_My**2*M_p - 3*C_Mz**2*M_p - 6*C_Mz*M_p*R - 3*C_mz**2*m - 6*C_mz*R*m - 3*J_px - 3*J_wx - 5*M*R**2 - 3*M_p*R**2 - 3*R**2*m)*diff(diff(y, t), t)

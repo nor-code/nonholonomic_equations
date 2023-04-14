@@ -17,8 +17,8 @@ q_p = diff(x1, t) * sin(x2) + diff(x3, t)
 r_p = diff(x2, t) * sin(x3) + diff(x1, t) * cos(x3) * cos(x2)
 
 # абсолютные угловые скорости колеса в проекциях на подвижные оси связанные с платформой
-p_w = p_p + diff(x4, t) * cos(x5)
-q_w = q_p + diff(x4, t) * sin(x5)
+p_w = p_p - diff(x4, t) * sin(x5)
+q_w = q_p + diff(x4, t) * cos(x5)
 r_w = r_p + diff(x5, t)
 
 # абсолютные угловые скорости сферы в проекции на подвижные оси

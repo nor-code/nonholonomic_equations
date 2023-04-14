@@ -16,17 +16,17 @@ sys.setrecursionlimit(1000000)
 t1 = time.time()
 
 d_gamma_top = parse_2_sympy_expression(open('../../kinematic/part2/d_gamma.txt').readline())
-d_phi_top = parse_2_sympy_expression(open('../../kinematic/part2/d_phi.txt').readline())
+d_beta_top = parse_2_sympy_expression(open('../../kinematic/part2/d_beta.txt').readline())
 d_eps_top = parse_2_sympy_expression(open('../../kinematic/part2/d_eps.txt').readline())
 d_tau_top = parse_2_sympy_expression(open('../../kinematic/part2/d_tau.txt').readline())
 
 d_gamma_bot = parse_2_sympy_expression(open('../../kinematic/part2/d_gamma_bottom.txt').readline())
-d_phi_bot = parse_2_sympy_expression(open('../../kinematic/part2/d_phi_bottom.txt').readline())
+d_beta_bot = parse_2_sympy_expression(open('../../kinematic/part2/d_beta_bottom.txt').readline())
 d_eps_bot = parse_2_sympy_expression(open('../../kinematic/part2/d_eps_bottom.txt').readline())
 d_tau_bot = parse_2_sympy_expression(open('../../kinematic/part2/d_tau_bottom.txt').readline())
 
 d_gamma = d_gamma_top / d_gamma_bot
-d_phi = d_phi_top / d_phi_bot
+d_beta = d_beta_top / d_beta_bot
 d_eps = d_eps_top / d_eps_bot
 d_tau = d_tau_top / d_tau_bot
 
@@ -47,8 +47,8 @@ def calculate_second_diff(d_var, name):
 
     d_d_var_top = d_d_var_top.subs(
         {
+            diff(x2, t): d_beta,
             diff(x3, t): d_gamma,
-            diff(x4, t): d_phi,
             diff(x7, t): d_eps,
             diff(x8, t): d_tau
         },
@@ -113,8 +113,8 @@ def calculate_second_diff(d_var, name):
 
 
 tasks = []
-d_vars = [d_gamma, d_phi, d_eps, d_tau]
-names = ['d_d_gamma', 'd_d_phi', 'd_d_eps', 'd_d_tau']
+d_vars = [d_beta, d_gamma, d_eps, d_tau]
+names = ['d_d_beta', 'd_d_gamma', 'd_d_eps', 'd_d_tau']
 for i in range(len(d_vars)):
     task = Process(target=calculate_second_diff, args=(d_vars[i], names[i]))
     task.start()

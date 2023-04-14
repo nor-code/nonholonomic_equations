@@ -33,11 +33,12 @@ print(print_in_latex(eq3))
 print(print_in_latex(eq4))
 print(print_in_latex(eq5))
 
+var_for_resolve = [Derivative(x2, t), Derivative(x3, t), Derivative(x7, t), Derivative(x8, t)]
 
 # A0 = 0, A1 != 0, b != 0
 (A0, A1), b = linear_ode_to_matrix(
     [eq1, eq2, eq3, eq4],
-    [Derivative(x3, t), Derivative(x4, t), Derivative(x7, t), Derivative(x8, t)],
+    var_for_resolve,
     t, 1
 )
 
@@ -51,10 +52,10 @@ A1_inv = A1.inv()
 print("inv A1 = ", A1_inv)
 
 solution = A1_inv * b
-print("d_gamma ", solution.row(0)[0])
-print("d_phi ", solution.row(1)[0])
-print("d_eps ", solution.row(2)[0])
-print("d_tau ", solution.row(3)[0])
+print(var_for_resolve[0], " : ", solution.row(0)[0])
+print(var_for_resolve[1], " : ", solution.row(1)[0])
+print(var_for_resolve[2], " : ", solution.row(2)[0])
+print(var_for_resolve[3], " : ", solution.row(3)[0])
 
 
 kinematic_equations = [solution.row(0)[0], solution.row(1)[0], solution.row(2)[0], solution.row(3)[0]]
