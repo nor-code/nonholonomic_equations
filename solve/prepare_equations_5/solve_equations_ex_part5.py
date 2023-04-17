@@ -14,14 +14,14 @@ def system_eq(y, t):
     x, u, y1, v, x1, p, x4, q, x5, s1, x6, w1, x2, x3, x7, x8 = y
 
     g = 10
-    det = -2.72618614015244e-15
+    det = -2.32202926345165e-15
 
-    eq1 = (-3.47186944350596e-17*x1 + 5.35168824430658e-16*x2 + 2.07483824262588e-14*x3 + 3.47186944350596e-17*x6 + 6.89254533937012e-16*x5 + 4.35518009332592e-15) / det # x
-    eq2 = (4.10473510242872e-16*x1 - 5.21744871383172e-15*x2 - 5.12350349066898e-16*x3 - 4.10473510242872e-16*x6 + 8.34066815398982e-19*x5 + 7.53067731151201e-17) / det # y
-    eq3 = (4.14756245024708e-14*x1 - 2.18331242525383e-13*x2 - 4.85378344826863e-14*x3 - 4.14756245024707e-14*x6 - 4.28760811666116e-16*x5 - 2.56120253194472e-15) / det# α
-    eq4 = (2.63173128094084e-14*x1 - 7.10149729706774e-15*x2 - 8.96477333147012e-13*x3 - 2.63173128094084e-14*x6 - 4.9411305522153e-15*x5 - 1.88737601407041e-13) / det# φ
-    eq5 = -0.0585*x2 - 0.00975*x3 # δ
-    eq6 = (5.50698214450942e-16*x1 - 2.06533429856855e-12*x2 - 3.51254205477793e-13*x3 - 5.50698214450941e-16*x6 - 2.36147643240879e-16*x5 - 1.48238417804507e-15) / det# ψ
+    eq1 = (-2.59459750221423e-17*x1 + 5.34097607582911e-17*x2 + 2.01355579770342e-14*x3 + 2.59459750221423e-17*x6 + 6.78323012100284e-16*x5 + 4.22602771164889e-16) / det # x
+    eq2 = (4.03410914823877e-17*x1 - 1.94765445142924e-15*x2 - 5.10955874729465e-17*x3 - 4.03410914823878e-17*x6 + 8.30580590138196e-20*x5 + 6.73539521251109e-17) / det # y
+    eq3 = (1.51919557221014e-15*x1 - 2.17225876512126e-14*x2 - 4.83749024308485e-14*x3 - 1.51919557221014e-15*x6 - 4.28639733941493e-16*x5 - 2.56569187823933e-16) / det# α
+    eq4 = (2.60874298948029e-14*x1 - 7.10305035707462e-16*x2 - 8.44229286992366e-13*x3 - 2.60874298948029e-14*x6 - 3.52584479069382e-15*x5 - 1.77723093866926e-14) / det# φ
+    eq5 = -0.00585*x2 - 0.00975*x3  # δ
+    eq6 = (3.10890812693237e-17*x1 - 2.05938440364904e-13*x2 - 3.50283851941579e-13*x3 - 3.10890812693237e-17*x6 - 2.36151532731667e-16*x5 - 1.48687352433968e-16) / det# ψ
 
     eq7 = -12.3456790123457*v # β
     eq8 = -0.320987654320988*q + 12.3456790123457*u # γ
@@ -54,16 +54,16 @@ def system_eq(y, t):
     return dy1dx
 
 
-t = np.linspace(0, 20, 10000)
+t = np.linspace(0, 40, 10000)
 
-y0 = [0, 0,
+y0 = [0, 0.1,
       0, 0,
       0, 0,
       0, 0,
       0, 0,
       0, 0,
-      0,
-      pi/5,
+      pi/3,
+      pi/3,
       0,
       0
 ]
@@ -151,28 +151,45 @@ fig1, ax1 = plt.subplots(1, 1)
 ax1.set_xlabel('x, [m]')
 ax1.set_ylabel('y, [m]', rotation="horizontal")
 ax1.plot(sol[:, 0], sol[:, 2])
+ax1.grid()
 
 #
-# ### на одном графике φ, β, x, y
-# fig1, ax2 = plt.subplots(1, 1)
-# ax2.plot(t, sol[:, 4], 'r', linewidth=3, label='β')
-# ax2.plot(t, sol[:, 10], 'g', linewidth=2.1, label='φ')
-# ax2.plot(t, sol[:, 8], 'b', linewidth=1.5, label='γ')
-# # ax2.plot(t, sol[:, 0], 'g', linewidth=1.6, label='x')
-# # ax2.plot(t, sol[:, 2], 'm', linewidth=1.1, label='y')
-#
-# ax2.legend(loc='best')
-# ax2.set_xlabel('t, [s]', loc='center')
-# ax2.set_ylabel('[rad]', loc='center', rotation="horizontal")
-# ax2.set_title('φ, β, y')
-# ax2.grid()
-#
-# fig3, ax3 = plt.subplots(1, 1)
-# ax3.set_xlabel('t, [s]')
-# ax3.set_ylabel('y, [m]', rotation="horizontal")
-# ax3.plot(t, sol[:, 0], label='x', linewidth=3)
-# ax3.plot(t, sol[:, 2], label='y')
-# ax3.legend(loc='best')
+### на одном графике φ, β, x, y
+fig1, ax2 = plt.subplots(1, 1)
+ax2.plot(t, sol[:, 12], 'r', linewidth=3, label='β')
+ax2.plot(t, sol[:, 6], 'g', linewidth=2.1, label='φ')
+ax2.plot(t, sol[:, 13], 'b', linewidth=1.5, label='γ')
+ax2.legend(loc='best')
+ax2.set_xlabel('t, [s]', loc='center')
+ax2.set_ylabel('[rad]', loc='center', rotation="horizontal")
+ax2.set_title('φ, β, y')
+ax2.grid()
 
+fig3, ax3 = plt.subplots(1, 1)
+ax3.set_xlabel('t, [s]')
+ax3.set_ylabel('[m]', rotation="horizontal")
+ax3.plot(t, sol[:, 0], label='x', linewidth=3)
+ax3.plot(t, sol[:, 2], label='y')
+ax3.legend(loc='best')
+ax3.grid()
+
+### на одном графике φ, β, x, y
+fig4, ax4 = plt.subplots(1, 1)
+ax4.plot(t, sol[:, 4], 'r', linewidth=3, label='α')
+ax4.plot(t, sol[:, 8], 'g', linewidth=2.1, label='δ')
+ax4.plot(t, sol[:, 10], 'b', linewidth=1.5, label='ψ')
+ax4.legend(loc='best')
+ax4.set_xlabel('t, [s]', loc='center')
+ax4.set_ylabel('[rad]', loc='center', rotation="horizontal")
+ax4.set_title('α, δ, ψ')
+ax4.grid()
+
+fig5, ax5 = plt.subplots(1, 1)
+ax5.plot(t, sol[:, 10], 'b', linewidth=1.5, label='ψ')
+ax5.legend(loc='best')
+ax5.set_xlabel('t, [s]', loc='center')
+ax5.set_ylabel('[rad]', loc='center', rotation="horizontal")
+ax5.set_title('ψ')
+ax5.grid()
 
 plt.show()

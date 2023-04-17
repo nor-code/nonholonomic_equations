@@ -1,12 +1,12 @@
+import sys
 import time
 
-from sympy import diff, sin, cos
-from definitions.generic_coordinates import *
 from definitions.coefficient_for_resolve import *
 from definitions.constants import *
-from definitions.moments import M_φ, M_ψ
+from definitions.generic_coordinates import *
 from utils.sympy_expression import parse_2_sympy_expression
-import sys
+
+sys.setrecursionlimit(1000000)
 
 from utils.to_sympy_expression import transform_to_simpy
 
@@ -48,7 +48,7 @@ inertia = {
 param_dict = {
     C_mz: (0.081 - 0.026),
     C_Mz: 0.01,
-    C_Mx: 0.003,
+    C_Mx: 0.0003, #TODO  уменьшить еще
     C_My: 0.0005,
 
     g: 10,
@@ -59,21 +59,8 @@ param_dict = {
     M_p: 0.65,
     R_p: 0.08,
 
-    sin_x20: sin(x20_value),
-    sin_x30: sin(x30_value),
-    sin_x70: sin(x70_value),
-    sin_x80: sin(x80_value),
-
-    cos_x20: cos(x20_value),
-    cos_x30: cos(x30_value),
-    cos_x70: cos(x70_value),
-    cos_x80: cos(x80_value),
-
     x20: x20_value,
-    x30: x30_value,
-
-    M_φ: 0,
-    M_ψ: 0
+    x30: x30_value
 }
 
 det = parse_2_sympy_expression(open("../../resolve_second_diff/part2_5/component_det.txt").readline()).subs(inertia).subs(param_dict)

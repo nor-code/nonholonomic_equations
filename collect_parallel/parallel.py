@@ -33,6 +33,7 @@ map_dir_eq_path = {
     10: "../expand_parallel/eq10"
 }
 final_independent_coordinates = [x, y, x1, x4, x5, x6]
+ORDER = 2
 
 second_derivatives = [diff(diff(var, t), t) for var in final_independent_coordinates]
 second_dict_name = dict(
@@ -111,7 +112,7 @@ def time_collecting(function):
 
 @time_collecting
 def collect_before_derivatives(arr, eq_number, name, d_one: Derivative, is_mixed, d_two: Optional[Derivative] = None):
-    global dict_expression, coeff_dict, lock, args
+    global dict_expression, coeff_dict, lock, args, ORDER
 
     result_expression = 0
     first, second = False, False
@@ -144,9 +145,9 @@ def collect_before_derivatives(arr, eq_number, name, d_one: Derivative, is_mixed
 
     # result_expression = Mul(simpl_coeff, syms)
     if type(result_expression) != Mul:
-        result_expression = remove_required_and_above_smallness_from_expression(result_expression, order=2)
+        result_expression = remove_required_and_above_smallness_from_expression(result_expression, order=ORDER)
         result_expression = remove_required_and_above_smallness_from_expression(result_expression,
-                                                                                order=3,
+                                                                                order=ORDER,
                                                                                 small_params=[x20, x30])
 
     result_expression = simplify(result_expression)

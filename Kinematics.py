@@ -8,13 +8,17 @@ from utils.Wolfram import Wolfram
 from sympy.solvers.solveset import linsolve, linear_eq_to_matrix
 from sympy import Derivative
 import sympy as sym
+from utils.latex_converter import print_in_latex
 
 size_generic_vars = len(generic_vars)
 
 # абсолютные угловые скорости платформы в проекциях на подвижные оси
 p_p = diff(x2, t) * cos(x3) - diff(x1, t) * sin(x3) * cos(x2)
+print("p_p = ", print_in_latex(p_p))
 q_p = diff(x1, t) * sin(x2) + diff(x3, t)
+print("q_p = ", print_in_latex(q_p))
 r_p = diff(x2, t) * sin(x3) + diff(x1, t) * cos(x3) * cos(x2)
+print("r_p = ", print_in_latex(r_p))
 
 # абсолютные угловые скорости колеса в проекциях на подвижные оси связанные с платформой
 p_w = p_p - diff(x4, t) * sin(x5)
@@ -23,8 +27,11 @@ r_w = r_p + diff(x5, t)
 
 # абсолютные угловые скорости сферы в проекции на подвижные оси
 p_s = diff(x7, t) * cos(x8) - diff(x6, t) * sin(x8) * cos(x7)
+print("p_s = ", print_in_latex(p_s))
 q_s = diff(x6, t) * sin(x7) + diff(x8, t)
+print("q_s = ", print_in_latex(q_s))
 r_s = diff(x7, t) * sin(x8) + diff(x6, t) * cos(x8) * cos(x7)
+print("r_s = ", print_in_latex(r_s))
 
 P_alpha = Matrix([[cos(x1),  sin(x1), 0],
                   [-sin(x1), cos(x1), 0],

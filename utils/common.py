@@ -53,7 +53,7 @@ def is_remove_small_term_with_velocities(term, small_coordinates=None):
 
     # удаляем выше второго порядка малости члены содержащие x20, x30 (x70 = x20, x80 = x30)
     order_small_started_position = base_remove_current_and_above_smallness(term, order=order, small_variables=[x20, x30])
-    if order_small_started_position > order:
+    if order_small_started_position >= order:
         return True
 
     return False

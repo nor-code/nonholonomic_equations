@@ -16,11 +16,11 @@ print("T_s = ", print_in_latex(T_s))
 # кинетическа энергия платформы
 # в с.к. O_x1_x2_x3
 T_p = 1 / 2 * M_p * V_C.T * V_C + 1 / 2 * (J_p * Matrix([[p_p], [q_p], [r_p]])).T * Matrix([[p_p], [q_p], [r_p]])
-print("T_s = ", print_in_latex(T_s))
+print("T_p = ", print_in_latex(T_p))
 # кинетическая энергия колеса
 # в с.к. O_x1_x2_x3
 T_w = 1 / 2 * m * V_B.T * V_B + 1 / 2 * (J_w * Matrix([[p_w], [q_w], [r_w]])).T * Matrix([[p_w], [q_w], [r_w]])
-print("T_w = ", print_in_latex(T_s))
+print("T_w = ", print_in_latex(T_w))
 # кинетическая энергия системы
 T = T_s + T_p + T_w
 
@@ -75,11 +75,12 @@ Eq10 = diff(diff(T, diff(x8, t)), t)[0] - diff(T, x8)[0] - Q_τ - (B.row(9) * λ
 print("Eq10 = ", print_in_latex(Eq10))
 
 equations = [Eq1, Eq2, Eq3, Eq4, Eq5, Eq6, Eq7, Eq8, Eq9, Eq10]
+ORDER = 2
 for i in range(len(equations)):
     with open('./dynamic/eq' + str(i + 1) + '.txt', 'w') as eq_i:
         eq_i_simplified = remove_required_and_above_smallness_from_expression(
             simplification_expression(expand(equations[i], deep=True)),
-            order=2
+            order=ORDER
         )
         print(i, " = ", eq_i_simplified)
         eq_i.write(transform_to_simpy(str(simplify(eq_i_simplified, rational=True))))

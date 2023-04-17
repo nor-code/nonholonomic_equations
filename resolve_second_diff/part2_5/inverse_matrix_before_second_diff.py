@@ -107,8 +107,11 @@ det = a5 * b4 * c3 * d2 * e1 - a4 * b5 * c3 * d2 * e1 - a5 * b3 * c4 * d2 * e1 +
 #      [m51, m52, m53, m54, m55]]
 # )
 
+ORDER = 2
+
 
 def simplify_and_expand_component(name, component, dict_var):
+    global ORDER
     result = 0
     for term in tqdm.tqdm(component.args):
         s = 1
@@ -117,8 +120,8 @@ def simplify_and_expand_component(name, component, dict_var):
         while index < total:
             s = s * term.args[index]
             s = s.subs(dict_var)
-            s = remove_required_and_above_smallness_from_expression(expand(s), order=2)
-            s = remove_required_and_above_smallness_from_expression(s, order=3, small_params=[x20, x30])
+            s = remove_required_and_above_smallness_from_expression(expand(s), order=ORDER)
+            s = remove_required_and_above_smallness_from_expression(s, order=ORDER, small_params=[x20, x30])
             index += 1
 
         result = result + s
