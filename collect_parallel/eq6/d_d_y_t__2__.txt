@@ -1,1 +1,1 @@
--C_Mx*C_My*M_p*r*diff(diff(y, t), t)
+0

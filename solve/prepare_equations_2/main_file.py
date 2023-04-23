@@ -12,8 +12,8 @@ from utils.to_sympy_expression import transform_to_simpy
 
 BEGIN = time.time()
 
-u, v, p, q = symbols("u, v, p, q")  # скорости x y x2 x5 (x, y, β, ψ)
-p1, n, q1, r1 = symbols("p1, n, q1, r1")  # скорости x3, x4, x7, x8 (γ, φ, ε, τ) выражаются через неголономные связи
+u, v, p, q = symbols("u, v, p, q")  # скорости x y x1 x6 (x, y, α, δ)
+p1, n, q1, r1 = symbols("p1, n, q1, r1")  # скорости x2, x3, x7, x8 (β, γ, ε, τ) выражаются через неголономные связи
 
 eq1 = free_1
 
@@ -21,7 +21,7 @@ eq2 = free_2
 
 eq3 = free_3
 
-eq4 = free_7
+eq4 = free_8
 
 
 R_p = 0.08

@@ -13,7 +13,7 @@ d_1, d_2, d_3, d_4, d_5, d_6, d_7, d_8, d_9, d_10, d_11, d_12, d_13, d_14, d_15,
 e_1, e_2, e_3, e_4, e_5, e_6, e_7, e_8, e_9, e_10, e_11, e_12, e_13, e_14, e_15, e_16, e_17, e_18, e_19, e_20, e_21 = symbols('e_1, e_2, e_3, e_4, e_5, e_6, e_7, e_8, e_9, e_10, e_11, e_12, e_13, e_14, e_15, e_16, e_17, e_18, e_19, e_20, e_21')
 f_1, f_2, f_3, f_4, f_5, f_6, f_7, f_8, f_9, f_10, f_11, f_12, f_13, f_14, f_15, f_16, f_17, f_18, f_19, f_20, f_21 = symbols('f_1, f_2, f_3, f_4, f_5, f_6, f_7, f_8, f_9, f_10, f_11, f_12, f_13, f_14, f_15, f_16, f_17, f_18, f_19, f_20, f_21')
 
-free_1, free_2, free_3, free_4, free_5, free_7 = symbols('free_1, free_2, free_3, free_4, free_5, free_7')
+free_1, free_2, free_3, free_4, free_5, free_7, free_8 = symbols('free_1, free_2, free_3, free_4, free_5, free_7, free_8')
 
 det = Symbol('det')
 m11, m12, m13, m14, m15 = symbols('m11, m12, m13, m14, m15')

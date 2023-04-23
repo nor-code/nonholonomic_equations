@@ -1,1 +1,1 @@
-0
+-3*C_Mx**3*C_My*M_p**2*R - 3*C_Mx*C_My**3*M_p**2*R - 3*C_Mx*C_My*J_pz*M_p*R - 3*C_Mx*C_My*J_wz*M_p*R

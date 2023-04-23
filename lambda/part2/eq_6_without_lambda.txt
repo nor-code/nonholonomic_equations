@@ -1,1 +1,1 @@
-C_Mx*C_My*M_p*r*diff(diff(x2, t), t) + C_My*C_Mz*M_p*r*diff(diff(x1, t), t) + g*r*(-C_Mx*M_p - C_My*M_p*x5 - C_Mz*M_p*x3 - C_mz*m*x3) + (-C_Mz*M_p*r + C_mz*R*m - C_mz*m*r)*diff(diff(x, t), t) + (C_mz**2*R*m - C_mz**2*m*r + J_wy*R - J_wy*r)*diff(diff(x4, t), t) + (-C_Mx**2*M_p*r - C_Mz**2*M_p*r + C_mz**2*R*m - C_mz**2*m*r - J_py*r + J_wy*R - J_wy*r)*diff(diff(x3, t), t)
+0

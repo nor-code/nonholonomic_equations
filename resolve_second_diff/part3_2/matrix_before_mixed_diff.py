@@ -74,7 +74,7 @@ final_dict = mixed_coeff_var | dict_free_term_equations | inverse_coeff_matrix
 print("size dict = ", len(final_dict.keys()))
 
 
-for row in range(5):
+for row in range(3):
     for col in range(1):
         task = Process(
             target=simplify_and_expand_component,
