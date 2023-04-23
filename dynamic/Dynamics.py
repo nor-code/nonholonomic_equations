@@ -25,10 +25,10 @@ print("T_w = ", print_in_latex(T_w))
 T = T_s + T_p + T_w
 
 # силовая функция силы тяжести для платформы
-U_p = - (M_p * g) * (R - (P_x_X * R_cm_p)[2])  # Matrix([[0], [0], [C_Mz]])
+U_p = - (M_p * g) * (R - (P_x_X * Matrix([[C_Mx], [C_My], [l_p]]))[2])  # Matrix([[0], [0], [C_Mz]])
 
 # силовая функция силы тяжести для колеса
-U_w = - (m * g) * (R - (P_x_X * R_cm_w)[2])  # Matrix([[0], [0], [C_mz]])
+U_w = - (m * g) * (R - (P_x_X * Matrix([[0], [0], [l_w]]))[2])  # Matrix([[0], [0], [C_mz]])
 print(print_in_latex(U_w))
 
 # обобщённые силы

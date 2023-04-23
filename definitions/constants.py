@@ -17,7 +17,8 @@ l: Symbol = Symbol('l')
 
 # расстояние от т.O до т. P
 # TODO изменить на C_Mz
-l_p: Symbol = 0 #Symbol('l_p')  # 0.009 m
+l_p: Symbol = Symbol('l_p')  # центр платформы
+l_w: Symbol = Symbol('l_w')  # центр колеса
 
 # масса сферической оболочки
 M = Symbol('M')  # 137.5 g ()
