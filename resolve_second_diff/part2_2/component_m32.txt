@@ -1,1 +1,1 @@
-C_Mx**3*(3*C_Mz*M_p**2 + 3*M_p**2*R) + 3*C_Mx*C_Mz**3*M_p**2 + 9*C_Mx*C_Mz**2*M_p**2*R + 6*C_Mx*C_Mz*C_mz*M_p*R*m + 5*C_Mx*M*M_p*R**3 + 3*C_Mx*M_p**2*R**3 + 3*C_Mx*M_p*R**3*m + C_mz**2*(3*C_Mx*C_Mz*M_p*m + 3*C_Mx*M_p*R*m) + J_py*(3*C_Mx*C_Mz*M_p + 3*C_Mx*M_p*R) + J_wy*(3*C_Mx*C_Mz*M_p + 3*C_Mx*M_p*R) + R**2*(6*C_Mx*C_mz*M_p*m + C_Mz*(5*C_Mx*M*M_p + 9*C_Mx*M_p**2 + 3*C_Mx*M_p*m))
+C_Mx*(3*C_mz**2*M_p*R*m + 6*C_mz*M_p*R**2*m + 3*J_py*M_p*R + 3*J_wy*M_p*R + 5*M*M_p*R**3 + 3*M_p**2*R**3 + 3*M_p*R**3*m)

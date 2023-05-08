@@ -3,13 +3,12 @@ import time
 from sympy.core.numbers import Zero
 
 from definitions.coefficient_for_resolve import *
-from sympy import Matrix, expand, fraction, together
+from sympy import Matrix, expand, collect, simplify, Mul
 from multiprocessing import Process
-import symengine as se
-import tqdm
 import sys
 
-from definitions.moments import M_φ, M_ψ
+from definitions.constants import C_Mx, C_My, C_Mz
+from definitions.generic_coordinates import *
 from utils.sympy_expression import parse_2_sympy_expression
 
 sys.setrecursionlimit(1000000)
@@ -22,6 +21,7 @@ from dict_coefficients_before_mixed_and_free_term import mixed_coeff_var, dict_f
 from dict_inverse_matrix_of_second_diff import inverse_coeff_matrix
 import redis
 
+ORDER=2
 client = redis.Redis(host='localhost', port=6379, db=0)
 
 Inverse_matrix_before_second_diff = Matrix(
@@ -50,19 +50,28 @@ print("multiplication end")
 
 # TODO домножить на 1/det !!!
 def simplify_and_expand_component(name, component, dict_var, is_free):
-    result = 0
+    global ORDER
     begin = time.time()
     print("component = ", component, " \n")
-    for term in component.args:
-        expr = term.subs(dict_var)
-        top = remove_current_and_above_smallness_from_one_term(expand(expr), order=2)
-        result = result + top
+
+    result = expand(component.subs(dict_var))
+    remove_required_and_above_smallness_from_expression(result, order=ORDER, small_params=[x20, x30, C_Mx, C_My, C_Mz])
 
     end = time.time()
     print("FINISHED. component: %s. time of execution = %.2f [m] \n" % (str(component), ((end - begin)/60)))
 
-    if is_free:
-        result = simplify_free_term(result)
+    # if is_free:
+    #     final_res = 0
+    #     print("res = ", result)
+    #     for free_var in [x1, x2, x3, x6]:
+    #         coefficient_free_var = collect(result, free_var).coeff(free_var)
+    #         print(free_var, " = ", coefficient_free_var)
+    #         result = result - expand(Mul(coefficient_free_var, free_var))
+    #         print("result = ", result)
+    #         final_res += Mul(simplify_determinant(coefficient_free_var), free_var)
+    #
+    #     final_res += simplify_determinant(result)  # добавляем оставшийся свободный член
+    #     result = final_res
 
     with open('' + name + '.txt', 'w') as out:
         out.write(transform_to_simpy(str(result)))

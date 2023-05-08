@@ -23,6 +23,8 @@ eq3 = free_3
 
 eq4 = free_8
 
+x20_value = 0
+x30_value = 0.14
 
 R_p = 0.08
 
@@ -38,8 +40,8 @@ inertia = {
 param_dict = {
     C_mz: -(0.081 - 0.026),
     C_Mz: -0.01,
-    C_Mx: 0.01,
-    C_My: 0.01,
+    C_Mx: 0.002,
+    C_My: 0.002,
     l_p: 0.01,  # abs(C_Mz)
     l_w: (0.081 - 0.026),  # abs(C_mz)
     R: 0.081,
@@ -47,6 +49,9 @@ param_dict = {
     m: 0.05,
     M: 0.137,
     M_p: 0.65,
+
+    x20: x20_value,
+    x30: x30_value
 }
 
 det = parse_2_sympy_expression(open("../../resolve_second_diff/part2_2/component_det.txt").readline()).subs(inertia).subs(param_dict)

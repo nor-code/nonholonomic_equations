@@ -1,5 +1,7 @@
 from sympy import Matrix, expand, simplify
 from multiprocessing import Process
+
+from definitions.constants import C_Mx, C_My, C_Mz
 from definitions.generic_coordinates import *
 from definitions.coefficient_for_resolve import *
 from utils.common import remove_required_and_above_smallness_from_expression, simplify_determinant
@@ -64,11 +66,13 @@ def simplify_and_expand_component(name, component, dict_var):
             s = s * term.args[index]
             s = s.subs(dict_var)
             s = remove_required_and_above_smallness_from_expression(expand(s), order=2)
+            s = remove_required_and_above_smallness_from_expression(expand(s), order=2, small_params=[x20, x30, C_Mx, C_My, C_Mz])
             index += 1
 
         result = result + s
 
     result = simplify_determinant(result)
+    print("finish subs component = ", component)
     with open('component_' + name + '.txt', 'w') as out:
         out.write(transform_to_simpy(str(result)))
 

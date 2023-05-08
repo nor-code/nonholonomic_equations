@@ -175,3 +175,5 @@ for term in expr.args:
     )
 
 print(result)
+
+print( - 9.65262128263741e-10 / 3.10222973014243e-9)

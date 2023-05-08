@@ -1,1 +1,1 @@
-2*M*R**2*diff(diff(x6, t), t) + 3*M_p*g*(C_Mx*x2 + C_My*x3)
+2*M*R**2*diff(diff(x1, t), t) + 3*M_p*g*(C_Mx*x2 + C_My*x3)

@@ -2,7 +2,7 @@ import time
 
 import tqdm
 from sympy import cos, sin, expand, collect, Add, sympify, Mul, simplify, trigsimp, Pow, Derivative
-from sympy.core.numbers import Zero, One, Integer
+from sympy.core.numbers import Zero, One, Integer, Number, NegativeOne
 
 from definitions.constants import C_Mz, C_mz, r, R, J_px, J_py, J_wx, J_wy, C_Mx, C_My, cos_x20, cos_x30, sin_x20,\
     sin_x30, cos_x70, sin_x70, sin_x80, cos_x80
@@ -100,7 +100,7 @@ def __is_denominator_sym(symbol):
 def remove_required_and_above_smallness_from_expression(expression, order, small_params=None):
     simplified = Zero()
 
-    if type(expression) in (Symbol, One, Derivative, Integer) \
+    if type(expression) in (Symbol, One, NegativeOne, Derivative, Number, Integer) \
             or (type(expression) is Pow and type(expression.args[0]) is Symbol):
         return expression
 
@@ -117,7 +117,7 @@ def remove_required_and_above_smallness_from_expression(expression, order, small
             try:
                 simplified += term
             except:
-                print()
+                print("error in remove_required_and_above_smallness_from_expression")
     return simplified
 
 
@@ -248,29 +248,36 @@ def _add_simplify(coefficient, var):
 
 
 def simplify_determinant(det_expression):
-    coefficients = [C_Mz**6, C_mz**6, C_Mz**5, C_mz**5, C_Mz ** 4, C_mz ** 4, C_Mz**3, C_mz**3,
-                    C_Mx ** 6, C_Mx ** 5, C_Mx ** 4, C_Mx ** 3,
-                    C_My ** 6, C_My ** 5, C_My ** 4, C_My ** 3,
-                    R ** 4, r ** 4, C_Mz ** 2, C_mz ** 2, R ** 2, r ** 2,
-                    J_px**2, J_py**2, J_wx**2, J_wy**2, J_px, J_py, J_wx, J_wy, C_Mz, C_mz]
+    list = []
+    coefficients = [C_Mx ** 6, C_Mx ** 5, C_Mx ** 4, C_Mx ** 3, C_Mx ** 2, C_Mx,
+                    C_My ** 6, C_My ** 5, C_My ** 4, C_My ** 3, C_My ** 2, C_My]
+    for var in itertools.combinations(coefficients, 2):
+        list.append(var[0] * var[1])
+
+    list.append(C_Mx)
+    list.append(C_My)
+    list.append(C_Mx**2)
+    list.append(C_My**2)
+
     res = 0
-    for coefficient in coefficients:
+    for coefficient in list:
         part = collect(det_expression, coefficient).coeff(coefficient)
         det_expression = sympify(det_expression - expand(Mul(part, coefficient)))
         inner_res = part
         simpl_inner_res = 0
-        for inner_coefficient in coefficients:
+        for inner_coefficient in [C_Mz ** 4, C_Mz ** 3, C_Mz ** 2, C_Mz]:
             inner_part = collect(inner_res, inner_coefficient).coeff(inner_coefficient)
             inner_res = sympify(inner_res - expand(Mul(inner_part, inner_coefficient)))
             simpl_inner_res += sympify(inner_part) * inner_coefficient
         res += (simpl_inner_res + inner_res) * coefficient
+    print("freeee = ", det_expression)
     return res + det_expression
 
 
 def simplify_free_term(expression):
     free_symbols = [M_φ, M_ψ, x1, x2, x3, x6, x7, x8]
     other = [C_Mz ** 6, C_mz ** 6, C_Mz ** 5, C_mz ** 5, C_Mz ** 4, C_mz ** 4,
-             C_Mz ** 3, C_mz ** 3, R ** 4,r ** 4, C_Mz ** 2, C_mz ** 2, R ** 2,
+             C_Mz ** 3, C_mz ** 3, R ** 4, r ** 4, C_Mz ** 2, C_mz ** 2, R ** 2,
              C_Mx ** 6, C_Mx ** 5, C_Mx ** 4, C_Mx ** 3, C_Mx ** 2,
              C_My ** 6, C_My ** 5, C_My ** 4, C_My ** 3, C_My ** 2,
              r ** 2, J_px ** 2, J_py ** 2, J_wx ** 2, J_wy ** 2, J_px, J_py, J_wx, J_wy, C_Mz, C_mz]

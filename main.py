@@ -30,19 +30,17 @@ from utils.common import remove_current_and_above_smallness_from_one_term, \
 from utils.sympy_expression import parse_2_sympy_expression
 from utils.to_sympy_expression import transform_to_simpy
 
-det = -2.32202926345165e-15
+det = 2.86489152083591e-8
 
-eq1 = (-2.59459750221423e-17*x1 + 5.34097607582911e-17*x2 + 2.01355579770342e-14*x3 + 2.59459750221423e-17*x6 + 6.78323012100284e-16*x5 + 4.22602771164889e-16) / det # x
-eq2 = (4.03410914823877e-17*x1 - 1.94765445142924e-15*x2 - 5.10955874729465e-17*x3 - 4.03410914823878e-17*x6 + 8.30580590138196e-20*x5 + 6.73539521251109e-17) / det # y
-eq3 = (1.51919557221014e-15*x1 - 2.17225876512126e-14*x2 - 4.83749024308485e-14*x3 - 1.51919557221014e-15*x6 - 4.28639733941493e-16*x5 - 2.56569187823933e-16) / det# α
-eq4 = (2.60874298948029e-14*x1 - 7.10305035707462e-16*x2 - 8.44229286992366e-13*x3 - 2.60874298948029e-14*x6 - 3.52584479069382e-15*x5 - 1.77723093866926e-14) / det# φ
-eq5 = -0.00585*x2 - 0.00975*x3  # δ
-eq6 = (3.10890812693237e-17*x1 - 2.05938440364904e-13*x2 - 3.50283851941579e-13*x3 - 3.10890812693237e-17*x6 - 2.36151532731667e-16*x5 - 1.48687352433968e-16) / det# ψprint("eq1 = ", transform_to_simpy(str(eq1)))
+eq1 = (-1.81799334416614e-9 * g * x3 - 3.01516130165427e-9 * g) / det  # x
+eq2 = (2.7790896279846e-9 * g * x2 + 9.25216989456185e-10 * g * x3 - 2.63534316339715e-9 * g) / det  # y
+eq3 = (1.57826850284211e-7 * g * x2 + 1.64108904273553e-7 * g * x3 + 3.23443286501481e-8 * g) / det  # α
+eq4 = 0  # δ
 print("eq1 = ", transform_to_simpy(str(eq1)))
 print("eq2 = ", transform_to_simpy(str(eq2)))
 print("eq3 = ", transform_to_simpy(str(eq3)))
-print("eq4 = ", transform_to_simpy(str(eq4)))
-print("eq6 = ", transform_to_simpy(str(eq6)))
+# print("eq4 = ", transform_to_simpy(str(eq4)))
+# print("eq6 = ", transform_to_simpy(str(eq6)))
 
 x20_value = 0.207
 x30_value = 0.21

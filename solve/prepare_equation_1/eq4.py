@@ -1,4 +1,6 @@
 from main_file import *
+import sys
+sys.setrecursionlimit(10000000)
 
 mixed_coeff_eq4 = {
     free_4: parse_2_sympy_expression(open("../../resolve_second_diff/part3_1/free_3_0.txt").readline()).subs(inertia).subs(param_dict)

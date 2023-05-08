@@ -12,9 +12,8 @@ from utils.to_sympy_expression import transform_to_simpy
 
 BEGIN = time.time()
 
-u, v, p, q, s1, w1 = symbols("u, v, p, q, s1, w1")  # скорости x y x2 x5  x1 x6  (x, y, β, ψ,    α, δ)
-
-p1, n, q1, r1 = symbols("p1, n, q1, r1")  # скорости x3, x4, x7, x8 (γ, φ, ε, τ) выражаются через неголономные связи
+u, v, p, q = symbols("u, v, p, q")  # скорости x y x2 x5  x1 x6  (x, y, α, δ )
+p1, n, q1, r1 = symbols("p1, n, q1, r1")  # скорости x2, x3, x7, x8 (β, γ, ε, τ) выражаются через неголономные связи
 
 eq1 = free_1  # x
 
@@ -22,13 +21,12 @@ eq2 = free_2  # y
 
 eq3 = free_3  # \alpha
 
-eq4 = free_4  # \beta
-
-eq5 = free_5  # \delta
-
-eq7 = free_7  # \psi , = 0
+eq4 = free_4  # \delta
 
 R_p = 0.08
+
+x20_value = 0.14
+x30_value = 0.14
 
 inertia = {
     J_px: M_p * R_p ** 2 / 4 + M_p * C_Mz ** 2,
@@ -40,16 +38,21 @@ inertia = {
 }
 
 param_dict = {
-    C_mz: (0.081 - 0.026),
-    C_Mz: 0.01,
-    C_Mx: 0.01,
-    C_My: 0.01,
+    C_mz: -(0.081 - 0.026),
+    C_Mz: -0.01,
+    C_Mx: 0.002,
+    C_My: 0.002,
+    l_p: 0.01,  # abs(C_Mz)
+    l_w: (0.081 - 0.026),  # abs(C_mz)
     R: 0.081,
     r: 0.026,
     m: 0.05,
     M: 0.137,
     M_p: 0.65,
-    R_p: 0.08
+    R_p: 0.08,
+
+    x20: x20_value,
+    x30: x30_value
 }
 
 det = parse_2_sympy_expression(open("../../resolve_second_diff/part2_1/component_det.txt").readline()).subs(inertia).subs(param_dict)
