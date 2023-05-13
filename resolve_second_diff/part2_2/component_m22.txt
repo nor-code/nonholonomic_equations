@@ -1,1 +1,1 @@
--6*C_Mz*J_pz*M_p*R**2 - 6*C_Mz*J_wz*M_p*R**2 - 3*C_mz**2*J_pz*R*m - 3*C_mz**2*J_wz*R*m - 6*C_mz*J_pz*R**2*m - 6*C_mz*J_wz*R**2*m - 3*J_py*J_pz*R - 3*J_py*J_wz*R - 3*J_pz*J_wy*R - 5*J_pz*M*R**3 - 3*J_pz*M_p*R**3 - 3*J_pz*R**3*m - 3*J_wy*J_wz*R - 5*J_wz*M*R**3 - 3*J_wz*M_p*R**3 - 3*J_wz*R**3*m
+C_Mz*R**2*(-6*J_pz*M_p - 6*J_wz*M_p) + C_mz**2*R*(-3*J_pz*m - 3*J_wz*m) + C_mz*R**2*(-6*J_pz*m - 6*J_wz*m) + R**3*(-5*J_pz*M - 3*J_pz*M_p - 3*J_pz*m - 5*J_wz*M - 3*J_wz*M_p - 3*J_wz*m) + R*(-3*J_py*J_pz - 3*J_py*J_wz - 3*J_pz*J_wy - 3*J_wy*J_wz)

@@ -1,7 +1,7 @@
 from sympy import Matrix, expand, simplify
 from multiprocessing import Process
 
-from definitions.constants import C_Mx, C_My, C_Mz
+from definitions.constants import C_Mx, C_My, C_Mz, R
 from definitions.generic_coordinates import *
 from definitions.coefficient_for_resolve import *
 from utils.common import remove_required_and_above_smallness_from_expression, simplify_determinant
@@ -70,6 +70,11 @@ def simplify_and_expand_component(name, component, dict_var):
             index += 1
 
         result = result + s
+
+    if name == 'det':
+        from utils.latex_converter import print_in_latex
+        for_print_res = result / 9
+        print(name, " = ", print_in_latex(simplify_determinant(for_print_res)))
 
     result = simplify_determinant(result)
     print("finish subs component = ", component)

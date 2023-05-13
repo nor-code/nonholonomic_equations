@@ -2,6 +2,7 @@ import math
 
 import numpy as np
 import matplotlib.pyplot as plt
+
 from numpy import sin, cos
 from scipy.integrate import odeint
 from definitions.constants import *
@@ -14,12 +15,18 @@ def system_eq(y, t):
     x, u, y1, v, x1, p, x6, q, x2, x3, x7, x8 = y
 
     g = 10
-    det = 2.67825149108266e-8
 
-    eq1 = (5.70775799325245e-11*g*x2 - 3.38364484258756e-9*g*x3 - 4.8356098911093e-10*g) / det  # x
-    eq2 = (-4.84241069626619e-10*g*x1 + 3.38841557383731e-9*g*x2 - 5.7145883121329e-11*g*x3 - 4.84241069626619e-10*g*x6 - 4.84241069626619e-10*g) / det  # y
-    eq3 = (-7.0550472989295e-10*g*x1 + 2.81883884887042e-8*g*x2 + 2.81943885314055e-8*g*x3 - 7.0550472989295e-10*g*x6 + 8.43249244499999e-13*g) / det  # α
-    eq4 = -0.0039*g*x2 - 0.0039*g*x3 # δ
+    det = 2.68e-8
+
+    eq1 = -1.28 * x3 - 0.21  # x
+    eq2 = 0.21 * x1 + 1.28 * x2 - 0.21 # y
+    eq3 = 15.75 * x2 + 15.75 * x3  # α
+    eq4 = -0.039 * x2 - 0.039 * x3  # δ
+
+    # eq1 = (-3.44e-9*g*x3 - 5.68e-10*g) / det  # x
+    # eq2 = (+5.69e-10*g*x1 + 3.44e-9*g*x2 - 5.68e-10*g) / det  # y
+    # eq3 = (4.22e-8*g*x2 + 4.22e-8*g*x3) / det  # α
+    # eq4 = -0.0039*g*x2 - 0.0039*g*x3 # δ
 
     eq7 = - 12.3456790123457*v  # β
     eq8 = 12.3456790123457*u  # γ
@@ -46,77 +53,78 @@ def system_eq(y, t):
     return dy1dx
 
 
-t = np.linspace(0, 20, 10000)
+t = np.linspace(0, 50, 10000)
 
-y0 = [0, 0,
-      0, 0,
-      0, 0,
-      0, 0,
-      0,
-      0,
-      0,
-      0
+y0 = [0, 0,         # 0 1
+      0, 0,         # 2 3
+      0, 0,         # 4 5
+      0, 0,         # 6 7
+      0,  # 0.1650625,  # 8
+      0,  # -0.1650625, # 9
+      0,            # 10
+      0             # 11
 ]
 
 sol = odeint(system_eq, y0, t)
 
-fig, ax = plt.subplots(8, 2)
+fig, ax = plt.subplots(6, 2)
+fig.subplots_adjust(wspace=0.4, hspace=0.4)
 
 ### x
 ax[0][0].set_xlabel('t')
-ax[0][0].set_ylabel('x')
+ax[0][0].set_ylabel('x, [m]')
 ax[0][0].plot(t, sol[:, 0])
 
 ax[0][1].set_xlabel('t')
-ax[0][1].set_ylabel('u')
+ax[0][1].set_ylabel(r"$\dot x$, [m/s]")
 ax[0][1].plot(t, sol[:, 1])
 
 ### y
 ax[1][0].set_xlabel('t')
-ax[1][0].set_ylabel('y')
+ax[1][0].set_ylabel('y, [m]')
 ax[1][0].plot(t, sol[:, 2])
 
 ax[1][1].set_xlabel('t')
-ax[1][1].set_ylabel('v')
+ax[1][1].set_ylabel(r"$\dot y$, [m/s]")
 ax[1][1].plot(t, sol[:, 3])
 
 ### α
 ax[2][0].set_xlabel('t')
-ax[2][0].set_ylabel('α')
+ax[2][0].set_ylabel('α, [rad]')
 ax[2][0].plot(t, sol[:, 4])
 
 ax[2][1].set_xlabel('t')
-ax[2][1].set_ylabel('p')
+ax[2][1].set_ylabel(r"$\dot α$, [rad/s]")
 ax[2][1].plot(t, sol[:, 5])
 
 ### δ
-ax[4][0].set_xlabel('t')
-ax[4][0].set_ylabel('δ')
-ax[4][0].plot(t, sol[:, 6])
+ax[3][0].set_xlabel('t')
+ax[3][0].set_ylabel('δ, [rad]')
+ax[3][0].plot(t, sol[:, 6])
 
-ax[4][1].set_xlabel('t')
-ax[4][1].set_ylabel('q')
-ax[4][1].plot(t, sol[:, 7])
+ax[3][1].set_xlabel('t')
+ax[3][1].set_ylabel(r"$\dot δ$, [rad/s]")
+ax[3][1].plot(t, sol[:, 7])
 
 ### γ
-ax[6][0].set_xlabel('t')
-ax[6][0].set_ylabel('β')
-ax[6][0].plot(t, sol[:, 8])
+ax[4][0].set_xlabel('t')
+ax[4][0].set_ylabel('β, [rad]')
+ax[4][0].plot(t, sol[:, 8])
 
 ### φ
-ax[6][1].set_xlabel('t')
-ax[6][1].set_ylabel('γ')
-ax[6][1].plot(t, sol[:, 9])
+ax[4][1].set_xlabel('t')
+ax[4][1].set_ylabel('γ, [rad]')
+ax[4][1].plot(t, sol[:, 9])
 
 ### ε
-ax[7][0].set_xlabel('t')
-ax[7][0].set_ylabel('ε')
-ax[7][0].plot(t, sol[:, 10])
+ax[5][0].set_xlabel('t')
+ax[5][0].set_ylabel('ε, [rad]')
+ax[5][0].plot(t, sol[:, 10])
 
 ### τ
-ax[7][1].set_xlabel('t')
-ax[7][1].set_ylabel('τ')
-ax[7][1].plot(t, sol[:, 11])
+ax[5][1].set_xlabel('t')
+ax[5][1].set_ylabel('τ, [rad]')
+ax[5][1].plot(t, sol[:, 11])
 
 ### траектория y-x
 fig1, ax1 = plt.subplots(1, 1)
@@ -148,6 +156,7 @@ ax3.grid()
 fig4, ax4 = plt.subplots(1, 1)
 ax4.plot(t, sol[:, 4], 'r', linewidth=3, label='α')
 ax4.plot(t, sol[:, 6], 'g', linewidth=2.1, label='δ')
+ax4.plot(t, sol[:, 4] - sol[:, 6], 'b',  linewidth=2.1, label='α - δ')
 ax4.legend(loc='best')
 ax4.set_xlabel('t, [s]', loc='center')
 ax4.set_ylabel('[rad]', loc='center', rotation="horizontal")

@@ -1,1 +1,1 @@
-C_My*(9*C_mz**2*M_p*R**2*m + 18*C_mz*M_p*R**3*m + 9*J_px*M_p*R**2 + 9*J_wx*M_p*R**2 + 15*M*M_p*R**4 + 9*M_p**2*R**4 + 9*M_p*R**4*m)
+C_My*(9*C_mz**2*M_p*R**2*m + 18*C_mz*M_p*R**3*m + R**4*(15*M*M_p + 9*M_p**2 + 9*M_p*m) + R**2*(9*J_px*M_p + 9*J_wx*M_p))

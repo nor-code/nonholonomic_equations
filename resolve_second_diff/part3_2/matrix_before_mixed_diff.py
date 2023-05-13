@@ -9,6 +9,7 @@ import sys
 
 from definitions.constants import C_Mx, C_My, C_Mz
 from definitions.generic_coordinates import *
+from utils.latex_converter import print_in_latex
 from utils.sympy_expression import parse_2_sympy_expression
 
 sys.setrecursionlimit(1000000)
@@ -54,24 +55,22 @@ def simplify_and_expand_component(name, component, dict_var, is_free):
     begin = time.time()
     print("component = ", component, " \n")
 
-    result = expand(component.subs(dict_var))
-    remove_required_and_above_smallness_from_expression(result, order=ORDER, small_params=[x20, x30, C_Mx, C_My, C_Mz])
+    result = expand(component.subs(dict_var), deep=True)
+    result = remove_required_and_above_smallness_from_expression(result, order=ORDER, small_params=[x20, x30, C_Mx, C_My, C_Mz])
 
     end = time.time()
     print("FINISHED. component: %s. time of execution = %.2f [m] \n" % (str(component), ((end - begin)/60)))
 
-    # if is_free:
-    #     final_res = 0
-    #     print("res = ", result)
-    #     for free_var in [x1, x2, x3, x6]:
-    #         coefficient_free_var = collect(result, free_var).coeff(free_var)
-    #         print(free_var, " = ", coefficient_free_var)
-    #         result = result - expand(Mul(coefficient_free_var, free_var))
-    #         print("result = ", result)
-    #         final_res += Mul(simplify_determinant(coefficient_free_var), free_var)
-    #
-    #     final_res += simplify_determinant(result)  # добавляем оставшийся свободный член
-    #     result = final_res
+    if is_free:
+        final_res = 0
+        for free_var in [x1, x2, x3, x4, x5, x6, x7, x8]:
+            coefficient_free_var = collect(result, free_var).coeff(free_var)
+            result = result - expand(Mul(coefficient_free_var, free_var))
+            final_res += Mul(simplify_determinant(coefficient_free_var), free_var)
+
+        final_res += simplify_determinant(result)  # добавляем оставшийся свободный член
+        print(component, " = ", print_in_latex(final_res))
+        result = final_res
 
     with open('' + name + '.txt', 'w') as out:
         out.write(transform_to_simpy(str(result)))

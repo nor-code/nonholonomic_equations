@@ -258,6 +258,7 @@ def simplify_determinant(det_expression):
     list.append(C_My)
     list.append(C_Mx**2)
     list.append(C_My**2)
+    list.extend([C_mz**4, C_mz**3, C_Mz ** 2, C_mz ** 2, C_Mz, C_mz, R**4, R**3, R**2, R])
 
     res = 0
     for coefficient in list:
@@ -265,12 +266,11 @@ def simplify_determinant(det_expression):
         det_expression = sympify(det_expression - expand(Mul(part, coefficient)))
         inner_res = part
         simpl_inner_res = 0
-        for inner_coefficient in [C_Mz ** 4, C_Mz ** 3, C_Mz ** 2, C_Mz]:
+        for inner_coefficient in [C_mz**4, C_mz**3, C_Mz ** 2, C_mz ** 2, C_Mz, C_mz, R**4, R**2, R]:
             inner_part = collect(inner_res, inner_coefficient).coeff(inner_coefficient)
             inner_res = sympify(inner_res - expand(Mul(inner_part, inner_coefficient)))
             simpl_inner_res += sympify(inner_part) * inner_coefficient
         res += (simpl_inner_res + inner_res) * coefficient
-    print("freeee = ", det_expression)
     return res + det_expression
 
 
