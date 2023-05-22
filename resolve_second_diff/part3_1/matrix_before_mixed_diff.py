@@ -1,22 +1,17 @@
+import sys
 import time
+from multiprocessing import Process
 
-from sympy.core.numbers import Zero
+from sympy import Matrix, expand, collect, Mul
 
 from definitions.coefficient_for_resolve import *
-from sympy import Matrix, expand, fraction, together
-from multiprocessing import Process
-import symengine as se
-import tqdm
-import sys
-
-from definitions.moments import M_φ, M_ψ
-from utils.sympy_expression import parse_2_sympy_expression
+from definitions.constants import R
+from definitions.generic_coordinates import *
+from utils.latex_converter import print_in_latex
 
 sys.setrecursionlimit(1000000)
 
-from utils.common import remove_third_and_above_smallness_from_expression, \
-    remove_third_and_above_smallness_from_one_term, remove_required_and_above_smallness_from_expression, \
-    remove_current_and_above_smallness_from_one_term
+from utils.common import remove_required_and_above_smallness_from_expression, simplify_determinant
 from utils.to_sympy_expression import transform_to_simpy
 from dict_coefficients_before_mixed_and_free_term import mixed_coeff_var, dict_free_term_equations
 from dict_inverse_matrix_of_second_diff import inverse_coeff_matrix
@@ -24,6 +19,8 @@ import redis
 from definitions.symengine_var import *
 
 client = redis.Redis(host='localhost', port=6379, db=0)
+
+ORDER = 2
 
 Inverse_matrix_before_second_diff = Matrix(
     [[m11, m12, m13, m14],
@@ -54,19 +51,28 @@ print("multiplication end")
 
 # TODO домножить на 1/det !!!
 def simplify_and_expand_component(name, component, dict_var, is_free):
-    result = 0
+    global ORDER
+
     begin = time.time()
     print("component = ", component, " \n")
-    for term in component.args:
-        expr = term.subs(dict_var)
-        top = remove_current_and_above_smallness_from_one_term(expand(expr), order=2)
-        result = result + top
+
+    result = expand(component.subs(dict_var), deep=True)
+    result = remove_required_and_above_smallness_from_expression(result, order=ORDER,
+                                                                 small_params=[x20, x30, C_Mx, C_My, C_Mz])
 
     end = time.time()
-    print("FINISHED. component: %s. time of execution = %.2f [m] \n" % (str(component), ((end - begin)/60)))
+    print("FINISHED. component: %s. time of execution = %.2f [m] \n" % (str(component), ((end - begin) / 60)))
 
-    # if is_free:
-    #     result = simplify_free_term(result)
+    if is_free:
+        final_res = 0
+        for free_var in [x1, x2, x3, x4, x5, x6, x7, x8]:
+            coefficient_free_var = collect(result, free_var).coeff(free_var)
+            result = result - expand(Mul(coefficient_free_var, free_var))
+            final_res += Mul(simplify_determinant(coefficient_free_var), free_var)
+
+        final_res += simplify_determinant(result)  # добавляем оставшийся свободный член
+        result = final_res
+        print(str(component), " = ", print_in_latex(result, isFree=True))
 
     with open('' + name + '.txt', 'w') as out:
         out.write(transform_to_simpy(str(result)))

@@ -40,7 +40,7 @@ inertia = {
 param_dict = {
     C_mz: -(0.081 - 0.026),
     C_Mz: -0.01,
-    C_Mx: 0.002,
+    C_Mx: 0,
     C_My: 0.002,
     l_p: 0.01,  # abs(C_Mz)
     l_w: (0.081 - 0.026),  # abs(C_mz)

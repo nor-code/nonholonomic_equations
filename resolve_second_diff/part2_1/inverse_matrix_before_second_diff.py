@@ -1,9 +1,12 @@
 from sympy import Matrix, expand
 from multiprocessing import Process
+
+from definitions.constants import C_Mx, C_My, C_Mz, C_mz, r, R
 from definitions.generic_coordinates import *
 from definitions.coefficient_for_resolve import *
 from utils.common import simplify_determinant, remove_required_and_above_smallness_from_expression_v2, \
     remove_required_and_above_smallness_from_expression
+from utils.latex_converter import print_in_latex
 from utils.sympy_expression import parse_2_sympy_expression
 from utils.to_sympy_expression import transform_to_simpy
 import tqdm
@@ -16,16 +19,16 @@ main_vars_subs = {
     a3: parse_2_sympy_expression(open(
         "../../collect_parallel/eq3/d_d_α_t__2__.txt").readline()).coeff(diff(diff(x1, t), t)),
     a4: parse_2_sympy_expression(open(
-        "../../collect_parallel/eq3/d_d_δ_t__2__.txt").readline()).coeff(diff(diff(x6, t), t)),
+        "../../collect_parallel/eq3/d_d_φ_t__2__.txt").readline()).coeff(diff(diff(x4, t), t)),
 
     b1: parse_2_sympy_expression(open(
-         "../../collect_parallel/eq8/d_d_x_t__2__.txt").readline()).coeff(diff(diff(x, t), t)),
+         "../../collect_parallel/eq6/d_d_x_t__2__.txt").readline()).coeff(diff(diff(x, t), t)),
     b2: parse_2_sympy_expression(open(
-        "../../collect_parallel/eq8/d_d_y_t__2__.txt").readline()).coeff(diff(diff(y, t), t)),
+        "../../collect_parallel/eq6/d_d_y_t__2__.txt").readline()).coeff(diff(diff(y, t), t)),
     b3: parse_2_sympy_expression(open(
-        "../../collect_parallel/eq8/d_d_α_t__2__.txt").readline()).coeff(diff(diff(x1, t), t)),
+        "../../collect_parallel/eq6/d_d_α_t__2__.txt").readline()).coeff(diff(diff(x1, t), t)),
     b4: parse_2_sympy_expression(open(
-        "../../collect_parallel/eq8/d_d_δ_t__2__.txt").readline()).coeff(diff(diff(x6, t), t)),
+        "../../collect_parallel/eq6/d_d_φ_t__2__.txt").readline()).coeff(diff(diff(x4, t), t)),
 
     c1: parse_2_sympy_expression(open(
         "../../collect_parallel/eq9/d_d_x_t__2__.txt").readline()).coeff(diff(diff(x, t), t)),
@@ -34,7 +37,7 @@ main_vars_subs = {
     c3: parse_2_sympy_expression(open(
         "../../collect_parallel/eq9/d_d_α_t__2__.txt").readline()).coeff(diff(diff(x1, t), t)),
     c4: parse_2_sympy_expression(open(
-        "../../collect_parallel/eq9/d_d_δ_t__2__.txt").readline()).coeff(diff(diff(x6, t), t)),
+        "../../collect_parallel/eq9/d_d_φ_t__2__.txt").readline()).coeff(diff(diff(x4, t), t)),
 
     d1: parse_2_sympy_expression(open(
         "../../collect_parallel/eq10/d_d_x_t__2__.txt").readline()).coeff(diff(diff(x, t), t)),
@@ -43,7 +46,7 @@ main_vars_subs = {
     d3: parse_2_sympy_expression(open(
         "../../collect_parallel/eq10/d_d_α_t__2__.txt").readline()).coeff(diff(diff(x1, t), t)),
     d4: parse_2_sympy_expression(open(
-        "../../collect_parallel/eq10/d_d_δ_t__2__.txt").readline()).coeff(diff(diff(x6, t), t)),
+        "../../collect_parallel/eq10/d_d_φ_t__2__.txt").readline()).coeff(diff(diff(x4, t), t)),
 }
 
 print("___READED ALL COEFFICIENT___")
@@ -94,12 +97,16 @@ def simplify_and_expand_component(name, component, dict_var):
         while index < total:
             s = s * term.args[index]
             s = s.subs(dict_var)
-            s = remove_required_and_above_smallness_from_expression_v2(expand(s), order=2)
             index += 1
 
         result = result + s
 
-    # result = simplify_determinant(result)
+    result = remove_required_and_above_smallness_from_expression(expand(result, deep=True), order=2, small_params=[x20, x30, C_Mx, C_My, C_Mz])
+
+    result = simplify_determinant(result)
+    if name == 'det':
+        print("DET")
+        print(print_in_latex(result, isFree=True))
     with open('component_' + name + '.txt', 'w') as out:
         out.write(transform_to_simpy(str(result)))
 

@@ -1,1 +1,1 @@
-6*C_Mx**3*C_My*M*M_p**2*R**4 + 6*C_Mx**3*M*M_p**2*R**5*x20 + 6*C_Mx**2*C_My*C_Mz*M*M_p**2*R**4*x30 + 6*C_Mx*C_My**3*M*M_p**2*R**4 + 6*C_Mx*C_My**2*M*M_p**2*R**5*x20 + 6*C_Mx*C_My*J_pz*M*M_p*R**4 + 6*C_Mx*C_My*J_wz*M*M_p*R**4 + 6*C_Mx*J_pz*M*M_p*R**5*x20 + 6*C_Mx*J_wz*M*M_p*R**5*x20 + 6*C_My**3*C_Mz*M*M_p**2*R**4*x30 + 6*C_My*C_Mz*J_pz*M*M_p*R**4*x30 + 6*C_My*C_Mz*J_wz*M*M_p*R**4*x30
+0

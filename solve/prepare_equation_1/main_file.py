@@ -12,7 +12,7 @@ from utils.to_sympy_expression import transform_to_simpy
 
 BEGIN = time.time()
 
-u, v, p, q = symbols("u, v, p, q")  # скорости x y x2 x5  x1 x6  (x, y, α, δ )
+u, v, p, q = symbols("u, v, p, q")  # скорости x y x2 x5  x1 x4  (x, y, α, φ)
 p1, n, q1, r1 = symbols("p1, n, q1, r1")  # скорости x2, x3, x7, x8 (β, γ, ε, τ) выражаются через неголономные связи
 
 eq1 = free_1  # x
@@ -21,7 +21,7 @@ eq2 = free_2  # y
 
 eq3 = free_3  # \alpha
 
-eq4 = free_4  # \delta
+eq4 = free_4  # \phi
 
 R_p = 0.08
 
@@ -40,7 +40,7 @@ inertia = {
 param_dict = {
     C_mz: -(0.081 - 0.026),
     C_Mz: -0.01,
-    C_Mx: 0.002,
+    C_Mx: 0,
     C_My: 0.002,
     l_p: 0.01,  # abs(C_Mz)
     l_w: (0.081 - 0.026),  # abs(C_mz)

@@ -22,7 +22,7 @@ mixed_coeff_eq1 = {
     a_9: parse_2_sympy_expression(open(
         "../../resolve_second_diff/part3_3/matrix_0_8.txt").readline()).subs(inertia).subs(param_dict),
 
-    free_1: parse_2_sympy_expression(open("../../resolve_second_diff/part3_3/free_0_0.txt").readline()).subs(inertia).subs(param_dict)
+    free_1: parse_2_sympy_expression(open("../../resolve_second_diff/part3_1/free_0_0.txt").readline()).subs(inertia).subs(param_dict)
 }
 
 eq1 = eq1.subs(mixed_coeff_eq1)

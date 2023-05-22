@@ -19,7 +19,7 @@ d_d_eps_bot = se.Symbol('d_d_eps_bot')
 d_d_tau_bot = se.Symbol('d_d_tau_bot')
 
 # радиус сферической оболочки
-R = se.Symbol('R')  # 0.081 m or 16.2 cm diametr
+# R = se.Symbol('R')  # 0.081 m or 16.2 cm diametr
 
 # радиус колесика
 r = se.Symbol('r')  # 0.026

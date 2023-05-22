@@ -30,17 +30,19 @@ from utils.common import remove_current_and_above_smallness_from_one_term, \
 from utils.sympy_expression import parse_2_sympy_expression
 from utils.to_sympy_expression import transform_to_simpy
 
-det = 2.68e-8
+g = 10
+det = 4.17168745191651e-15
+eq1 = (8.57439302156898e-17*g*x1 - 5.03866441343397e-16*g*x3 - 8.57439302156898e-17*g*x6)/det
+eq2 = (5.30789368236859e-16*g*x2 - 8.30693292181823e-17*g)/det #-8.30693292181823e-17*g*x1 + 5.30789368236859e-16*g*x2 + 8.30693292181823e-17*g*x6
+eq3 = (6.40577706714846e-15*g*x3)/det
+eq4 = (1.11279732907562e-15*g*x1 + 5.73840616864587e-14*g*x3 - 1.11279732907562e-15*g*x6)/det
+eq5 = -0.0039*g*x2
 
-eq1 = (-3.44e-9*g*x3 - 5.68e-10*g) / det  # x
-eq2 = (+5.69e-10*g*x1 + 3.44e-9*g*x2 - 5.68e-10*g) / det  # y
-eq3 = (4.22e-8*g*x2 + 4.22e-8*g*x3) / det  # α
-eq4 = -0.0039*g*x2 - 0.0039*g*x3 # δ
 
 print("eq1 = ", transform_to_simpy(str(eq1)))
 print("eq2 = ", transform_to_simpy(str(eq2)))
 print("eq3 = ", transform_to_simpy(str(eq3)))
-print("eq4 = ", transform_to_simpy(str(eq4)))
+print("eq4 = ", transform_to_simpy(str(eq4)), "\n")
 # print("eq6 = ", transform_to_simpy(str(eq6)))
 
 det = 2.97583499009185e-9

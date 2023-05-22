@@ -1,1 +1,1 @@
-diff(diff(x, t), t)/R
+(-r*diff(diff(x4, t), t) + diff(diff(x, t), t))/R

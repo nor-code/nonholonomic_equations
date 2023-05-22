@@ -1,1 +1,1 @@
-3*C_Mx*M_p*R*(-C_Mz - R)*diff(diff(x1, t), t)
+C_Mx*M_p*R*(-C_Mz - R)*diff(diff(x1, t), t)

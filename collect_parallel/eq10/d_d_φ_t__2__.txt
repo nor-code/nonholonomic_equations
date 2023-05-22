@@ -1,1 +1,1 @@
-0
+(-C_Mx**2*M_p*r - C_Mz**2*M_p*r - C_Mz*M_p*R*r - C_mz**2*m*r - C_mz*R*m*r - J_py*r + J_wy*R - J_wy*r)*diff(diff(x4, t), t)

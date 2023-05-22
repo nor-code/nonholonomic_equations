@@ -5,7 +5,7 @@ eq5 = parse_2_sympy_expression(open("../../kinematic/part2/d_beta.txt").readline
         diff(x, t): u,
         diff(y, t): v,
         diff(x1, t): p,
-        diff(x6, t): q
+        diff(x4, t): q
     }
 )/parse_2_sympy_expression(open("../../kinematic/part2/d_beta_bottom.txt").readline())
 eq5 = eq5.subs(inertia)
@@ -20,7 +20,7 @@ eq6 = parse_2_sympy_expression(open("../../kinematic/part2/d_gamma.txt").readlin
         diff(x, t): u,
         diff(y, t): v,
         diff(x1, t): p,
-        diff(x6, t): q
+        diff(x4, t): q
     }
 )/parse_2_sympy_expression(open("../../kinematic/part2/d_gamma_bottom.txt").readline())
 eq6 = eq6.subs(inertia)
@@ -35,7 +35,7 @@ eq7 = parse_2_sympy_expression(open("../../kinematic/part2/d_eps.txt").readline(
         diff(x, t): u,
         diff(y, t): v,
         diff(x1, t): p,
-        diff(x6, t): q
+        diff(x4, t): q
     }
 )/parse_2_sympy_expression(open("../../kinematic/part2/d_eps_bottom.txt").readline())
 eq7 = eq7.subs(inertia)
@@ -50,7 +50,7 @@ eq8 = parse_2_sympy_expression(open("../../kinematic/part2/d_tau.txt").readline(
         diff(x, t): u,
         diff(y, t): v,
         diff(x1, t): p,
-        diff(x6, t): q
+        diff(x4, t): q
     }
 )/parse_2_sympy_expression(open("../../kinematic/part2/d_tau_bottom.txt").readline())
 eq8 = eq8.subs(inertia)
