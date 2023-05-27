@@ -22,7 +22,7 @@ print("r_p = ", print_in_latex(r_p))
 
 # абсолютные угловые скорости колеса в проекциях на подвижные оси связанные с платформой
 p_w = p_p  # - diff(x4, t) * sin(x5)
-q_w = q_p + diff(x4, t)
+q_w = q_p - diff(x4, t)
 r_w = r_p  # + diff(x5, t)
 
 # абсолютные угловые скорости сферы в проекции на подвижные оси
@@ -33,50 +33,52 @@ print("q_s = ", print_in_latex(q_s))
 r_s = diff(x7, t) * sin(x8) + diff(x6, t) * cos(x8) * cos(x7)
 print("r_s = ", print_in_latex(r_s))
 
-P_alpha = Matrix([[cos(x1),  sin(x1), 0],
-                  [-sin(x1), cos(x1), 0],
+P_alpha = Matrix([[cos(x1),  -sin(x1), 0],
+                  [sin(x1), cos(x1), 0],
                   [0,        0,       1]])
 
 P_beta = Matrix([[1, 0,        0],
-                 [0, cos(x2),  sin(x2)],
-                 [0, -sin(x2), sin(x2)]])
+                 [0, cos(x2),  -sin(x2)],
+                 [0, sin(x2), cos(x2)]])
 
-P_gamma = Matrix([[cos(x3), 0, -sin(x3)],
+P_gamma = Matrix([[cos(x3), 0, sin(x3)],
                   [0,       1, 0],
-                  [sin(x3), 0, sin(x3)]])
+                  [-sin(x3), 0, cos(x3)]])
 # матрица перехода от O_x1_x2_x3  к CXYZ
-P_x_X = Matrix([[cos(x1) * cos(x3) - sin(x1) * sin(x2) * sin(x3), -sin(x1) * cos(x2),
+P_x_X = P_alpha * P_beta * P_gamma
+P_x_X_test = Matrix([[cos(x1) * cos(x3) - sin(x1) * sin(x2) * sin(x3), -sin(x1) * cos(x2),
                  cos(x1) * sin(x3) + cos(x3) * sin(x1) * sin(x2)],
                 [sin(x1) * cos(x3) + cos(x1) * sin(x2) * sin(x3), cos(x1) * cos(x2),
                  sin(x1) * sin(x3) - cos(x1) * sin(x2) * cos(x3)],
                 [-cos(x2) * sin(x3), sin(x2), cos(x2) * cos(x3)]])
-    #P_alpha.transpose() * P_beta.transpose() * P_gamma.transpose()  # (P_gamma * P_beta * P_alpha).transpose()
+print("check zero = ", P_x_X_test - P_x_X)
+print("P_x_X = ", P_x_X)
 
-P_delta = Matrix([[cos(x6),  sin(x6),  0],
-                  [-sin(x6), cos(x6),  0],
+# P_alpha.transpose() * P_beta.transpose() * P_gamma.transpose()  # (P_gamma * P_beta * P_alpha).transpose()
+
+P_delta = Matrix([[cos(x6),  -sin(x6),  0],
+                  [sin(x6), cos(x6),  0],
                   [0,        0,        1]])
 
 P_epsilon = Matrix([[1, 0,        0],
-                    [0, cos(x7),  sin(x7)],
-                    [0, -sin(x7), sin(x7)]])
+                    [0, cos(x7),  -sin(x7)],
+                    [0, sin(x7), cos(x7)]])
 
-P_tau = Matrix([[cos(x8), 0,  -sin(x8)],
+P_tau = Matrix([[cos(x8), 0,  sin(x8)],
                 [0,       1,  0],
-                [sin(x8), 0,  sin(x8)]])
+                [-sin(x8), 0,  cos(x8)]])
+
 # матрица перехода от O_y1_y2_y3 к CXYZ
-P_y_Y = Matrix([[cos(x6) * cos(x8) - sin(x6) * sin(x7) * sin(x8), -sin(x6) * cos(x7),
-                 cos(x6) * sin(x8) + cos(x8) * sin(x6) * sin(x7)],
-                [sin(x6) * cos(x8) + cos(x6) * sin(x7) * sin(x8), cos(x6) * cos(x7),
-                 sin(x6) * sin(x8) - cos(x6) * sin(x7) * cos(x8)],
-                [-cos(x7) * sin(x8), sin(x7), cos(x7) * cos(x8)]])
-#P_alpha.transpose() * P_beta.transpose() * P_gamma.transpose()  # (P_tau * P_epsilon * P_delta).transpose()
+P_y_Y = P_delta * P_epsilon * P_tau
+print("P_y_Y = ", P_y_Y)
 
 # скорость точки касания колеса и сферической оболочки (принадлежащей колесу) в с.к. СXYZ
 # x'e_x + y'e_y не учитывается т.к. все равно сократится
 e_x1 = Matrix([[1], [0], [0]])
 e_x2 = Matrix([[0], [1], [0]])
 e_x3 = Matrix([[0], [0], [1]])
-V_T_w = expand(P_x_X * (Matrix([[p_p], [q_p], [r_p]]).cross(Matrix([[0], [0], [-(R-r)]])) + Matrix([[p_w], [q_w], [r_w]]).cross(Matrix([[0], [0], [-r]]))), deep=True)
+
+V_T_w = expand((Matrix([[p_p], [q_p], [r_p]]).cross(P_x_X * Matrix([[0], [0], [-(R-r)]])) + Matrix([[p_w], [q_w], [r_w]]).cross(P_x_X * Matrix([[0], [0], [-r]]))), deep=True)
 # P_x_X * ((-(R-r) * q_p - r * diff(x4, t) * sin(x5)) * e_x1 + (p_p * (R-r) + r * diff(x4, t) * cos(x5)) * e_x2)
 
 # скорость точки касания колеса и сферической оболочки (принадлежащей сферической оболочке) в с.к. СXYZ
