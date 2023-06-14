@@ -1,12 +1,15 @@
 import time
 
-from sympy import simplify
+import sympy as sym
+from sympy import simplify, Derivative
+from sympy.solvers.ode import linear_ode_to_matrix
 
 from Kinematics import *
 from utils.common import expand_and_collect_term_before_first_derivatives, simplification_expression, \
     remove_required_and_above_smallness_from_expression, is_remove_small_term_with_velocities
 from utils.latex_converter import print_in_latex
 from utils.to_sympy_expression import transform_to_simpy
+from utils.Wolfram import Wolfram
 
 
 t1 = time.time()
@@ -27,11 +30,19 @@ eq3 = remove_small_term(remove_required_and_above_smallness_from_expression(simp
 eq4 = remove_small_term(remove_required_and_above_smallness_from_expression(simplification_expression(nonholonomic_links[3]), order=ORDER))
 eq5 = remove_small_term(remove_required_and_above_smallness_from_expression(simplification_expression(nonholonomic_links[4]), order=ORDER))
 
-print(print_in_latex(eq1))
-print(print_in_latex(eq2))
-print(print_in_latex(eq3))
-print(print_in_latex(eq4))
-print(print_in_latex(eq5))
+print(eq1)
+print(eq2)
+print(eq3)
+print(eq4)
+print(eq5)
+
+wolfram = Wolfram()
+print("WOLFRAM STYLE")
+print(wolfram.transformForWolframMathematica(str(eq1)))
+print(wolfram.transformForWolframMathematica(str(eq2)))
+print(wolfram.transformForWolframMathematica(str(eq3)))
+print(wolfram.transformForWolframMathematica(str(eq4)))
+print(wolfram.transformForWolframMathematica(str(eq5)))
 
 var_for_resolve = [Derivative(x2, t), Derivative(x3, t), Derivative(x7, t), Derivative(x8, t)]
 

@@ -1,0 +1,1 @@
+Cmx*Mp*α''[t] - λ2[t] + (CMz*Mp + Cmz*m)*β''[t] + (M + Mp + m)*y''[t]

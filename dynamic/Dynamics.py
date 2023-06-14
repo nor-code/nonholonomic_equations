@@ -23,13 +23,19 @@ T_w = 1 / 2 * m * V_B.T * V_B + 1 / 2 * (J_w * Matrix([[p_w], [q_w], [r_w]])).T 
 print("T_w = ", print_in_latex(T_w))
 # кинетическая энергия системы
 T = T_s + T_p + T_w
+print("T = ", Wolfram().transformForWolframMathematica(str(expand_and_collect_term_before_squared_derivatives(simplification_expression(T[0])))))
+print_ENERGY(expand(T[0], deep=True), name="KINEMATIC T")
 
 # силовая функция силы тяжести для платформы
-U_p = - (M_p * g) * (R - (P_x_X * Matrix([[C_Mx], [C_My], [l_p]]))[2])  # Matrix([[0], [0], [C_Mz]])
+U_p = - (M_p * g) * (R - (P_x_X * Matrix([[C_Mx], [C_My], [C_Mz]]))[2])  # Matrix([[0], [0], [C_Mz]])
+print_ENERGY(expand(U_p, deep=True), name="U_p POTENTIAL")
+print("U_p = ", print_in_latex(str(U_p)))
 
 # силовая функция силы тяжести для колеса
-U_w = - (m * g) * (R - (P_x_X * Matrix([[0], [0], [l_w]]))[2])  # Matrix([[0], [0], [C_mz]])
-print(print_in_latex(U_w))
+U_w = - (m * g) * (R - (P_x_X * Matrix([[0], [0], [C_mz]]))[2])  # Matrix([[0], [0], [C_mz]])
+print_ENERGY(expand(U_p, deep=True), name="U_w POTENTIAL")
+print("U_w = ", print_in_latex(str(U_w)))
+
 
 # обобщённые силы
 Q_x = 0  # diff(U_w, x) + diff(U_p, x)
@@ -48,7 +54,8 @@ print("q eps   ", Q_ε)
 print("q tau   ", Q_τ)
 
 # Получаем матрицу для неголономных связей
-B = build_matrix().T
+B = simplify_matrix(build_matrix(), order=1).T
+print("B = ", B)
 t1 = time.time()
 print("t1 - t0 = ", (t1 - t0)/60, " min")
 

@@ -1,1 +1,1 @@
--diff(diff(y, t), t)
+-4*R*x2*diff(x1, t)**2 + 2*R*x3*diff(diff(x1, t), t) + 2*r*diff(x1, t)*diff(x4, t) + 2*diff(x, t)*diff(x1, t) - diff(diff(y, t), t)

@@ -1,1 +1,1 @@
-R*(-2*M*R*diff(x6, t)*diff(x8, t) + 2*M*R*diff(diff(x7, t), t) - 3*λ_2 - 3*λ_3*x6 + 3*λ_4)/3
+R*(-2*M*R*diff(x6, t)*diff(x8, t) + 2*M*R*diff(diff(x7, t), t) - 3*λ_2 + 3*λ_4)/3

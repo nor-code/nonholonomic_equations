@@ -1,1 +1,1 @@
-R*(C_Mx**2*M_p + C_My**2*M_p + J_pz + J_wz)*diff(diff(x1, t), t)
+(J_pz + J_wz)*diff(diff(x1, t), t)

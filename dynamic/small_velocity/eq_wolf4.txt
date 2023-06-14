@@ -1,0 +1,1 @@
+-Cmx*Cmy*Mp*γ''[t] + Cmx*CMz*Mp*α''[t] - R*λ4[t] + g*(-Cmy*Mp + CMz*Mp*β[t] + Cmz*m*β[t]) + (CMz*Mp + Cmz*m)*y''[t] + (Cmy^2*Mp + CMz^2*Mp + Cmz^2*m + Jpx + Jwx)*β''[t]

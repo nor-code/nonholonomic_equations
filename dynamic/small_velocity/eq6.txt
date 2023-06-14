@@ -1,1 +1,1 @@
-J_wy*diff(diff(x3, t), t) + J_wy*diff(diff(x4, t), t) + r*λ_3 + r*λ_4*x1
+-J_wy*diff(diff(x3, t), t) + J_wy*diff(diff(x4, t), t) - r*λ_3

@@ -1,13 +1,7 @@
-from sympy import expand, sin, cos, trigsimp, collect, symbols
-from sympy.polys.polyoptions import Symbols
-from sympy.solvers.ode.systems import linear_ode_to_matrix
+from sympy import expand, sin, cos, collect
 
-from definitions.generic_coordinates import *
 from definitions.constants import *
-from utils.Wolfram import Wolfram
-from sympy.solvers.solveset import linsolve, linear_eq_to_matrix
-from sympy import Derivative
-import sympy as sym
+from definitions.generic_coordinates import *
 from utils.latex_converter import print_in_latex
 
 size_generic_vars = len(generic_vars)
@@ -21,9 +15,9 @@ r_p = diff(x2, t) * sin(x3) + diff(x1, t) * cos(x3) * cos(x2)
 print("r_p = ", print_in_latex(r_p))
 
 # абсолютные угловые скорости колеса в проекциях на подвижные оси связанные с платформой
-p_w = p_p  # - diff(x4, t) * sin(x5)
-q_w = q_p - diff(x4, t)
-r_w = r_p  # + diff(x5, t)
+p_w = p_p + diff(x4, t) * sin(x5)
+q_w = q_p - diff(x4, t) * cos(x5)
+r_w = r_p - diff(x5)
 
 # абсолютные угловые скорости сферы в проекции на подвижные оси
 p_s = diff(x7, t) * cos(x8) - diff(x6, t) * sin(x8) * cos(x7)
@@ -128,34 +122,29 @@ def group_by_coordinate(var, expression):
     return collect(expression, diff(var, t)).coeff(diff(var, t))
 
 
-def build_row(link, parser):
+def build_row(link):
     row = Matrix([range(size_generic_vars)])
 
     for coordinate in generic_vars:
         coefficient = group_by_coordinate(coordinate, link)
-        print(coordinate, ": ", parser.transformForWolframMathematica(str(coefficient)))
         position = generic_vars.index(coordinate, 0, size_generic_vars)
         row[position] = coefficient
-
     return row
 
 
 def build_matrix():
     B = Matrix([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]])
-    parser = Wolfram()
-
     print("___________NONHOLONOMIC__LINKS__MATRIX___________")
 
     count = 0
     for link in nonholonomic_links:
-        print("link #", count, ": ", link)
         count += 1
-        print("\nrow number ", count)
-        row = build_row(link, parser)
+        row = build_row(link)
         print(row)
         B = B.row_insert(nonholonomic_links.index(link, 0, size_nonholonomic_links) + 1, row)
+        print("-------------------")
 
     B.row_del(0)
-    # print("ранг матрицы B = ", B.rank(), " количество строк = ", B.rows)
+    print("ранг матрицы B = ", B.rank(), " количество строк = ", B.rows)
     B.row_del(4)
     return B

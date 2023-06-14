@@ -1,0 +1,1 @@
+Cmx*CMz*Mp*β''[t] + Cmx*Mp*y''[t] + Cmy*CMz*Mp*γ''[t] - Cmy*Mp*x''[t] - Jwz*ψ''[t] + (Cmx^2*Mp + Cmy^2*Mp + Jpz + Jwz)*α''[t]

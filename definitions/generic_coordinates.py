@@ -53,4 +53,6 @@ mixed_diff_of_generic_coordinates = build_mixed_diff()
 # вторые производные обобщённых координат
 second_diff_generic_coord = [diff(diff(var, t), t) for var in generic_vars]
 
+squared_diff_generic_coord = [diff(var, t)**2 for var in generic_vars]
+
 print(mixed_diff_of_generic_coordinates)

@@ -4,12 +4,15 @@ import tqdm
 from sympy import cos, sin, expand, collect, Add, sympify, Mul, simplify, trigsimp, Pow, Derivative
 from sympy.core.numbers import Zero, One, Integer, Number, NegativeOne
 
+from Kinematics import size_generic_vars
 from definitions.constants import C_Mz, C_mz, r, R, J_px, J_py, J_wx, J_wy, C_Mx, C_My, cos_x20, cos_x30, sin_x20,\
     sin_x30, cos_x70, sin_x70, sin_x80, cos_x80
 from definitions.denominators import *
 from definitions.generic_coordinates import *
 from definitions.lagrangian_multipliers import *
 from definitions.moments import M_φ, M_ψ
+from utils.Wolfram import Wolfram
+from utils.latex_converter import print_in_latex
 
 
 def is_remove_small_with_parameters(term):
@@ -59,6 +62,48 @@ def is_remove_small_term_with_velocities(term, small_coordinates=None):
     return False
 
 
+def print_ENERGY(energyExpr, name=None):
+    ENERGY = simplification_expression(expand(energyExpr, deep=True))
+    simplified_eq_i = 0
+    for term_of_eq_i in ENERGY.args:
+        if not is_remove_small_term_with_velocities_KIN_ENERGY(term_of_eq_i):
+            simplified_eq_i += term_of_eq_i
+
+    simplified_eq_i = simplify(expand_and_collect_term_before_squared_derivatives(simplified_eq_i), rational=True)
+
+    print("======================================")
+    print(name, " ENERGY IN WOLFRAM STYLE")
+    print(Wolfram().transformForWolframMathematica(str(simplified_eq_i)))
+    print(name, "ENERGY IN LATEX STYLE")
+    print(print_in_latex(simplified_eq_i))
+    print("======================================")
+
+def is_remove_small_term_with_velocities_KIN_ENERGY(term, small_coordinates=None):
+    if small_coordinates is None:
+        small_coordinates_diff = [diff(x, t), diff(y, t), diff(x1, t), diff(x2, t), diff(x3, t),
+                             diff(x4, t), diff(x5, t), diff(x6, t), diff(x7, t), diff(x8, t)]
+        small_coordinates = [x, y, x1, x2, x3, x4, x5, x6, x7, x8]
+
+    order = 2
+    count = base_remove_current_and_above_smallness(term, order=order)
+    if count >= order:
+        return True
+
+    dict_diff_to_order = {}
+    haveSimplTerm = False
+    for subterm in term.args:
+        if subterm in small_coordinates:
+            haveSimplTerm = True
+        elif type(subterm) is Pow and len(subterm.args) == 2:
+            var, pow = subterm.args
+            if var in small_coordinates_diff:
+                dict_diff_to_order[var] = pow
+        elif subterm in small_coordinates_diff:
+            dict_diff_to_order[subterm] = 1
+
+    return len(dict_diff_to_order) > 1 or (haveSimplTerm and len(dict_diff_to_order) > 1)
+
+
 def base_remove_current_and_above_smallness(term, order, small_variables=None):
     if small_variables is None:
         small_variables = [x, y, x1, x2, x3, x4, x5, x6, x7, x8]
@@ -68,14 +113,14 @@ def base_remove_current_and_above_smallness(term, order, small_variables=None):
         return count
 
     for tterm in term.args:
+        if count >= order:
+            break
         if tterm in small_variables:
             count += 1
         elif type(tterm) is Pow and len(tterm.args) == 2:
             var, pow = tterm.args
             if var in small_variables:
                 count += pow
-        if count >= order:
-            break
     return count
 
 
@@ -246,6 +291,19 @@ def _add_simplify(coefficient, var):
         var
     )
 
+def simplify_matrix(matrix, order=1):
+    B_simpl = Matrix([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]])
+
+    for row_i in range(matrix.rows):
+        row = Matrix([range(size_generic_vars)])
+
+        for col_i in range(matrix.cols):
+            row[col_i] = remove_required_and_above_smallness_from_expression(
+                simplification_expression(matrix.row(row_i).col(col_i)[0]), order=order
+            )
+        B_simpl = B_simpl.row_insert(row_i+1, row)
+    B_simpl.row_del(0)
+    return B_simpl
 
 def simplify_determinant(det_expression):
     list = []
@@ -342,6 +400,20 @@ def expand_and_collect_term_before_derivatives_and_lambda(expression):
     print("total time ", round((end - bedin) / 60, 2))
     return simplified
 
+
+def expand_and_collect_term_before_squared_derivatives(expression):
+    simplified = 0
+    expression = expand(expression, deep=True)
+    for squared in squared_diff_generic_coord:
+        before_squared = collect(expression, squared).coeff(squared)
+        if type(before_squared) is Symbol or not before_squared._eval_is_zero():
+            expression = sympify(expression - expand(Mul(before_squared * squared)))
+            simplified = Add(simplified, _add_simplify(before_squared, squared))
+
+    free_term = simplify(expand(expression))
+    simplified = Add(simplified, free_term)
+
+    return simplified
 
 def expand_and_collect_term_before_first_derivatives(expression):
     expression = expand(expression)
