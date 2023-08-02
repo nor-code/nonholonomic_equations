@@ -1,1 +1,1 @@
--Cmx*Cmy*Mp*γ''[t] + Cmx*CMz*Mp*α''[t] - R*λ4[t] + g*(-Cmy*Mp + CMz*Mp*β[t] + Cmz*m*β[t]) + (CMz*Mp + Cmz*m)*y''[t] + (Cmy^2*Mp + CMz^2*Mp + Cmz^2*m + Jpx + Jwx)*β''[t]
+-Cmx*Cmy*Mp*γ''[t] + Cmx*CMz*Mp*α''[t] - Cmy*Mp*g + CMz*Mp*g*β[t] + Cmz*g*m*β[t] + Jwx*ψ[t]*φ''[t] + Jwx*φ'[t]*ψ'[t] + Jwy*α'[t]*φ'[t] + M_φ*ψ[t] - R*λ4[t] + (CMz*Mp + Cmz*m)*y''[t] + (-CMz*Mp*α[t] - Cmz*m*α[t])*x''[t] + (Cmy^2*Mp + CMz^2*Mp + Cmz^2*m + Jpx + Jwx)*β''[t]

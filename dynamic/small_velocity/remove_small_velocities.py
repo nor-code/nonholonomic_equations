@@ -26,7 +26,7 @@ for indx in eqns_indx:
 print("\nIN LATEX STYLE:")
 for indx in eqns_indx:
     with open("eq" + str(indx) + ".txt", 'r') as latex_res:
-        print("eq" + str(indx) + " = " + print_in_latex(latex_res.readline()), ";")
+        print("eq" + str(indx) + " = " + print_in_latex(parse_2_sympy_expression(latex_res.readline())), ";")
 
 print("\nIN WOLFRAM STYLE:")
 for indx in eqns_indx:

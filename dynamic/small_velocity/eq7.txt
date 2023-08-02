@@ -1,1 +1,1 @@
--J_wz*diff(diff(x1, t), t) + J_wz*diff(diff(x5, t), t)
+-J_wx*diff(x2, t)*diff(x4, t) - J_wz*diff(diff(x1, t), t) + J_wz*diff(diff(x5, t), t) - M_ψ + (-J_wx*x5 + J_wy*x5)*diff(x4, t)**2

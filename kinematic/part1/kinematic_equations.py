@@ -30,11 +30,11 @@ eq3 = remove_small_term(remove_required_and_above_smallness_from_expression(simp
 eq4 = remove_small_term(remove_required_and_above_smallness_from_expression(simplification_expression(nonholonomic_links[3]), order=ORDER))
 eq5 = remove_small_term(remove_required_and_above_smallness_from_expression(simplification_expression(nonholonomic_links[4]), order=ORDER))
 
-print(eq1)
-print(eq2)
-print(eq3)
-print(eq4)
-print(eq5)
+print(print_in_latex(eq1))
+print(print_in_latex(eq2))
+print(print_in_latex(eq3))
+print(print_in_latex(eq4))
+print(print_in_latex(eq5))
 
 wolfram = Wolfram()
 print("WOLFRAM STYLE")
@@ -43,6 +43,7 @@ print(wolfram.transformForWolframMathematica(str(eq2)))
 print(wolfram.transformForWolframMathematica(str(eq3)))
 print(wolfram.transformForWolframMathematica(str(eq4)))
 print(wolfram.transformForWolframMathematica(str(eq5)))
+print("----------------------")
 
 var_for_resolve = [Derivative(x2, t), Derivative(x3, t), Derivative(x7, t), Derivative(x8, t)]
 

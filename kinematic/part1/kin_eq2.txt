@@ -1,1 +1,1 @@
--diff(y, t)/R
+-(-R*sin(x8)*cos(x7)*diff(x6, t) + diff(y, t))/(R*cos(x8))

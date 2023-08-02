@@ -1,1 +1,1 @@
-2*R*x3*diff(x1, t) - diff(y, t)
+R*cos(x8)*tan(x8)*diff(x6, t) - r*x5*cos(x8)*diff(x4, t) - x6*cos(x8)*diff(x, t) - diff(y, t)

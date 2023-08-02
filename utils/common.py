@@ -14,7 +14,8 @@ from definitions.moments import M_φ, M_ψ
 from utils.Wolfram import Wolfram
 from utils.latex_converter import print_in_latex
 
-
+SMALL_VAR = [y, x1, x2, x3, x5, x6, x7]
+SMALL_VEL = [diff(y, t), diff(x1, t), diff(x2, t), diff(x3, t), diff(x5, t), diff(x6, t), diff(x7, t)]
 def is_remove_small_with_parameters(term):
     smallness = base_remove_current_and_above_smallness(term, 2, small_variables=[C_Mx, C_My])
     if smallness >= 2:
@@ -42,8 +43,9 @@ def _sub_step_of_remove_small_params(_term, _order, _small_param):
 
 
 def is_remove_small_term_with_velocities(term, small_coordinates=None):
+    global SMALL_VAR
     if small_coordinates is None:
-        small_coordinates = [x, y, x1, x2, x3, x4, x5, x6, x7, x8]
+        small_coordinates = SMALL_VAR
 
     order = 2
     count = base_remove_current_and_above_smallness(term, order=order)
@@ -79,10 +81,10 @@ def print_ENERGY(energyExpr, name=None):
     print("======================================")
 
 def is_remove_small_term_with_velocities_KIN_ENERGY(term, small_coordinates=None):
+    global SMALL_VAR, SMALL_VEL
     if small_coordinates is None:
-        small_coordinates_diff = [diff(x, t), diff(y, t), diff(x1, t), diff(x2, t), diff(x3, t),
-                             diff(x4, t), diff(x5, t), diff(x6, t), diff(x7, t), diff(x8, t)]
-        small_coordinates = [x, y, x1, x2, x3, x4, x5, x6, x7, x8]
+        small_coordinates_diff = SMALL_VEL
+        small_coordinates = SMALL_VAR
 
     order = 2
     count = base_remove_current_and_above_smallness(term, order=order)
@@ -105,8 +107,9 @@ def is_remove_small_term_with_velocities_KIN_ENERGY(term, small_coordinates=None
 
 
 def base_remove_current_and_above_smallness(term, order, small_variables=None):
+    global SMALL_VAR
     if small_variables is None:
-        small_variables = [x, y, x1, x2, x3, x4, x5, x6, x7, x8]
+        small_variables = SMALL_VAR
 
     count = 0
     if type(term) == Derivative:
@@ -251,8 +254,8 @@ def simplification_expression(expression, offset=False):
         cos(x7): 1,
         sin(x7): x7,
 
-        cos(x8): 1,
-        sin(x8): x8
+        # cos(x8): 1,
+        # sin(x8): x8
     }
     if offset:
         trig_replace_dict[cos(x2)] = 1 - x2 * x20
@@ -292,15 +295,22 @@ def _add_simplify(coefficient, var):
     )
 
 def simplify_matrix(matrix, order=1):
+    global SMALL_VAR
     B_simpl = Matrix([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]])
+    small_variables = SMALL_VAR
 
     for row_i in range(matrix.rows):
         row = Matrix([range(size_generic_vars)])
 
         for col_i in range(matrix.cols):
-            row[col_i] = remove_required_and_above_smallness_from_expression(
-                simplification_expression(matrix.row(row_i).col(col_i)[0]), order=order
-            )
+            if generic_vars[col_i] not in small_variables:
+                row[col_i] = remove_required_and_above_smallness_from_expression(
+                    simplification_expression(matrix.row(row_i).col(col_i)[0]), order=order + 1
+                )
+            else:
+                row[col_i] = remove_required_and_above_smallness_from_expression(
+                    simplification_expression(matrix.row(row_i).col(col_i)[0]), order=order
+                )
         B_simpl = B_simpl.row_insert(row_i+1, row)
     B_simpl.row_del(0)
     return B_simpl

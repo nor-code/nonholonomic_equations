@@ -1,1 +1,1 @@
--diff(y, t)
+R*cos(x8)*tan(x8)*diff(x6, t) - diff(y, t)
